@@ -1,0 +1,3101 @@
+{
+  "data": {
+    "myAds": {
+      "ads": {
+        "totalCount": 82,
+        "items": [
+          {
+            "activatedAt": "2026-08-17T16:52:13+00:00",
+            "canRefreshForFree": false,
+            "categoryId": 1399,
+            "currency": "PLN",
+            "editable": true,
+            "id": 1091869262,
+            "isJob": false,
+            "isCalendarEnabled": false,
+            "isPartnerAd": false,
+            "photos": [
+              "https://ireland.apollo.olxcdn.com/v1/files/pjz0minmzdwf1-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/4wouynselsy83-PL/image"
+            ],
+            "price": "25",
+            "priceType": "PRICE",
+            "status": "ACTIVE",
+            "title": "Nowy Filtr Kabinowy BOSCH M5058 Mercedes Klasa C W205 / E W213 / GLC",
+            "validTo": "2026-09-16T16:49:46+00:00",
+            "autoReposting": null,
+            "categoryLevels": [
+              {
+                "id": 5,
+                "name": "Motoryzacja",
+                "level": "L1",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 82,
+                "name": "Części samochodowe",
+                "level": "L2",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 1399,
+                "name": "Osobowe",
+                "level": "L3",
+                "__typename": "MyAdsAdCategory"
+              }
+            ],
+            "delivery": {
+              "eligibleForDelivery": true,
+              "hasDelivery": true,
+              "courier": null,
+              "rock": {
+                "isEligible": true,
+                "isManageable": false,
+                "__typename": "Rock"
+              },
+              "__typename": "MyAdsDelivery"
+            },
+            "messageCounters": {
+              "total": 0,
+              "new": 0,
+              "__typename": "MyAdsMsgCounters"
+            },
+            "salary": null,
+            "stats": {
+              "views": 1,
+              "observed": 0,
+              "phones": 0,
+              "status": "OK",
+              "__typename": "MyAdsStats"
+            },
+            "vases": [],
+            "refreshPrice": {
+              "value": 4.29,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsRefreshPrice"
+            },
+            "promoPrice": {
+              "value": 8.57,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsProductPrice"
+            },
+            "hasSellerTakeRate": false,
+            "vasRecommendation": null,
+            "adActivationType": "PAID_PACKAGE",
+            "categories": [
+              "Motoryzacja",
+              "Części samochodowe",
+              "Osobowe"
+            ],
+            "daysToExpire": 25,
+            "isRecommended": false,
+            "reposting": false,
+            "sku": "SKU_CODE_1",
+            "location": {
+              "name": "Warszawa, Praga-Południe, Mazowieckie",
+              "__typename": "MyAdsAdLocation"
+            },
+            "__typename": "MyAdsAd",
+            "allowCancellation": false,
+            "hasConfirmedDeliveryOrder": false,
+            "crosslistingInfo": []
+          },
+          {
+            "activatedAt": "2026-08-17T16:49:52+00:00",
+            "canRefreshForFree": false,
+            "categoryId": 1399,
+            "currency": "PLN",
+            "editable": true,
+            "id": 1091868139,
+            "isJob": false,
+            "isCalendarEnabled": false,
+            "isPartnerAd": false,
+            "photos": [
+              "https://ireland.apollo.olxcdn.com/v1/files/fuppzfdnv7811-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/pjz0minmzdwf1-PL/image"
+            ],
+            "price": "25",
+            "priceType": "PRICE",
+            "status": "ACTIVE",
+            "title": "Filtr Kabinowy BOSCH M5028 Ford Transit MK8 / Custom / Tourneo",
+            "validTo": "2026-09-16T16:47:07+00:00",
+            "autoReposting": null,
+            "categoryLevels": [
+              {
+                "id": 5,
+                "name": "Motoryzacja",
+                "level": "L1",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 82,
+                "name": "Części samochodowe",
+                "level": "L2",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 1399,
+                "name": "Osobowe",
+                "level": "L3",
+                "__typename": "MyAdsAdCategory"
+              }
+            ],
+            "delivery": {
+              "eligibleForDelivery": true,
+              "hasDelivery": true,
+              "courier": null,
+              "rock": {
+                "isEligible": true,
+                "isManageable": false,
+                "__typename": "Rock"
+              },
+              "__typename": "MyAdsDelivery"
+            },
+            "messageCounters": {
+              "total": 0,
+              "new": 0,
+              "__typename": "MyAdsMsgCounters"
+            },
+            "salary": null,
+            "stats": {
+              "views": 0,
+              "observed": 0,
+              "phones": 0,
+              "status": "OK",
+              "__typename": "MyAdsStats"
+            },
+            "vases": [],
+            "refreshPrice": {
+              "value": 4.29,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsRefreshPrice"
+            },
+            "promoPrice": {
+              "value": 8.57,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsProductPrice"
+            },
+            "hasSellerTakeRate": false,
+            "vasRecommendation": null,
+            "adActivationType": "PAID_PACKAGE",
+            "categories": [
+              "Motoryzacja",
+              "Części samochodowe",
+              "Osobowe"
+            ],
+            "daysToExpire": 25,
+            "isRecommended": false,
+            "reposting": false,
+            "sku": "SKU_CODE_1",
+            "location": {
+              "name": "Warszawa, Praga-Południe, Mazowieckie",
+              "__typename": "MyAdsAdLocation"
+            },
+            "__typename": "MyAdsAd",
+            "allowCancellation": false,
+            "hasConfirmedDeliveryOrder": false,
+            "crosslistingInfo": []
+          },
+          {
+            "activatedAt": "2026-08-17T16:45:27+00:00",
+            "canRefreshForFree": false,
+            "categoryId": 1399,
+            "currency": "PLN",
+            "editable": true,
+            "id": 1091866140,
+            "isJob": false,
+            "isCalendarEnabled": false,
+            "isPartnerAd": false,
+            "photos": [
+              "https://ireland.apollo.olxcdn.com/v1/files/nkk2wcyjxmb9-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/d9zv72r3qqy01-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/mvsqvz839nv51-PL/image"
+            ],
+            "price": "25",
+            "priceType": "PRICE",
+            "status": "ACTIVE",
+            "title": "Filtr Kabinowy PURRO PUR-PC3041 Mercedes Klasa C W205 / E W213 / GLC NOWY",
+            "validTo": "2026-09-16T16:43:05+00:00",
+            "autoReposting": null,
+            "categoryLevels": [
+              {
+                "id": 5,
+                "name": "Motoryzacja",
+                "level": "L1",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 82,
+                "name": "Części samochodowe",
+                "level": "L2",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 1399,
+                "name": "Osobowe",
+                "level": "L3",
+                "__typename": "MyAdsAdCategory"
+              }
+            ],
+            "delivery": {
+              "eligibleForDelivery": true,
+              "hasDelivery": true,
+              "courier": null,
+              "rock": {
+                "isEligible": true,
+                "isManageable": false,
+                "__typename": "Rock"
+              },
+              "__typename": "MyAdsDelivery"
+            },
+            "messageCounters": {
+              "total": 0,
+              "new": 0,
+              "__typename": "MyAdsMsgCounters"
+            },
+            "salary": null,
+            "stats": {
+              "views": 0,
+              "observed": 0,
+              "phones": 0,
+              "status": "OK",
+              "__typename": "MyAdsStats"
+            },
+            "vases": [],
+            "refreshPrice": {
+              "value": 4.29,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsRefreshPrice"
+            },
+            "promoPrice": {
+              "value": 8.57,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsProductPrice"
+            },
+            "hasSellerTakeRate": false,
+            "vasRecommendation": null,
+            "adActivationType": "PAID_PACKAGE",
+            "categories": [
+              "Motoryzacja",
+              "Części samochodowe",
+              "Osobowe"
+            ],
+            "daysToExpire": 25,
+            "isRecommended": false,
+            "reposting": false,
+            "sku": "SKU_CODE_1",
+            "location": {
+              "name": "Warszawa, Praga-Południe, Mazowieckie",
+              "__typename": "MyAdsAdLocation"
+            },
+            "__typename": "MyAdsAd",
+            "allowCancellation": false,
+            "hasConfirmedDeliveryOrder": false,
+            "crosslistingInfo": []
+          },
+          {
+            "activatedAt": "2026-08-17T16:22:53+00:00",
+            "canRefreshForFree": false,
+            "categoryId": 1399,
+            "currency": "PLN",
+            "editable": true,
+            "id": 1091857781,
+            "isJob": false,
+            "isCalendarEnabled": false,
+            "isPartnerAd": false,
+            "photos": [
+              "https://ireland.apollo.olxcdn.com/v1/files/3eqqwgld3wed3-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/f0cskvm69twu-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/ymiliwsktecz1-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/d2zcj2b435cw1-PL/image"
+            ],
+            "price": "50",
+            "priceType": "PRICE",
+            "status": "ACTIVE",
+            "title": "Drążek Kierowniczy Przód MEYLE 31-16 031 0024 HONDA Civic VII 01-05 Nowy",
+            "validTo": "2026-09-16T16:20:09+00:00",
+            "autoReposting": null,
+            "categoryLevels": [
+              {
+                "id": 5,
+                "name": "Motoryzacja",
+                "level": "L1",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 82,
+                "name": "Części samochodowe",
+                "level": "L2",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 1399,
+                "name": "Osobowe",
+                "level": "L3",
+                "__typename": "MyAdsAdCategory"
+              }
+            ],
+            "delivery": {
+              "eligibleForDelivery": true,
+              "hasDelivery": true,
+              "courier": null,
+              "rock": {
+                "isEligible": true,
+                "isManageable": false,
+                "__typename": "Rock"
+              },
+              "__typename": "MyAdsDelivery"
+            },
+            "messageCounters": {
+              "total": 0,
+              "new": 0,
+              "__typename": "MyAdsMsgCounters"
+            },
+            "salary": null,
+            "stats": {
+              "views": 4,
+              "observed": 1,
+              "phones": 0,
+              "status": "OK",
+              "__typename": "MyAdsStats"
+            },
+            "vases": [],
+            "refreshPrice": {
+              "value": 4.29,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsRefreshPrice"
+            },
+            "promoPrice": {
+              "value": 8.57,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsProductPrice"
+            },
+            "hasSellerTakeRate": false,
+            "vasRecommendation": null,
+            "adActivationType": "PAID_PACKAGE",
+            "categories": [
+              "Motoryzacja",
+              "Części samochodowe",
+              "Osobowe"
+            ],
+            "daysToExpire": 25,
+            "isRecommended": false,
+            "reposting": false,
+            "sku": "SKU_CODE_1",
+            "location": {
+              "name": "Warszawa, Praga-Południe, Mazowieckie",
+              "__typename": "MyAdsAdLocation"
+            },
+            "__typename": "MyAdsAd",
+            "allowCancellation": false,
+            "hasConfirmedDeliveryOrder": false,
+            "crosslistingInfo": []
+          },
+          {
+            "activatedAt": "2026-08-17T14:51:21+00:00",
+            "canRefreshForFree": false,
+            "categoryId": 1399,
+            "currency": "PLN",
+            "editable": true,
+            "id": 1091826145,
+            "isJob": false,
+            "isCalendarEnabled": false,
+            "isPartnerAd": false,
+            "photos": [
+              "https://ireland.apollo.olxcdn.com/v1/files/uzmdeouimm4d1-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/wr2hia66xzzy1-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/u5aitvb4m9ip-PL/image"
+            ],
+            "price": "125",
+            "priceType": "PRICE",
+            "status": "ACTIVE",
+            "title": "Nowy Oryginalny Przewód Chłodzenia Turbo Mercedes V8 M278 A2782000500",
+            "validTo": "2026-09-16T14:49:05+00:00",
+            "autoReposting": null,
+            "categoryLevels": [
+              {
+                "id": 5,
+                "name": "Motoryzacja",
+                "level": "L1",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 82,
+                "name": "Części samochodowe",
+                "level": "L2",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 1399,
+                "name": "Osobowe",
+                "level": "L3",
+                "__typename": "MyAdsAdCategory"
+              }
+            ],
+            "delivery": {
+              "eligibleForDelivery": true,
+              "hasDelivery": true,
+              "courier": null,
+              "rock": {
+                "isEligible": true,
+                "isManageable": false,
+                "__typename": "Rock"
+              },
+              "__typename": "MyAdsDelivery"
+            },
+            "messageCounters": {
+              "total": 0,
+              "new": 0,
+              "__typename": "MyAdsMsgCounters"
+            },
+            "salary": null,
+            "stats": {
+              "views": 5,
+              "observed": 0,
+              "phones": 0,
+              "status": "OK",
+              "__typename": "MyAdsStats"
+            },
+            "vases": [],
+            "refreshPrice": {
+              "value": 4.29,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsRefreshPrice"
+            },
+            "promoPrice": {
+              "value": 8.57,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsProductPrice"
+            },
+            "hasSellerTakeRate": false,
+            "vasRecommendation": null,
+            "adActivationType": "PAID_PACKAGE",
+            "categories": [
+              "Motoryzacja",
+              "Części samochodowe",
+              "Osobowe"
+            ],
+            "daysToExpire": 25,
+            "isRecommended": false,
+            "reposting": false,
+            "sku": "SKU_CODE_1",
+            "location": {
+              "name": "Warszawa, Praga-Południe, Mazowieckie",
+              "__typename": "MyAdsAdLocation"
+            },
+            "__typename": "MyAdsAd",
+            "allowCancellation": false,
+            "hasConfirmedDeliveryOrder": false,
+            "crosslistingInfo": []
+          },
+          {
+            "activatedAt": "2026-08-15T13:02:36+00:00",
+            "canRefreshForFree": false,
+            "categoryId": 1399,
+            "currency": "PLN",
+            "editable": true,
+            "id": 1091261196,
+            "isJob": false,
+            "isCalendarEnabled": false,
+            "isPartnerAd": false,
+            "photos": [
+              "https://ireland.apollo.olxcdn.com/v1/files/mpx2smlz08fr2-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/lu96jjw9cowu-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/r1sc2gnpk7vx-PL/image"
+            ],
+            "price": "35",
+            "priceType": "PRICE",
+            "status": "ACTIVE",
+            "title": "Pasek Wieloklinowy BOSCH 7PK1637 / 1987948313 Nowy BMW E39 E53 HONDA Civic VIII",
+            "validTo": "2026-09-14T12:59:49+00:00",
+            "autoReposting": null,
+            "categoryLevels": [
+              {
+                "id": 5,
+                "name": "Motoryzacja",
+                "level": "L1",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 82,
+                "name": "Części samochodowe",
+                "level": "L2",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 1399,
+                "name": "Osobowe",
+                "level": "L3",
+                "__typename": "MyAdsAdCategory"
+              }
+            ],
+            "delivery": {
+              "eligibleForDelivery": true,
+              "hasDelivery": true,
+              "courier": null,
+              "rock": {
+                "isEligible": true,
+                "isManageable": false,
+                "__typename": "Rock"
+              },
+              "__typename": "MyAdsDelivery"
+            },
+            "messageCounters": {
+              "total": 0,
+              "new": 0,
+              "__typename": "MyAdsMsgCounters"
+            },
+            "salary": null,
+            "stats": {
+              "views": 1,
+              "observed": 0,
+              "phones": 0,
+              "status": "OK",
+              "__typename": "MyAdsStats"
+            },
+            "vases": [],
+            "refreshPrice": {
+              "value": 4.29,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsRefreshPrice"
+            },
+            "promoPrice": {
+              "value": 8.57,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsProductPrice"
+            },
+            "hasSellerTakeRate": false,
+            "vasRecommendation": null,
+            "adActivationType": "PAID_PACKAGE",
+            "categories": [
+              "Motoryzacja",
+              "Części samochodowe",
+              "Osobowe"
+            ],
+            "daysToExpire": 23,
+            "isRecommended": false,
+            "reposting": false,
+            "sku": "SKU_CODE_1",
+            "location": {
+              "name": "Warszawa, Praga-Południe, Mazowieckie",
+              "__typename": "MyAdsAdLocation"
+            },
+            "__typename": "MyAdsAd",
+            "allowCancellation": false,
+            "hasConfirmedDeliveryOrder": false,
+            "crosslistingInfo": []
+          },
+          {
+            "activatedAt": "2026-08-15T12:58:35+00:00",
+            "canRefreshForFree": false,
+            "categoryId": 1399,
+            "currency": "PLN",
+            "editable": true,
+            "id": 1091260422,
+            "isJob": false,
+            "isCalendarEnabled": false,
+            "isPartnerAd": false,
+            "photos": [
+              "https://ireland.apollo.olxcdn.com/v1/files/xzl4we43zzf9-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/sz9okf8dg7xo3-PL/image"
+            ],
+            "price": "25",
+            "priceType": "PRICE",
+            "status": "ACTIVE",
+            "title": "Pasek Wieloklinowy Elastyczny 6PK868EE Nowy VW Crafter T6 MAN TGE 2.0 TDI",
+            "validTo": "2026-09-14T12:55:58+00:00",
+            "autoReposting": null,
+            "categoryLevels": [
+              {
+                "id": 5,
+                "name": "Motoryzacja",
+                "level": "L1",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 82,
+                "name": "Części samochodowe",
+                "level": "L2",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 1399,
+                "name": "Osobowe",
+                "level": "L3",
+                "__typename": "MyAdsAdCategory"
+              }
+            ],
+            "delivery": {
+              "eligibleForDelivery": true,
+              "hasDelivery": true,
+              "courier": null,
+              "rock": {
+                "isEligible": true,
+                "isManageable": false,
+                "__typename": "Rock"
+              },
+              "__typename": "MyAdsDelivery"
+            },
+            "messageCounters": {
+              "total": 0,
+              "new": 0,
+              "__typename": "MyAdsMsgCounters"
+            },
+            "salary": null,
+            "stats": {
+              "views": 1,
+              "observed": 0,
+              "phones": 0,
+              "status": "OK",
+              "__typename": "MyAdsStats"
+            },
+            "vases": [],
+            "refreshPrice": {
+              "value": 4.29,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsRefreshPrice"
+            },
+            "promoPrice": {
+              "value": 8.57,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsProductPrice"
+            },
+            "hasSellerTakeRate": false,
+            "vasRecommendation": null,
+            "adActivationType": "PAID_PACKAGE",
+            "categories": [
+              "Motoryzacja",
+              "Części samochodowe",
+              "Osobowe"
+            ],
+            "daysToExpire": 23,
+            "isRecommended": false,
+            "reposting": false,
+            "sku": "SKU_CODE_1",
+            "location": {
+              "name": "Warszawa, Praga-Południe, Mazowieckie",
+              "__typename": "MyAdsAdLocation"
+            },
+            "__typename": "MyAdsAd",
+            "allowCancellation": false,
+            "hasConfirmedDeliveryOrder": false,
+            "crosslistingInfo": []
+          },
+          {
+            "activatedAt": "2026-08-15T12:53:56+00:00",
+            "canRefreshForFree": false,
+            "categoryId": 1399,
+            "currency": "PLN",
+            "editable": true,
+            "id": 1091259548,
+            "isJob": false,
+            "isCalendarEnabled": false,
+            "isPartnerAd": false,
+            "photos": [
+              "https://ireland.apollo.olxcdn.com/v1/files/b7w1s3uaxvce3-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/otj2nfv7gz4u3-PL/image"
+            ],
+            "price": "45",
+            "priceType": "PRICE",
+            "status": "ACTIVE",
+            "title": "Pasek Wieloklinowy Alternatora Dayco 7PK2061 Nowy Honda Civic CR-V",
+            "validTo": "2026-09-14T12:51:40+00:00",
+            "autoReposting": null,
+            "categoryLevels": [
+              {
+                "id": 5,
+                "name": "Motoryzacja",
+                "level": "L1",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 82,
+                "name": "Części samochodowe",
+                "level": "L2",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 1399,
+                "name": "Osobowe",
+                "level": "L3",
+                "__typename": "MyAdsAdCategory"
+              }
+            ],
+            "delivery": {
+              "eligibleForDelivery": true,
+              "hasDelivery": true,
+              "courier": null,
+              "rock": {
+                "isEligible": true,
+                "isManageable": false,
+                "__typename": "Rock"
+              },
+              "__typename": "MyAdsDelivery"
+            },
+            "messageCounters": {
+              "total": 0,
+              "new": 0,
+              "__typename": "MyAdsMsgCounters"
+            },
+            "salary": null,
+            "stats": {
+              "views": 4,
+              "observed": 0,
+              "phones": 0,
+              "status": "OK",
+              "__typename": "MyAdsStats"
+            },
+            "vases": [],
+            "refreshPrice": {
+              "value": 4.29,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsRefreshPrice"
+            },
+            "promoPrice": {
+              "value": 8.57,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsProductPrice"
+            },
+            "hasSellerTakeRate": false,
+            "vasRecommendation": null,
+            "adActivationType": "PAID_PACKAGE",
+            "categories": [
+              "Motoryzacja",
+              "Części samochodowe",
+              "Osobowe"
+            ],
+            "daysToExpire": 23,
+            "isRecommended": false,
+            "reposting": false,
+            "sku": "SKU_CODE_1",
+            "location": {
+              "name": "Warszawa, Praga-Południe, Mazowieckie",
+              "__typename": "MyAdsAdLocation"
+            },
+            "__typename": "MyAdsAd",
+            "allowCancellation": false,
+            "hasConfirmedDeliveryOrder": false,
+            "crosslistingInfo": []
+          },
+          {
+            "activatedAt": "2026-08-15T12:31:42+00:00",
+            "canRefreshForFree": false,
+            "categoryId": 1399,
+            "currency": "PLN",
+            "editable": true,
+            "id": 1091256286,
+            "isJob": false,
+            "isCalendarEnabled": false,
+            "isPartnerAd": false,
+            "photos": [
+              "https://ireland.apollo.olxcdn.com/v1/files/ybnf1r9fhunp2-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/8q7b2fz1o03c-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/hng2smply8r73-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/7f4fpq3iip7n1-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/qhmhl3fwfdg43-PL/image"
+            ],
+            "price": "135",
+            "priceType": "PRICE",
+            "status": "ACTIVE",
+            "title": "Grill Atrapa Nerki BMW 5 G30 G31 Czarny Połysk M5 Look / M Pakiet",
+            "validTo": "2026-09-14T12:29:33+00:00",
+            "autoReposting": null,
+            "categoryLevels": [
+              {
+                "id": 5,
+                "name": "Motoryzacja",
+                "level": "L1",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 82,
+                "name": "Części samochodowe",
+                "level": "L2",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 1399,
+                "name": "Osobowe",
+                "level": "L3",
+                "__typename": "MyAdsAdCategory"
+              }
+            ],
+            "delivery": {
+              "eligibleForDelivery": true,
+              "hasDelivery": true,
+              "courier": null,
+              "rock": {
+                "isEligible": true,
+                "isManageable": false,
+                "__typename": "Rock"
+              },
+              "__typename": "MyAdsDelivery"
+            },
+            "messageCounters": {
+              "total": 0,
+              "new": 0,
+              "__typename": "MyAdsMsgCounters"
+            },
+            "salary": null,
+            "stats": {
+              "views": 6,
+              "observed": 1,
+              "phones": 0,
+              "status": "OK",
+              "__typename": "MyAdsStats"
+            },
+            "vases": [],
+            "refreshPrice": {
+              "value": 4.29,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsRefreshPrice"
+            },
+            "promoPrice": {
+              "value": 8.57,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsProductPrice"
+            },
+            "hasSellerTakeRate": false,
+            "vasRecommendation": null,
+            "adActivationType": "PAID_PACKAGE",
+            "categories": [
+              "Motoryzacja",
+              "Części samochodowe",
+              "Osobowe"
+            ],
+            "daysToExpire": 23,
+            "isRecommended": false,
+            "reposting": false,
+            "sku": "SKU_CODE_1",
+            "location": {
+              "name": "Warszawa, Praga-Południe, Mazowieckie",
+              "__typename": "MyAdsAdLocation"
+            },
+            "__typename": "MyAdsAd",
+            "allowCancellation": false,
+            "hasConfirmedDeliveryOrder": false,
+            "crosslistingInfo": []
+          },
+          {
+            "activatedAt": "2026-08-15T12:23:36+00:00",
+            "canRefreshForFree": false,
+            "categoryId": 1399,
+            "currency": "PLN",
+            "editable": true,
+            "id": 1091254810,
+            "isJob": false,
+            "isCalendarEnabled": false,
+            "isPartnerAd": false,
+            "photos": [
+              "https://ireland.apollo.olxcdn.com/v1/files/13lk43yhdnn22-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/jagb97vrj7or3-PL/image"
+            ],
+            "price": "125",
+            "priceType": "PRICE",
+            "status": "ACTIVE",
+            "title": "Oryginalna Uszczelka Pod Głowicę SUBARU 11044AA770 Nowa OE EJ255 EJ257 WRX STI",
+            "validTo": "2026-09-14T12:21:05+00:00",
+            "autoReposting": null,
+            "categoryLevels": [
+              {
+                "id": 5,
+                "name": "Motoryzacja",
+                "level": "L1",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 82,
+                "name": "Części samochodowe",
+                "level": "L2",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 1399,
+                "name": "Osobowe",
+                "level": "L3",
+                "__typename": "MyAdsAdCategory"
+              }
+            ],
+            "delivery": {
+              "eligibleForDelivery": true,
+              "hasDelivery": true,
+              "courier": null,
+              "rock": {
+                "isEligible": true,
+                "isManageable": false,
+                "__typename": "Rock"
+              },
+              "__typename": "MyAdsDelivery"
+            },
+            "messageCounters": {
+              "total": 0,
+              "new": 0,
+              "__typename": "MyAdsMsgCounters"
+            },
+            "salary": null,
+            "stats": {
+              "views": 4,
+              "observed": 1,
+              "phones": 0,
+              "status": "OK",
+              "__typename": "MyAdsStats"
+            },
+            "vases": [],
+            "refreshPrice": {
+              "value": 4.29,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsRefreshPrice"
+            },
+            "promoPrice": {
+              "value": 8.57,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsProductPrice"
+            },
+            "hasSellerTakeRate": false,
+            "vasRecommendation": null,
+            "adActivationType": "PAID_PACKAGE",
+            "categories": [
+              "Motoryzacja",
+              "Części samochodowe",
+              "Osobowe"
+            ],
+            "daysToExpire": 23,
+            "isRecommended": false,
+            "reposting": false,
+            "sku": "SKU_CODE_1",
+            "location": {
+              "name": "Warszawa, Praga-Południe, Mazowieckie",
+              "__typename": "MyAdsAdLocation"
+            },
+            "__typename": "MyAdsAd",
+            "allowCancellation": false,
+            "hasConfirmedDeliveryOrder": false,
+            "crosslistingInfo": []
+          },
+          {
+            "activatedAt": "2026-08-15T12:13:35+00:00",
+            "canRefreshForFree": false,
+            "categoryId": 1399,
+            "currency": "PLN",
+            "editable": true,
+            "id": 1091253379,
+            "isJob": false,
+            "isCalendarEnabled": false,
+            "isPartnerAd": false,
+            "photos": [
+              "https://ireland.apollo.olxcdn.com/v1/files/sniql2g0wxl81-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/yk2niy9sue571-PL/image"
+            ],
+            "price": "25",
+            "priceType": "PRICE",
+            "status": "ACTIVE",
+            "title": "Oryginalna Uszczelka SUBARU Corporation, rura wylotowa FA1 44022-AA150 Nowa OE Impreza Forester",
+            "validTo": "2026-09-14T12:11:25+00:00",
+            "autoReposting": null,
+            "categoryLevels": [
+              {
+                "id": 5,
+                "name": "Motoryzacja",
+                "level": "L1",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 82,
+                "name": "Części samochodowe",
+                "level": "L2",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 1399,
+                "name": "Osobowe",
+                "level": "L3",
+                "__typename": "MyAdsAdCategory"
+              }
+            ],
+            "delivery": {
+              "eligibleForDelivery": true,
+              "hasDelivery": true,
+              "courier": null,
+              "rock": {
+                "isEligible": true,
+                "isManageable": false,
+                "__typename": "Rock"
+              },
+              "__typename": "MyAdsDelivery"
+            },
+            "messageCounters": {
+              "total": 0,
+              "new": 0,
+              "__typename": "MyAdsMsgCounters"
+            },
+            "salary": null,
+            "stats": {
+              "views": 6,
+              "observed": 2,
+              "phones": 0,
+              "status": "OK",
+              "__typename": "MyAdsStats"
+            },
+            "vases": [],
+            "refreshPrice": {
+              "value": 4.29,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsRefreshPrice"
+            },
+            "promoPrice": {
+              "value": 8.57,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsProductPrice"
+            },
+            "hasSellerTakeRate": false,
+            "vasRecommendation": null,
+            "adActivationType": "PAID_PACKAGE",
+            "categories": [
+              "Motoryzacja",
+              "Części samochodowe",
+              "Osobowe"
+            ],
+            "daysToExpire": 23,
+            "isRecommended": false,
+            "reposting": false,
+            "sku": "SKU_CODE_1",
+            "location": {
+              "name": "Warszawa, Praga-Południe, Mazowieckie",
+              "__typename": "MyAdsAdLocation"
+            },
+            "__typename": "MyAdsAd",
+            "allowCancellation": false,
+            "hasConfirmedDeliveryOrder": false,
+            "crosslistingInfo": []
+          },
+          {
+            "activatedAt": "2026-08-15T12:04:37+00:00",
+            "canRefreshForFree": false,
+            "categoryId": 1399,
+            "currency": "PLN",
+            "editable": true,
+            "id": 1091251808,
+            "isJob": false,
+            "isCalendarEnabled": false,
+            "isPartnerAd": false,
+            "photos": [
+              "https://ireland.apollo.olxcdn.com/v1/files/yv8dpoqlsfdo1-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/w8zkavs91lpq3-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/39zoe60pcko23-PL/image"
+            ],
+            "price": "75",
+            "priceType": "PRICE",
+            "status": "ACTIVE",
+            "title": "Grill Atrapa Nerki Lewa Prawa + Listwy Maski BMW 3 E90 E91 Przedlift 2005-2008",
+            "validTo": "2026-09-14T12:02:07+00:00",
+            "autoReposting": null,
+            "categoryLevels": [
+              {
+                "id": 5,
+                "name": "Motoryzacja",
+                "level": "L1",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 82,
+                "name": "Części samochodowe",
+                "level": "L2",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 1399,
+                "name": "Osobowe",
+                "level": "L3",
+                "__typename": "MyAdsAdCategory"
+              }
+            ],
+            "delivery": {
+              "eligibleForDelivery": true,
+              "hasDelivery": true,
+              "courier": null,
+              "rock": {
+                "isEligible": true,
+                "isManageable": false,
+                "__typename": "Rock"
+              },
+              "__typename": "MyAdsDelivery"
+            },
+            "messageCounters": {
+              "total": 0,
+              "new": 0,
+              "__typename": "MyAdsMsgCounters"
+            },
+            "salary": null,
+            "stats": {
+              "views": 4,
+              "observed": 2,
+              "phones": 0,
+              "status": "OK",
+              "__typename": "MyAdsStats"
+            },
+            "vases": [],
+            "refreshPrice": {
+              "value": 4.29,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsRefreshPrice"
+            },
+            "promoPrice": {
+              "value": 8.57,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsProductPrice"
+            },
+            "hasSellerTakeRate": false,
+            "vasRecommendation": null,
+            "adActivationType": "PAID_PACKAGE",
+            "categories": [
+              "Motoryzacja",
+              "Części samochodowe",
+              "Osobowe"
+            ],
+            "daysToExpire": 23,
+            "isRecommended": false,
+            "reposting": false,
+            "sku": "SKU_CODE_1",
+            "location": {
+              "name": "Warszawa, Praga-Południe, Mazowieckie",
+              "__typename": "MyAdsAdLocation"
+            },
+            "__typename": "MyAdsAd",
+            "allowCancellation": false,
+            "hasConfirmedDeliveryOrder": false,
+            "crosslistingInfo": []
+          },
+          {
+            "activatedAt": "2026-08-15T11:35:39+00:00",
+            "canRefreshForFree": false,
+            "categoryId": 1399,
+            "currency": "PLN",
+            "editable": true,
+            "id": 1091247422,
+            "isJob": false,
+            "isCalendarEnabled": false,
+            "isPartnerAd": false,
+            "photos": [
+              "https://ireland.apollo.olxcdn.com/v1/files/xmtxv7ueo8dk3-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/y8vc30brj7k03-PL/image"
+            ],
+            "price": "70",
+            "priceType": "PRICE",
+            "status": "ACTIVE",
+            "title": "Klocki Hamulcowe Tył TRW GDB1841 Nowe VW GOLF VI PASSAT LEON II Octavia II",
+            "validTo": "2026-09-14T11:33:17+00:00",
+            "autoReposting": null,
+            "categoryLevels": [
+              {
+                "id": 5,
+                "name": "Motoryzacja",
+                "level": "L1",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 82,
+                "name": "Części samochodowe",
+                "level": "L2",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 1399,
+                "name": "Osobowe",
+                "level": "L3",
+                "__typename": "MyAdsAdCategory"
+              }
+            ],
+            "delivery": {
+              "eligibleForDelivery": true,
+              "hasDelivery": true,
+              "courier": null,
+              "rock": {
+                "isEligible": true,
+                "isManageable": false,
+                "__typename": "Rock"
+              },
+              "__typename": "MyAdsDelivery"
+            },
+            "messageCounters": {
+              "total": 0,
+              "new": 0,
+              "__typename": "MyAdsMsgCounters"
+            },
+            "salary": null,
+            "stats": {
+              "views": 3,
+              "observed": 0,
+              "phones": 0,
+              "status": "OK",
+              "__typename": "MyAdsStats"
+            },
+            "vases": [],
+            "refreshPrice": {
+              "value": 4.29,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsRefreshPrice"
+            },
+            "promoPrice": {
+              "value": 8.57,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsProductPrice"
+            },
+            "hasSellerTakeRate": false,
+            "vasRecommendation": null,
+            "adActivationType": "PAID_PACKAGE",
+            "categories": [
+              "Motoryzacja",
+              "Części samochodowe",
+              "Osobowe"
+            ],
+            "daysToExpire": 23,
+            "isRecommended": false,
+            "reposting": false,
+            "sku": "SKU_CODE_1",
+            "location": {
+              "name": "Warszawa, Praga-Południe, Mazowieckie",
+              "__typename": "MyAdsAdLocation"
+            },
+            "__typename": "MyAdsAd",
+            "allowCancellation": false,
+            "hasConfirmedDeliveryOrder": false,
+            "crosslistingInfo": []
+          },
+          {
+            "activatedAt": "2026-08-15T11:27:56+00:00",
+            "canRefreshForFree": false,
+            "categoryId": 1399,
+            "currency": "PLN",
+            "editable": true,
+            "id": 1091246077,
+            "isJob": false,
+            "isCalendarEnabled": false,
+            "isPartnerAd": false,
+            "photos": [
+              "https://ireland.apollo.olxcdn.com/v1/files/yv4nfadz1m1u2-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/voyx5hruys9e2-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/yt18henbjjvg1-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/t6j95yx3r6b8-PL/image"
+            ],
+            "price": "110",
+            "priceType": "PRICE",
+            "status": "ACTIVE",
+            "title": "Klocki Hamulcowe Przód TRW GDB1943 Nowe BMW 1 2 3 4 F20 F30 Brembo",
+            "validTo": "2026-09-14T11:25:30+00:00",
+            "autoReposting": null,
+            "categoryLevels": [
+              {
+                "id": 5,
+                "name": "Motoryzacja",
+                "level": "L1",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 82,
+                "name": "Części samochodowe",
+                "level": "L2",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 1399,
+                "name": "Osobowe",
+                "level": "L3",
+                "__typename": "MyAdsAdCategory"
+              }
+            ],
+            "delivery": {
+              "eligibleForDelivery": true,
+              "hasDelivery": true,
+              "courier": null,
+              "rock": {
+                "isEligible": true,
+                "isManageable": false,
+                "__typename": "Rock"
+              },
+              "__typename": "MyAdsDelivery"
+            },
+            "messageCounters": {
+              "total": 0,
+              "new": 0,
+              "__typename": "MyAdsMsgCounters"
+            },
+            "salary": null,
+            "stats": {
+              "views": 0,
+              "observed": 0,
+              "phones": 0,
+              "status": "OK",
+              "__typename": "MyAdsStats"
+            },
+            "vases": [],
+            "refreshPrice": {
+              "value": 4.29,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsRefreshPrice"
+            },
+            "promoPrice": {
+              "value": 8.57,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsProductPrice"
+            },
+            "hasSellerTakeRate": false,
+            "vasRecommendation": null,
+            "adActivationType": "PAID_PACKAGE",
+            "categories": [
+              "Motoryzacja",
+              "Części samochodowe",
+              "Osobowe"
+            ],
+            "daysToExpire": 22,
+            "isRecommended": false,
+            "reposting": false,
+            "sku": "SKU_CODE_1",
+            "location": {
+              "name": "Warszawa, Praga-Południe, Mazowieckie",
+              "__typename": "MyAdsAdLocation"
+            },
+            "__typename": "MyAdsAd",
+            "allowCancellation": false,
+            "hasConfirmedDeliveryOrder": false,
+            "crosslistingInfo": []
+          },
+          {
+            "activatedAt": "2026-08-15T11:02:36+00:00",
+            "canRefreshForFree": false,
+            "categoryId": 1399,
+            "currency": "PLN",
+            "editable": true,
+            "id": 1091241731,
+            "isJob": false,
+            "isCalendarEnabled": false,
+            "isPartnerAd": false,
+            "photos": [
+              "https://ireland.apollo.olxcdn.com/v1/files/u9pcbcq0qh281-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/yp71884vv8053-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/ys8kv51hfoup-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/44cjjgl3pig62-PL/image"
+            ],
+            "price": "25",
+            "priceType": "PRICE",
+            "status": "ACTIVE",
+            "title": "Filtr Powietrza Bosch S 0343 / F 026 400 343 Nowy RENAULT DACIA NISSAN",
+            "validTo": "2026-09-14T11:00:13+00:00",
+            "autoReposting": null,
+            "categoryLevels": [
+              {
+                "id": 5,
+                "name": "Motoryzacja",
+                "level": "L1",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 82,
+                "name": "Części samochodowe",
+                "level": "L2",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 1399,
+                "name": "Osobowe",
+                "level": "L3",
+                "__typename": "MyAdsAdCategory"
+              }
+            ],
+            "delivery": {
+              "eligibleForDelivery": true,
+              "hasDelivery": true,
+              "courier": null,
+              "rock": {
+                "isEligible": true,
+                "isManageable": false,
+                "__typename": "Rock"
+              },
+              "__typename": "MyAdsDelivery"
+            },
+            "messageCounters": {
+              "total": 0,
+              "new": 0,
+              "__typename": "MyAdsMsgCounters"
+            },
+            "salary": null,
+            "stats": {
+              "views": 6,
+              "observed": 1,
+              "phones": 0,
+              "status": "OK",
+              "__typename": "MyAdsStats"
+            },
+            "vases": [],
+            "refreshPrice": {
+              "value": 4.29,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsRefreshPrice"
+            },
+            "promoPrice": {
+              "value": 8.57,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsProductPrice"
+            },
+            "hasSellerTakeRate": false,
+            "vasRecommendation": null,
+            "adActivationType": "PAID_PACKAGE",
+            "categories": [
+              "Motoryzacja",
+              "Części samochodowe",
+              "Osobowe"
+            ],
+            "daysToExpire": 22,
+            "isRecommended": false,
+            "reposting": false,
+            "sku": "SKU_CODE_1",
+            "location": {
+              "name": "Warszawa, Praga-Południe, Mazowieckie",
+              "__typename": "MyAdsAdLocation"
+            },
+            "__typename": "MyAdsAd",
+            "allowCancellation": false,
+            "hasConfirmedDeliveryOrder": false,
+            "crosslistingInfo": []
+          },
+          {
+            "activatedAt": "2026-08-15T10:55:40+00:00",
+            "canRefreshForFree": false,
+            "categoryId": 1399,
+            "currency": "PLN",
+            "editable": true,
+            "id": 1091240629,
+            "isJob": false,
+            "isCalendarEnabled": false,
+            "isPartnerAd": false,
+            "photos": [
+              "https://ireland.apollo.olxcdn.com/v1/files/vqo6z132do8g-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/lgbffoq3gejx1-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/ss26x2zo5xu33-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/plxs1t2q3ngk1-PL/image"
+            ],
+            "price": "39",
+            "priceType": "PRICE",
+            "status": "ACTIVE",
+            "title": "Zestaw Filtra Skrzyni Automatycznej + Uszczelka Blue Print ADT32144 Nowy TOYOTA LEXUS MITSUBISHI FIAT",
+            "validTo": "2026-09-14T10:53:30+00:00",
+            "autoReposting": null,
+            "categoryLevels": [
+              {
+                "id": 5,
+                "name": "Motoryzacja",
+                "level": "L1",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 82,
+                "name": "Części samochodowe",
+                "level": "L2",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 1399,
+                "name": "Osobowe",
+                "level": "L3",
+                "__typename": "MyAdsAdCategory"
+              }
+            ],
+            "delivery": {
+              "eligibleForDelivery": true,
+              "hasDelivery": true,
+              "courier": null,
+              "rock": {
+                "isEligible": true,
+                "isManageable": false,
+                "__typename": "Rock"
+              },
+              "__typename": "MyAdsDelivery"
+            },
+            "messageCounters": {
+              "total": 0,
+              "new": 0,
+              "__typename": "MyAdsMsgCounters"
+            },
+            "salary": null,
+            "stats": {
+              "views": 4,
+              "observed": 0,
+              "phones": 0,
+              "status": "OK",
+              "__typename": "MyAdsStats"
+            },
+            "vases": [],
+            "refreshPrice": {
+              "value": 4.29,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsRefreshPrice"
+            },
+            "promoPrice": {
+              "value": 8.57,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsProductPrice"
+            },
+            "hasSellerTakeRate": false,
+            "vasRecommendation": null,
+            "adActivationType": "PAID_PACKAGE",
+            "categories": [
+              "Motoryzacja",
+              "Części samochodowe",
+              "Osobowe"
+            ],
+            "daysToExpire": 22,
+            "isRecommended": false,
+            "reposting": false,
+            "sku": "SKU_CODE_1",
+            "location": {
+              "name": "Warszawa, Praga-Południe, Mazowieckie",
+              "__typename": "MyAdsAdLocation"
+            },
+            "__typename": "MyAdsAd",
+            "allowCancellation": false,
+            "hasConfirmedDeliveryOrder": false,
+            "crosslistingInfo": []
+          },
+          {
+            "activatedAt": "2026-08-15T10:32:32+00:00",
+            "canRefreshForFree": false,
+            "categoryId": 1399,
+            "currency": "PLN",
+            "editable": true,
+            "id": 1091236524,
+            "isJob": false,
+            "isCalendarEnabled": false,
+            "isPartnerAd": false,
+            "photos": [
+              "https://ireland.apollo.olxcdn.com/v1/files/e2g5a6iv31br2-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/foh3ycrneamw-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/hl2bwjpo4v5a2-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/e49hvsj7jddl3-PL/image"
+            ],
+            "price": "120",
+            "priceType": "PRICE",
+            "status": "ACTIVE",
+            "title": "Amortyzator Prawy Przedni KYB Excel-G [kod 3338060 GC03] – Oryginał, Nowy! CITROËN PEUGEOT",
+            "validTo": "2026-09-14T10:29:56+00:00",
+            "autoReposting": null,
+            "categoryLevels": [
+              {
+                "id": 5,
+                "name": "Motoryzacja",
+                "level": "L1",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 82,
+                "name": "Części samochodowe",
+                "level": "L2",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 1399,
+                "name": "Osobowe",
+                "level": "L3",
+                "__typename": "MyAdsAdCategory"
+              }
+            ],
+            "delivery": {
+              "eligibleForDelivery": true,
+              "hasDelivery": true,
+              "courier": null,
+              "rock": {
+                "isEligible": true,
+                "isManageable": false,
+                "__typename": "Rock"
+              },
+              "__typename": "MyAdsDelivery"
+            },
+            "messageCounters": {
+              "total": 0,
+              "new": 0,
+              "__typename": "MyAdsMsgCounters"
+            },
+            "salary": null,
+            "stats": {
+              "views": 3,
+              "observed": 0,
+              "phones": 0,
+              "status": "OK",
+              "__typename": "MyAdsStats"
+            },
+            "vases": [],
+            "refreshPrice": {
+              "value": 4.29,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsRefreshPrice"
+            },
+            "promoPrice": {
+              "value": 8.57,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsProductPrice"
+            },
+            "hasSellerTakeRate": false,
+            "vasRecommendation": null,
+            "adActivationType": "PAID_PACKAGE",
+            "categories": [
+              "Motoryzacja",
+              "Części samochodowe",
+              "Osobowe"
+            ],
+            "daysToExpire": 22,
+            "isRecommended": false,
+            "reposting": false,
+            "sku": "SKU_CODE_1",
+            "location": {
+              "name": "Warszawa, Praga-Południe, Mazowieckie",
+              "__typename": "MyAdsAdLocation"
+            },
+            "__typename": "MyAdsAd",
+            "allowCancellation": false,
+            "hasConfirmedDeliveryOrder": false,
+            "crosslistingInfo": []
+          },
+          {
+            "activatedAt": "2026-08-15T10:05:42+00:00",
+            "canRefreshForFree": false,
+            "categoryId": 1399,
+            "currency": "PLN",
+            "editable": true,
+            "id": 1091230568,
+            "isJob": false,
+            "isCalendarEnabled": false,
+            "isPartnerAd": false,
+            "photos": [
+              "https://ireland.apollo.olxcdn.com/v1/files/vywflvoobt5v2-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/fg7s87sa0ul3-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/detmwgwhk01m2-PL/image"
+            ],
+            "price": "110",
+            "priceType": "PRICE",
+            "status": "ACTIVE",
+            "title": "Oryginalna Płyta Pośrednia / Metalowa Uszczelka elementu Skrzyni Automatycznej MERCEDES 7G-Tronic 722.9",
+            "validTo": "2026-09-14T10:03:08+00:00",
+            "autoReposting": null,
+            "categoryLevels": [
+              {
+                "id": 5,
+                "name": "Motoryzacja",
+                "level": "L1",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 82,
+                "name": "Części samochodowe",
+                "level": "L2",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 1399,
+                "name": "Osobowe",
+                "level": "L3",
+                "__typename": "MyAdsAdCategory"
+              }
+            ],
+            "delivery": {
+              "eligibleForDelivery": true,
+              "hasDelivery": true,
+              "courier": null,
+              "rock": {
+                "isEligible": true,
+                "isManageable": false,
+                "__typename": "Rock"
+              },
+              "__typename": "MyAdsDelivery"
+            },
+            "messageCounters": {
+              "total": 0,
+              "new": 0,
+              "__typename": "MyAdsMsgCounters"
+            },
+            "salary": null,
+            "stats": {
+              "views": 3,
+              "observed": 1,
+              "phones": 0,
+              "status": "OK",
+              "__typename": "MyAdsStats"
+            },
+            "vases": [],
+            "refreshPrice": {
+              "value": 4.29,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsRefreshPrice"
+            },
+            "promoPrice": {
+              "value": 8.57,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsProductPrice"
+            },
+            "hasSellerTakeRate": false,
+            "vasRecommendation": null,
+            "adActivationType": "PAID_PACKAGE",
+            "categories": [
+              "Motoryzacja",
+              "Części samochodowe",
+              "Osobowe"
+            ],
+            "daysToExpire": 22,
+            "isRecommended": false,
+            "reposting": false,
+            "sku": "SKU_CODE_1",
+            "location": {
+              "name": "Warszawa, Praga-Południe, Mazowieckie",
+              "__typename": "MyAdsAdLocation"
+            },
+            "__typename": "MyAdsAd",
+            "allowCancellation": false,
+            "hasConfirmedDeliveryOrder": false,
+            "crosslistingInfo": []
+          },
+          {
+            "activatedAt": "2026-08-15T09:51:00+00:00",
+            "canRefreshForFree": false,
+            "categoryId": 1399,
+            "currency": "PLN",
+            "editable": true,
+            "id": 1091227829,
+            "isJob": false,
+            "isCalendarEnabled": false,
+            "isPartnerAd": false,
+            "photos": [
+              "https://ireland.apollo.olxcdn.com/v1/files/99gntun4d46y2-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/6nroytznmn3e3-PL/image"
+            ],
+            "price": "35",
+            "priceType": "PRICE",
+            "status": "ACTIVE",
+            "title": "MAXGEAR 19-3261 Osłona/Tarcza kotwiczna tylnego lewego hamulca BMW Seria 3 Tył – lewa strona",
+            "validTo": "2026-09-14T09:48:42+00:00",
+            "autoReposting": null,
+            "categoryLevels": [
+              {
+                "id": 5,
+                "name": "Motoryzacja",
+                "level": "L1",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 82,
+                "name": "Części samochodowe",
+                "level": "L2",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 1399,
+                "name": "Osobowe",
+                "level": "L3",
+                "__typename": "MyAdsAdCategory"
+              }
+            ],
+            "delivery": {
+              "eligibleForDelivery": true,
+              "hasDelivery": true,
+              "courier": null,
+              "rock": {
+                "isEligible": true,
+                "isManageable": false,
+                "__typename": "Rock"
+              },
+              "__typename": "MyAdsDelivery"
+            },
+            "messageCounters": {
+              "total": 0,
+              "new": 0,
+              "__typename": "MyAdsMsgCounters"
+            },
+            "salary": null,
+            "stats": {
+              "views": 0,
+              "observed": 0,
+              "phones": 0,
+              "status": "OK",
+              "__typename": "MyAdsStats"
+            },
+            "vases": [],
+            "refreshPrice": {
+              "value": 4.29,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsRefreshPrice"
+            },
+            "promoPrice": {
+              "value": 8.57,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsProductPrice"
+            },
+            "hasSellerTakeRate": false,
+            "vasRecommendation": null,
+            "adActivationType": "PAID_PACKAGE",
+            "categories": [
+              "Motoryzacja",
+              "Części samochodowe",
+              "Osobowe"
+            ],
+            "daysToExpire": 22,
+            "isRecommended": false,
+            "reposting": false,
+            "sku": "SKU_CODE_1",
+            "location": {
+              "name": "Warszawa, Praga-Południe, Mazowieckie",
+              "__typename": "MyAdsAdLocation"
+            },
+            "__typename": "MyAdsAd",
+            "allowCancellation": false,
+            "hasConfirmedDeliveryOrder": false,
+            "crosslistingInfo": []
+          },
+          {
+            "activatedAt": "2026-08-15T09:49:57+00:00",
+            "canRefreshForFree": false,
+            "categoryId": 1399,
+            "currency": "PLN",
+            "editable": true,
+            "id": 1091227647,
+            "isJob": false,
+            "isCalendarEnabled": false,
+            "isPartnerAd": false,
+            "photos": [
+              "https://ireland.apollo.olxcdn.com/v1/files/99gntun4d46y2-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/fxswqdf8lzfu2-PL/image"
+            ],
+            "price": "35",
+            "priceType": "PRICE",
+            "status": "ACTIVE",
+            "title": "MAXGEAR 19-3261 Osłona/Tarcza kotwiczna tylnego prawego hamulca BMW Seria 3 Tył – prawa strona",
+            "validTo": "2026-09-14T09:47:42+00:00",
+            "autoReposting": null,
+            "categoryLevels": [
+              {
+                "id": 5,
+                "name": "Motoryzacja",
+                "level": "L1",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 82,
+                "name": "Części samochodowe",
+                "level": "L2",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 1399,
+                "name": "Osobowe",
+                "level": "L3",
+                "__typename": "MyAdsAdCategory"
+              }
+            ],
+            "delivery": {
+              "eligibleForDelivery": true,
+              "hasDelivery": true,
+              "courier": null,
+              "rock": {
+                "isEligible": true,
+                "isManageable": false,
+                "__typename": "Rock"
+              },
+              "__typename": "MyAdsDelivery"
+            },
+            "messageCounters": {
+              "total": 0,
+              "new": 0,
+              "__typename": "MyAdsMsgCounters"
+            },
+            "salary": null,
+            "stats": {
+              "views": 3,
+              "observed": 0,
+              "phones": 0,
+              "status": "OK",
+              "__typename": "MyAdsStats"
+            },
+            "vases": [],
+            "refreshPrice": {
+              "value": 4.29,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsRefreshPrice"
+            },
+            "promoPrice": {
+              "value": 8.57,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsProductPrice"
+            },
+            "hasSellerTakeRate": false,
+            "vasRecommendation": null,
+            "adActivationType": "PAID_PACKAGE",
+            "categories": [
+              "Motoryzacja",
+              "Części samochodowe",
+              "Osobowe"
+            ],
+            "daysToExpire": 22,
+            "isRecommended": false,
+            "reposting": false,
+            "sku": "SKU_CODE_1",
+            "location": {
+              "name": "Warszawa, Praga-Południe, Mazowieckie",
+              "__typename": "MyAdsAdLocation"
+            },
+            "__typename": "MyAdsAd",
+            "allowCancellation": false,
+            "hasConfirmedDeliveryOrder": false,
+            "crosslistingInfo": []
+          },
+          {
+            "activatedAt": "2026-08-15T09:32:37+00:00",
+            "canRefreshForFree": false,
+            "categoryId": 1399,
+            "currency": "PLN",
+            "editable": true,
+            "id": 1091224794,
+            "isJob": false,
+            "isCalendarEnabled": false,
+            "isPartnerAd": false,
+            "photos": [
+              "https://ireland.apollo.olxcdn.com/v1/files/tqpkn7wtchog3-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/zv6lap9ilk673-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/uoez013626yc3-PL/image"
+            ],
+            "price": "80",
+            "priceType": "PRICE",
+            "status": "ACTIVE",
+            "title": "Świeca Zapłonowa 6 sztuk marki PORSCHE Bosch FR-6-DPP-332 PORSCHE 911 Turbo Cayenne",
+            "validTo": "2026-09-14T09:30:03+00:00",
+            "autoReposting": null,
+            "categoryLevels": [
+              {
+                "id": 5,
+                "name": "Motoryzacja",
+                "level": "L1",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 82,
+                "name": "Części samochodowe",
+                "level": "L2",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 1399,
+                "name": "Osobowe",
+                "level": "L3",
+                "__typename": "MyAdsAdCategory"
+              }
+            ],
+            "delivery": {
+              "eligibleForDelivery": true,
+              "hasDelivery": true,
+              "courier": null,
+              "rock": {
+                "isEligible": true,
+                "isManageable": false,
+                "__typename": "Rock"
+              },
+              "__typename": "MyAdsDelivery"
+            },
+            "messageCounters": {
+              "total": 0,
+              "new": 0,
+              "__typename": "MyAdsMsgCounters"
+            },
+            "salary": null,
+            "stats": {
+              "views": 15,
+              "observed": 3,
+              "phones": 0,
+              "status": "OK",
+              "__typename": "MyAdsStats"
+            },
+            "vases": [],
+            "refreshPrice": {
+              "value": 4.29,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsRefreshPrice"
+            },
+            "promoPrice": {
+              "value": 8.57,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsProductPrice"
+            },
+            "hasSellerTakeRate": false,
+            "vasRecommendation": null,
+            "adActivationType": "PAID_PACKAGE",
+            "categories": [
+              "Motoryzacja",
+              "Części samochodowe",
+              "Osobowe"
+            ],
+            "daysToExpire": 22,
+            "isRecommended": false,
+            "reposting": false,
+            "sku": "SKU_CODE_1",
+            "location": {
+              "name": "Warszawa, Praga-Południe, Mazowieckie",
+              "__typename": "MyAdsAdLocation"
+            },
+            "__typename": "MyAdsAd",
+            "allowCancellation": false,
+            "hasConfirmedDeliveryOrder": false,
+            "crosslistingInfo": []
+          },
+          {
+            "activatedAt": "2026-08-15T08:59:43+00:00",
+            "canRefreshForFree": false,
+            "categoryId": 1399,
+            "currency": "PLN",
+            "editable": true,
+            "id": 1091219369,
+            "isJob": false,
+            "isCalendarEnabled": false,
+            "isPartnerAd": false,
+            "photos": [
+              "https://ireland.apollo.olxcdn.com/v1/files/2fz534s2pc5f3-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/5qp1vsz3j9g9-PL/image"
+            ],
+            "price": "50",
+            "priceType": "PRICE",
+            "status": "ACTIVE",
+            "title": "Uchwyt wiązki przewodów elektrycznych silnika Mercedes Benz A6541599500",
+            "validTo": "2026-09-14T08:57:24+00:00",
+            "autoReposting": null,
+            "categoryLevels": [
+              {
+                "id": 5,
+                "name": "Motoryzacja",
+                "level": "L1",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 82,
+                "name": "Części samochodowe",
+                "level": "L2",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 1399,
+                "name": "Osobowe",
+                "level": "L3",
+                "__typename": "MyAdsAdCategory"
+              }
+            ],
+            "delivery": {
+              "eligibleForDelivery": true,
+              "hasDelivery": true,
+              "courier": null,
+              "rock": {
+                "isEligible": true,
+                "isManageable": false,
+                "__typename": "Rock"
+              },
+              "__typename": "MyAdsDelivery"
+            },
+            "messageCounters": {
+              "total": 0,
+              "new": 0,
+              "__typename": "MyAdsMsgCounters"
+            },
+            "salary": null,
+            "stats": {
+              "views": 2,
+              "observed": 0,
+              "phones": 0,
+              "status": "OK",
+              "__typename": "MyAdsStats"
+            },
+            "vases": [],
+            "refreshPrice": {
+              "value": 4.29,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsRefreshPrice"
+            },
+            "promoPrice": {
+              "value": 8.57,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsProductPrice"
+            },
+            "hasSellerTakeRate": false,
+            "vasRecommendation": null,
+            "adActivationType": "PAID_PACKAGE",
+            "categories": [
+              "Motoryzacja",
+              "Części samochodowe",
+              "Osobowe"
+            ],
+            "daysToExpire": 22,
+            "isRecommended": false,
+            "reposting": false,
+            "sku": "SKU_CODE_1",
+            "location": {
+              "name": "Warszawa, Praga-Południe, Mazowieckie",
+              "__typename": "MyAdsAdLocation"
+            },
+            "__typename": "MyAdsAd",
+            "allowCancellation": false,
+            "hasConfirmedDeliveryOrder": false,
+            "crosslistingInfo": []
+          },
+          {
+            "activatedAt": "2026-08-15T08:32:55+00:00",
+            "canRefreshForFree": false,
+            "categoryId": 1399,
+            "currency": "PLN",
+            "editable": true,
+            "id": 1091215911,
+            "isJob": false,
+            "isCalendarEnabled": false,
+            "isPartnerAd": false,
+            "photos": [
+              "https://ireland.apollo.olxcdn.com/v1/files/jh0dgsh5idag-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/pbacmsxsh7on2-PL/image"
+            ],
+            "price": "75",
+            "priceType": "PRICE",
+            "status": "ACTIVE",
+            "title": "Toyota 52169-52110 Zaślepka dolna zderzaka oryginalna OEM TOYOTA GR Yaris GXPA16",
+            "validTo": "2026-09-14T08:30:44+00:00",
+            "autoReposting": null,
+            "categoryLevels": [
+              {
+                "id": 5,
+                "name": "Motoryzacja",
+                "level": "L1",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 82,
+                "name": "Części samochodowe",
+                "level": "L2",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 1399,
+                "name": "Osobowe",
+                "level": "L3",
+                "__typename": "MyAdsAdCategory"
+              }
+            ],
+            "delivery": {
+              "eligibleForDelivery": true,
+              "hasDelivery": true,
+              "courier": null,
+              "rock": {
+                "isEligible": true,
+                "isManageable": false,
+                "__typename": "Rock"
+              },
+              "__typename": "MyAdsDelivery"
+            },
+            "messageCounters": {
+              "total": 0,
+              "new": 0,
+              "__typename": "MyAdsMsgCounters"
+            },
+            "salary": null,
+            "stats": {
+              "views": 2,
+              "observed": 1,
+              "phones": 0,
+              "status": "OK",
+              "__typename": "MyAdsStats"
+            },
+            "vases": [],
+            "refreshPrice": {
+              "value": 4.29,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsRefreshPrice"
+            },
+            "promoPrice": {
+              "value": 8.57,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsProductPrice"
+            },
+            "hasSellerTakeRate": false,
+            "vasRecommendation": null,
+            "adActivationType": "PAID_PACKAGE",
+            "categories": [
+              "Motoryzacja",
+              "Części samochodowe",
+              "Osobowe"
+            ],
+            "daysToExpire": 22,
+            "isRecommended": false,
+            "reposting": false,
+            "sku": "SKU_CODE_1",
+            "location": {
+              "name": "Warszawa, Praga-Południe, Mazowieckie",
+              "__typename": "MyAdsAdLocation"
+            },
+            "__typename": "MyAdsAd",
+            "allowCancellation": false,
+            "hasConfirmedDeliveryOrder": false,
+            "crosslistingInfo": []
+          },
+          {
+            "activatedAt": "2026-08-15T08:04:56+00:00",
+            "canRefreshForFree": false,
+            "categoryId": 1399,
+            "currency": "PLN",
+            "editable": true,
+            "id": 1091212426,
+            "isJob": false,
+            "isCalendarEnabled": false,
+            "isPartnerAd": false,
+            "photos": [
+              "https://ireland.apollo.olxcdn.com/v1/files/ayltqgqreql33-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/p38idzlmgwby2-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/qos2qxtietsx2-PL/image"
+            ],
+            "price": "65",
+            "priceType": "PRICE",
+            "status": "ACTIVE",
+            "title": "Uszczelka kolektora ssącego 4B11T MITSUBISHI Lancer EVO 10 Ralliart - 1540A066",
+            "validTo": "2026-09-14T08:02:27+00:00",
+            "autoReposting": null,
+            "categoryLevels": [
+              {
+                "id": 5,
+                "name": "Motoryzacja",
+                "level": "L1",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 82,
+                "name": "Części samochodowe",
+                "level": "L2",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 1399,
+                "name": "Osobowe",
+                "level": "L3",
+                "__typename": "MyAdsAdCategory"
+              }
+            ],
+            "delivery": {
+              "eligibleForDelivery": true,
+              "hasDelivery": true,
+              "courier": null,
+              "rock": {
+                "isEligible": true,
+                "isManageable": false,
+                "__typename": "Rock"
+              },
+              "__typename": "MyAdsDelivery"
+            },
+            "messageCounters": {
+              "total": 0,
+              "new": 0,
+              "__typename": "MyAdsMsgCounters"
+            },
+            "salary": null,
+            "stats": {
+              "views": 0,
+              "observed": 0,
+              "phones": 0,
+              "status": "OK",
+              "__typename": "MyAdsStats"
+            },
+            "vases": [],
+            "refreshPrice": {
+              "value": 4.29,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsRefreshPrice"
+            },
+            "promoPrice": {
+              "value": 8.57,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsProductPrice"
+            },
+            "hasSellerTakeRate": false,
+            "vasRecommendation": null,
+            "adActivationType": "PAID_PACKAGE",
+            "categories": [
+              "Motoryzacja",
+              "Części samochodowe",
+              "Osobowe"
+            ],
+            "daysToExpire": 22,
+            "isRecommended": false,
+            "reposting": false,
+            "sku": "SKU_CODE_1",
+            "location": {
+              "name": "Warszawa, Praga-Południe, Mazowieckie",
+              "__typename": "MyAdsAdLocation"
+            },
+            "__typename": "MyAdsAd",
+            "allowCancellation": false,
+            "hasConfirmedDeliveryOrder": false,
+            "crosslistingInfo": []
+          },
+          {
+            "activatedAt": "2026-08-15T07:35:39+00:00",
+            "canRefreshForFree": false,
+            "categoryId": 1399,
+            "currency": "PLN",
+            "editable": true,
+            "id": 1091209595,
+            "isJob": false,
+            "isCalendarEnabled": false,
+            "isPartnerAd": false,
+            "photos": [
+              "https://ireland.apollo.olxcdn.com/v1/files/icf8zuwmgnv92-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/nszcvvlf9m823-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/qb57nz876oyh2-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/wk5lu768hoev-PL/image"
+            ],
+            "price": "24",
+            "priceType": "PRICE",
+            "status": "ACTIVE",
+            "title": "Styk ostrzegawczy zużycia okładzin hamulcowych GIC352 TRW PORSCHE BOXSTER GTS CAYMAN",
+            "validTo": "2026-09-14T07:33:01+00:00",
+            "autoReposting": null,
+            "categoryLevels": [
+              {
+                "id": 5,
+                "name": "Motoryzacja",
+                "level": "L1",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 82,
+                "name": "Części samochodowe",
+                "level": "L2",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 1399,
+                "name": "Osobowe",
+                "level": "L3",
+                "__typename": "MyAdsAdCategory"
+              }
+            ],
+            "delivery": {
+              "eligibleForDelivery": true,
+              "hasDelivery": true,
+              "courier": null,
+              "rock": {
+                "isEligible": true,
+                "isManageable": false,
+                "__typename": "Rock"
+              },
+              "__typename": "MyAdsDelivery"
+            },
+            "messageCounters": {
+              "total": 0,
+              "new": 0,
+              "__typename": "MyAdsMsgCounters"
+            },
+            "salary": null,
+            "stats": {
+              "views": 1,
+              "observed": 0,
+              "phones": 0,
+              "status": "OK",
+              "__typename": "MyAdsStats"
+            },
+            "vases": [],
+            "refreshPrice": {
+              "value": 4.29,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsRefreshPrice"
+            },
+            "promoPrice": {
+              "value": 8.57,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsProductPrice"
+            },
+            "hasSellerTakeRate": false,
+            "vasRecommendation": null,
+            "adActivationType": "PAID_PACKAGE",
+            "categories": [
+              "Motoryzacja",
+              "Części samochodowe",
+              "Osobowe"
+            ],
+            "daysToExpire": 22,
+            "isRecommended": false,
+            "reposting": false,
+            "sku": "SKU_CODE_1",
+            "location": {
+              "name": "Warszawa, Praga-Południe, Mazowieckie",
+              "__typename": "MyAdsAdLocation"
+            },
+            "__typename": "MyAdsAd",
+            "allowCancellation": false,
+            "hasConfirmedDeliveryOrder": false,
+            "crosslistingInfo": []
+          },
+          {
+            "activatedAt": "2026-08-15T07:24:10+00:00",
+            "canRefreshForFree": false,
+            "categoryId": 1403,
+            "currency": "PLN",
+            "editable": true,
+            "id": 1091208598,
+            "isJob": false,
+            "isCalendarEnabled": false,
+            "isPartnerAd": false,
+            "photos": [
+              "https://ireland.apollo.olxcdn.com/v1/files/6n86cjpf0nsj2-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/h23k8zsosp4i-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/b3xthi7gk92a3-PL/image"
+            ],
+            "price": "30",
+            "priceType": "PRICE",
+            "status": "ACTIVE",
+            "title": "Wskaźnik zużycia BOSCH 1987474552 BMW X5 (E70, F15, F85)  BMW X6 (E71, E72, F16, F86)",
+            "validTo": "2026-09-14T07:21:57+00:00",
+            "autoReposting": null,
+            "categoryLevels": [
+              {
+                "id": 5,
+                "name": "Motoryzacja",
+                "level": "L1",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 82,
+                "name": "Części samochodowe",
+                "level": "L2",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 1403,
+                "name": "Pozostałe",
+                "level": "L3",
+                "__typename": "MyAdsAdCategory"
+              }
+            ],
+            "delivery": {
+              "eligibleForDelivery": true,
+              "hasDelivery": true,
+              "courier": null,
+              "rock": {
+                "isEligible": true,
+                "isManageable": false,
+                "__typename": "Rock"
+              },
+              "__typename": "MyAdsDelivery"
+            },
+            "messageCounters": {
+              "total": 0,
+              "new": 0,
+              "__typename": "MyAdsMsgCounters"
+            },
+            "salary": null,
+            "stats": {
+              "views": 0,
+              "observed": 0,
+              "phones": 0,
+              "status": "OK",
+              "__typename": "MyAdsStats"
+            },
+            "vases": [],
+            "refreshPrice": {
+              "value": 5.15,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsRefreshPrice"
+            },
+            "promoPrice": {
+              "value": 10.28,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsProductPrice"
+            },
+            "hasSellerTakeRate": false,
+            "vasRecommendation": null,
+            "adActivationType": "PAID_PACKAGE",
+            "categories": [
+              "Motoryzacja",
+              "Części samochodowe",
+              "Pozostałe"
+            ],
+            "daysToExpire": 22,
+            "isRecommended": false,
+            "reposting": false,
+            "sku": "SKU_CODE_1",
+            "location": {
+              "name": "Warszawa, Praga-Południe, Mazowieckie",
+              "__typename": "MyAdsAdLocation"
+            },
+            "__typename": "MyAdsAd",
+            "allowCancellation": false,
+            "hasConfirmedDeliveryOrder": false,
+            "crosslistingInfo": []
+          },
+          {
+            "activatedAt": "2026-08-15T07:10:07+00:00",
+            "canRefreshForFree": false,
+            "categoryId": 1399,
+            "currency": "PLN",
+            "editable": true,
+            "id": 1091206756,
+            "isJob": false,
+            "isCalendarEnabled": false,
+            "isPartnerAd": false,
+            "photos": [
+              "https://ireland.apollo.olxcdn.com/v1/files/vcalxjtbcs8j2-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/9ymx9pr3c05r2-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/gbbe75oudlp61-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/msog9mrm92zb-PL/image"
+            ],
+            "price": "71",
+            "priceType": "PRICE",
+            "status": "ACTIVE",
+            "title": "glyco panewki korbowodowe h1065/5 std RENAULT FORD Sierra Peugeot 504",
+            "validTo": "2026-09-14T07:07:37+00:00",
+            "autoReposting": null,
+            "categoryLevels": [
+              {
+                "id": 5,
+                "name": "Motoryzacja",
+                "level": "L1",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 82,
+                "name": "Części samochodowe",
+                "level": "L2",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 1399,
+                "name": "Osobowe",
+                "level": "L3",
+                "__typename": "MyAdsAdCategory"
+              }
+            ],
+            "delivery": {
+              "eligibleForDelivery": true,
+              "hasDelivery": true,
+              "courier": null,
+              "rock": {
+                "isEligible": true,
+                "isManageable": false,
+                "__typename": "Rock"
+              },
+              "__typename": "MyAdsDelivery"
+            },
+            "messageCounters": {
+              "total": 0,
+              "new": 0,
+              "__typename": "MyAdsMsgCounters"
+            },
+            "salary": null,
+            "stats": {
+              "views": 4,
+              "observed": 1,
+              "phones": 0,
+              "status": "OK",
+              "__typename": "MyAdsStats"
+            },
+            "vases": [],
+            "refreshPrice": {
+              "value": 4.29,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsRefreshPrice"
+            },
+            "promoPrice": {
+              "value": 8.57,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsProductPrice"
+            },
+            "hasSellerTakeRate": false,
+            "vasRecommendation": null,
+            "adActivationType": "PAID_PACKAGE",
+            "categories": [
+              "Motoryzacja",
+              "Części samochodowe",
+              "Osobowe"
+            ],
+            "daysToExpire": 22,
+            "isRecommended": false,
+            "reposting": false,
+            "sku": "SKU_CODE_1",
+            "location": {
+              "name": "Warszawa, Praga-Południe, Mazowieckie",
+              "__typename": "MyAdsAdLocation"
+            },
+            "__typename": "MyAdsAd",
+            "allowCancellation": false,
+            "hasConfirmedDeliveryOrder": false,
+            "crosslistingInfo": []
+          },
+          {
+            "activatedAt": "2026-08-15T06:55:41+00:00",
+            "canRefreshForFree": false,
+            "categoryId": 1399,
+            "currency": "PLN",
+            "editable": true,
+            "id": 1091205641,
+            "isJob": false,
+            "isCalendarEnabled": false,
+            "isPartnerAd": false,
+            "photos": [
+              "https://ireland.apollo.olxcdn.com/v1/files/wd0lvvkltdo3-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/au5nrxl98vrn3-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/vfhwmo616id13-PL/image"
+            ],
+            "price": "90",
+            "priceType": "PRICE",
+            "status": "ACTIVE",
+            "title": "GLYCO Panewki korbowodowe 2.3 JTD 71-4080/4 STD Iveco Daily Fiat Ducato Peugot 309",
+            "validTo": "2026-09-14T06:53:26+00:00",
+            "autoReposting": null,
+            "categoryLevels": [
+              {
+                "id": 5,
+                "name": "Motoryzacja",
+                "level": "L1",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 82,
+                "name": "Części samochodowe",
+                "level": "L2",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 1399,
+                "name": "Osobowe",
+                "level": "L3",
+                "__typename": "MyAdsAdCategory"
+              }
+            ],
+            "delivery": {
+              "eligibleForDelivery": true,
+              "hasDelivery": true,
+              "courier": null,
+              "rock": {
+                "isEligible": true,
+                "isManageable": false,
+                "__typename": "Rock"
+              },
+              "__typename": "MyAdsDelivery"
+            },
+            "messageCounters": {
+              "total": 0,
+              "new": 0,
+              "__typename": "MyAdsMsgCounters"
+            },
+            "salary": null,
+            "stats": {
+              "views": 1,
+              "observed": 0,
+              "phones": 0,
+              "status": "OK",
+              "__typename": "MyAdsStats"
+            },
+            "vases": [],
+            "refreshPrice": {
+              "value": 4.29,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsRefreshPrice"
+            },
+            "promoPrice": {
+              "value": 8.57,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsProductPrice"
+            },
+            "hasSellerTakeRate": false,
+            "vasRecommendation": null,
+            "adActivationType": "PAID_PACKAGE",
+            "categories": [
+              "Motoryzacja",
+              "Części samochodowe",
+              "Osobowe"
+            ],
+            "daysToExpire": 22,
+            "isRecommended": false,
+            "reposting": false,
+            "sku": "SKU_CODE_1",
+            "location": {
+              "name": "Warszawa, Praga-Południe, Mazowieckie",
+              "__typename": "MyAdsAdLocation"
+            },
+            "__typename": "MyAdsAd",
+            "allowCancellation": false,
+            "hasConfirmedDeliveryOrder": false,
+            "crosslistingInfo": []
+          },
+          {
+            "activatedAt": "2026-08-15T06:37:24+00:00",
+            "canRefreshForFree": false,
+            "categoryId": 1265,
+            "currency": "PLN",
+            "editable": true,
+            "id": 1091204403,
+            "isJob": false,
+            "isCalendarEnabled": false,
+            "isPartnerAd": false,
+            "photos": [
+              "https://ireland.apollo.olxcdn.com/v1/files/helal0x2ydfc-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/hoc0snhjt15d-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/wwu61b6fkoni-PL/image"
+            ],
+            "price": "89",
+            "priceType": "PRICE",
+            "status": "ACTIVE",
+            "title": "Sworzeń wahacza SB-N252 555 NISSAN Navara Patrol ARMADA MK",
+            "validTo": "2026-09-14T06:35:00+00:00",
+            "autoReposting": null,
+            "categoryLevels": [
+              {
+                "id": 757,
+                "name": "Rolnictwo",
+                "level": "L1",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 1265,
+                "name": "Części do maszyn rolniczych",
+                "level": "L2",
+                "__typename": "MyAdsAdCategory"
+              }
+            ],
+            "delivery": {
+              "eligibleForDelivery": true,
+              "hasDelivery": true,
+              "courier": null,
+              "rock": {
+                "isEligible": true,
+                "isManageable": false,
+                "__typename": "Rock"
+              },
+              "__typename": "MyAdsDelivery"
+            },
+            "messageCounters": {
+              "total": 0,
+              "new": 0,
+              "__typename": "MyAdsMsgCounters"
+            },
+            "salary": null,
+            "stats": {
+              "views": 1,
+              "observed": 0,
+              "phones": 0,
+              "status": "OK",
+              "__typename": "MyAdsStats"
+            },
+            "vases": [],
+            "refreshPrice": {
+              "value": 3.29,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsRefreshPrice"
+            },
+            "promoPrice": {
+              "value": 5.25,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsProductPrice"
+            },
+            "hasSellerTakeRate": false,
+            "vasRecommendation": null,
+            "adActivationType": "FREE",
+            "categories": [
+              "Rolnictwo",
+              "Części do maszyn rolniczych"
+            ],
+            "daysToExpire": 22,
+            "isRecommended": false,
+            "reposting": false,
+            "sku": "SKU_CODE_1",
+            "location": {
+              "name": "Warszawa, Praga-Południe, Mazowieckie",
+              "__typename": "MyAdsAdLocation"
+            },
+            "__typename": "MyAdsAd",
+            "allowCancellation": false,
+            "hasConfirmedDeliveryOrder": false,
+            "crosslistingInfo": []
+          },
+          {
+            "activatedAt": "2026-08-09T05:24:29+00:00",
+            "canRefreshForFree": false,
+            "categoryId": 1399,
+            "currency": "PLN",
+            "editable": true,
+            "id": 1069323305,
+            "isJob": false,
+            "isCalendarEnabled": false,
+            "isPartnerAd": false,
+            "photos": [
+              "https://ireland.apollo.olxcdn.com/v1/files/ciifcvfj0arp2-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/q4lly34jxh131-PL/image"
+            ],
+            "price": "249",
+            "priceType": "ARRANGED",
+            "status": "ACTIVE",
+            "title": "Moduł lampy BMW G11 G12 G30 G31 G32 PRZETWORNICA LED 8492687",
+            "validTo": "2026-09-08T05:24:29+00:00",
+            "autoReposting": null,
+            "categoryLevels": [
+              {
+                "id": 5,
+                "name": "Motoryzacja",
+                "level": "L1",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 82,
+                "name": "Części samochodowe",
+                "level": "L2",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 1399,
+                "name": "Osobowe",
+                "level": "L3",
+                "__typename": "MyAdsAdCategory"
+              }
+            ],
+            "delivery": {
+              "eligibleForDelivery": true,
+              "hasDelivery": true,
+              "courier": null,
+              "rock": {
+                "isEligible": true,
+                "isManageable": false,
+                "__typename": "Rock"
+              },
+              "__typename": "MyAdsDelivery"
+            },
+            "messageCounters": {
+              "total": 0,
+              "new": 0,
+              "__typename": "MyAdsMsgCounters"
+            },
+            "salary": null,
+            "stats": {
+              "views": 1,
+              "observed": 0,
+              "phones": 0,
+              "status": "OK",
+              "__typename": "MyAdsStats"
+            },
+            "vases": [],
+            "refreshPrice": {
+              "value": 5.81,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsRefreshPrice"
+            },
+            "promoPrice": {
+              "value": 11.59,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsProductPrice"
+            },
+            "hasSellerTakeRate": false,
+            "vasRecommendation": null,
+            "adActivationType": "PAID_PACKAGE",
+            "categories": [
+              "Motoryzacja",
+              "Części samochodowe",
+              "Osobowe"
+            ],
+            "daysToExpire": 16,
+            "isRecommended": false,
+            "reposting": false,
+            "sku": "SKU_CODE_1",
+            "location": {
+              "name": "Warszawa, Praga-Południe, Mazowieckie",
+              "__typename": "MyAdsAdLocation"
+            },
+            "__typename": "MyAdsAd",
+            "allowCancellation": false,
+            "hasConfirmedDeliveryOrder": false,
+            "crosslistingInfo": []
+          },
+          {
+            "activatedAt": "2026-08-09T05:24:29+00:00",
+            "canRefreshForFree": false,
+            "categoryId": 1335,
+            "currency": "PLN",
+            "editable": true,
+            "id": 1070538673,
+            "isJob": false,
+            "isCalendarEnabled": false,
+            "isPartnerAd": false,
+            "photos": [
+              "https://ireland.apollo.olxcdn.com/v1/files/4369lgnicqci-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/g8e12es0pgde3-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/1psxejzb7hfr-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/5i6m7wqrp4bv1-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/0l7x85vsubb91-PL/image"
+            ],
+            "price": "2499",
+            "priceType": "PRICE",
+            "status": "ACTIVE",
+            "title": "Nowy kask Shoei X-SPR PRO Proxy TC-10 + GRATISY",
+            "validTo": "2026-09-08T05:24:29+00:00",
+            "autoReposting": null,
+            "categoryLevels": [
+              {
+                "id": 5,
+                "name": "Motoryzacja",
+                "level": "L1",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 1335,
+                "name": "Części motocyklowe",
+                "level": "L2",
+                "__typename": "MyAdsAdCategory"
+              }
+            ],
+            "delivery": {
+              "eligibleForDelivery": true,
+              "hasDelivery": true,
+              "courier": null,
+              "rock": {
+                "isEligible": true,
+                "isManageable": false,
+                "__typename": "Rock"
+              },
+              "__typename": "MyAdsDelivery"
+            },
+            "messageCounters": {
+              "total": 1,
+              "new": 0,
+              "__typename": "MyAdsMsgCounters"
+            },
+            "salary": null,
+            "stats": {
+              "views": 261,
+              "observed": 2,
+              "phones": 0,
+              "status": "OK",
+              "__typename": "MyAdsStats"
+            },
+            "vases": [],
+            "refreshPrice": {
+              "value": 7.56,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsRefreshPrice"
+            },
+            "promoPrice": {
+              "value": 15.06,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsProductPrice"
+            },
+            "hasSellerTakeRate": false,
+            "vasRecommendation": null,
+            "adActivationType": "PAID_PACKAGE",
+            "categories": [
+              "Motoryzacja",
+              "Części motocyklowe"
+            ],
+            "daysToExpire": 16,
+            "isRecommended": false,
+            "reposting": false,
+            "sku": "SKU_CODE_1",
+            "location": {
+              "name": "Warszawa, Praga-Południe, Mazowieckie",
+              "__typename": "MyAdsAdLocation"
+            },
+            "__typename": "MyAdsAd",
+            "allowCancellation": false,
+            "hasConfirmedDeliveryOrder": false,
+            "crosslistingInfo": []
+          },
+          {
+            "activatedAt": "2026-07-27T07:56:57+00:00",
+            "canRefreshForFree": false,
+            "categoryId": 1399,
+            "currency": "PLN",
+            "editable": true,
+            "id": 1087625357,
+            "isJob": false,
+            "isCalendarEnabled": false,
+            "isPartnerAd": false,
+            "photos": [
+              "https://ireland.apollo.olxcdn.com/v1/files/ban90f4hqv273-PL/image",
+              "https://ireland.apollo.olxcdn.com/v1/files/n7cbsally2to2-PL/image"
+            ],
+            "price": "1000",
+            "priceType": "PRICE",
+            "status": "ACTIVE",
+            "title": "Dach tył błotniki Golf 7 7R",
+            "validTo": "2026-08-26T07:54:19+00:00",
+            "autoReposting": null,
+            "categoryLevels": [
+              {
+                "id": 5,
+                "name": "Motoryzacja",
+                "level": "L1",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 82,
+                "name": "Części samochodowe",
+                "level": "L2",
+                "__typename": "MyAdsAdCategory"
+              },
+              {
+                "id": 1399,
+                "name": "Osobowe",
+                "level": "L3",
+                "__typename": "MyAdsAdCategory"
+              }
+            ],
+            "delivery": {
+              "eligibleForDelivery": true,
+              "hasDelivery": false,
+              "courier": null,
+              "rock": {
+                "isEligible": true,
+                "isManageable": false,
+                "__typename": "Rock"
+              },
+              "__typename": "MyAdsDelivery"
+            },
+            "messageCounters": {
+              "total": 0,
+              "new": 0,
+              "__typename": "MyAdsMsgCounters"
+            },
+            "salary": null,
+            "stats": {
+              "views": 5,
+              "observed": 0,
+              "phones": 2,
+              "status": "OK",
+              "__typename": "MyAdsStats"
+            },
+            "vases": [],
+            "refreshPrice": {
+              "value": 6.68,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsRefreshPrice"
+            },
+            "promoPrice": {
+              "value": 13.33,
+              "currencySymbol": "zł",
+              "__typename": "MyAdsProductPrice"
+            },
+            "hasSellerTakeRate": false,
+            "vasRecommendation": null,
+            "adActivationType": "PAID_SINGLE",
+            "categories": [
+              "Motoryzacja",
+              "Części samochodowe",
+              "Osobowe"
+            ],
+            "daysToExpire": 3,
+            "isRecommended": false,
+            "reposting": false,
+            "sku": "SKU_CODE_1",
+            "location": {
+              "name": "Warszawa, Praga-Południe, Mazowieckie",
+              "__typename": "MyAdsAdLocation"
+            },
+            "__typename": "MyAdsAd",
+            "allowCancellation": false,
+            "hasConfirmedDeliveryOrder": false,
+            "crosslistingInfo": []
+          }
+        ],
+        "__typename": "MyAdsAds"
+      },
+      "__typename": "MyAds"
+    }
+  }
+}

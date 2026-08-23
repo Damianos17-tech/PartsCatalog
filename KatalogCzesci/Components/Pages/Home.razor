@@ -1,0 +1,34 @@
+﻿@page "/"
+@using KatalogCzesci.Models
+@using KatalogCzesci.Services
+@inject CatalogService CatalogService
+
+<PageTitle>Katalog części</PageTitle>
+
+<h1>Katalog części</h1>
+
+@if (ads == null)
+{
+    <p>Wczytywanie...</p>
+}
+else
+{
+    <p>Znaleziono ogłoszeń: <strong>@ads.Count</strong></p>
+
+    @foreach (var ad in ads)
+    {
+        <div>
+            <strong>@ad.Title</strong>
+            — @ad.Price zł
+        </div>
+    }
+}
+
+@code {
+    private List<Ad>? ads;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ads = await CatalogService.GetAdsAsync();
+    }
+}
