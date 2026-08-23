@@ -1,4 +1,7 @@
-﻿@page "/"
+﻿
+@page "/"
+@rendermode InteractiveServer
+
 @using KatalogCzesci.Models
 @using KatalogCzesci.Services
 @inject CatalogService CatalogService
@@ -24,24 +27,95 @@
 
             @foreach (var ad in ads)
             {
+                var photoCount = ad.Photos?.Count ?? 0;
+                var currentIndex = currentPhotoIndex.GetValueOrDefault(ad.Id, 0);
+
                 <div class="col">
 
                     <div class="card h-100 shadow-sm">
 
-                        @if (ad.Photos != null && ad.Photos.Any())
+                        <!-- ========================= -->
+                        <!-- ZDJĘCIA -->
+                        <!-- ========================= -->
+                        @if (photoCount > 0)
                         {
-                            <img src="@ad.Photos.First()"
-                                 class="card-img-top"
-                                 alt="@ad.Title"
-                                 style="height: 220px; object-fit: contain; padding: 10px;" />
+                            <div class="position-relative bg-white"
+                                 style="height: 220px;">
+
+                                <img src="@GetImagePath(ad.Id, currentIndex)"
+                                     alt="@ad.Title"
+                                     class="w-100 h-100"
+                                     style="object-fit: contain; padding: 10px;" />
+
+                                @if (photoCount > 1)
+                                {
+                                    <!-- LEWA STRZAŁKA -->
+
+                                    <button type="button"
+                                            class="position-absolute top-50 start-0 translate-middle-y"
+                                            style="margin-left: 10px;
+                                                                   width: 42px;
+                                                                   height: 42px;
+                                                                   border: none;
+                                                                   border-radius: 6px;
+                                                                   background-color: #0d6efd;
+                                                                   color: white;
+                                                                   font-size: 30px;
+                                                                   line-height: 35px;
+                                                                   cursor: pointer;
+                                                                   box-shadow: 0 2px 6px rgba(0,0,0,0.25);"
+                                            @onclick="() => PreviousPhoto(ad.Id, photoCount)">
+                                        ‹
+                                    </button>
+
+                                    <!-- PRAWA STRZAŁKA -->
+
+                                    <button type="button"
+                                            class="position-absolute top-50 end-0 translate-middle-y"
+                                            style="margin-right: 10px;
+                                                                   width: 42px;
+                                                                   height: 42px;
+                                                                   border: none;
+                                                                   border-radius: 6px;
+                                                                   background-color: #0d6efd;
+                                                                   color: white;
+                                                                   font-size: 30px;
+                                                                   line-height: 35px;
+                                                                   cursor: pointer;
+                                                                   box-shadow: 0 2px 6px rgba(0,0,0,0.25);"
+                                            @onclick="() => NextPhoto(ad.Id, photoCount)">
+                                        ›
+                                    </button>
+
+                                    <!-- LICZNIK ZDJĘĆ -->
+
+                                    <div class="position-absolute bottom-0 start-50 translate-middle-x mb-2">
+
+                                        <span class="badge bg-dark">
+                                            @(currentIndex + 1) / @photoCount
+                                        </span>
+
+                                    </div>
+                                }
+
+                            </div>
                         }
                         else
                         {
                             <div class="d-flex align-items-center justify-content-center bg-light"
                                  style="height: 220px;">
-                                <span class="text-muted">Brak zdjęcia</span>
+
+                                <span class="text-muted">
+                                    Brak zdjęcia
+                                </span>
+
                             </div>
                         }
+
+
+                        <!-- ========================= -->
+                        <!-- INFORMACJE -->
+                        <!-- ========================= -->
 
                         <div class="card-body">
 
@@ -49,22 +123,31 @@
                                 @ad.Title
                             </h5>
 
-                            <p class="card-text text-muted">
-                                @string.Join(" / ", ad.Categories ?? [])
-                            </p>
+                            @if (ad.Categories?.Any() == true)
+                            {
+                                <p class="card-text text-muted">
+                                    @string.Join(" / ", ad.Categories)
+                                </p>
+                            }
 
                             <h4 class="mb-2">
                                 @ad.Price zł
                             </h4>
 
-                            @if (ad.Location != null)
+                            @if (ad.ActivatedAt.HasValue)
                             {
-                                <small class="text-muted">
-                                    📍 @ad.Location.Name
+                                <small class="text-md">
+                                    📅 Wystawiono:
+                                    @ad.ActivatedAt.Value.ToLocalTime().ToString("dd.MM.yyyy")
                                 </small>
                             }
 
                         </div>
+
+
+                        <!-- ========================= -->
+                        <!-- STOPKA -->
+                        <!-- ========================= -->
 
                         <div class="card-footer bg-white">
 
@@ -72,10 +155,10 @@
                                 ID: @ad.Id
                             </small>
 
-                            @if (ad.Photos != null && ad.Photos.Count > 1)
+                            @if (photoCount > 0)
                             {
                                 <small class="text-muted float-end">
-                                    📷 @ad.Photos.Count zdjęcia
+                                    📷 @photoCount
                                 </small>
                             }
 
@@ -91,11 +174,57 @@
 
 </div>
 
+
 @code {
+
     private List<Ad>? ads;
+
+    private readonly Dictionary<long, int> currentPhotoIndex = new();
+
 
     protected override async Task OnInitializedAsync()
     {
         ads = await CatalogService.GetAdsAsync();
     }
+
+
+    private string GetImagePath(long adId, int photoIndex)
+    {
+        return $"/images/{adId}/{photoIndex + 1:00}.jpg";
+    }
+
+
+    private void NextPhoto(long adId, int photoCount)
+    {
+        var currentIndex = currentPhotoIndex.GetValueOrDefault(adId, 0);
+
+        currentIndex++;
+
+        if (currentIndex >= photoCount)
+        {
+            currentIndex = 0;
+        }
+
+        currentPhotoIndex[adId] = currentIndex;
+
+        StateHasChanged();
+    }
+
+
+    private void PreviousPhoto(long adId, int photoCount)
+    {
+        var currentIndex = currentPhotoIndex.GetValueOrDefault(adId, 0);
+
+        currentIndex--;
+
+        if (currentIndex < 0)
+        {
+            currentIndex = photoCount - 1;
+        }
+
+        currentPhotoIndex[adId] = currentIndex;
+
+        StateHasChanged();
+    }
+
 }

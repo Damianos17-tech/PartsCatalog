@@ -19,7 +19,8 @@ string jsonPath = Path.Combine(
 
 string imagesPath = Path.Combine(
     projectRoot,
-    "Images"
+    "wwwroot",
+    "images"
 );
 
 Console.WriteLine($"Katalog projektu:");

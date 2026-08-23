@@ -8,6 +8,8 @@ public class Ad
 
     public string Price { get; set; } = "";
 
+    public DateTime? ActivatedAt { get; set; }
+
     public List<string> Photos { get; set; } = [];
 
     public List<string> Categories { get; set; } = [];

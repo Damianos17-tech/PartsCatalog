@@ -17,7 +17,7 @@ public class CatalogService
         var filePath = Path.Combine(
             _environment.ContentRootPath,
             "Data",
-            "katalog2.json");
+            "katalog.json");
 
         if (!File.Exists(filePath))
         {
