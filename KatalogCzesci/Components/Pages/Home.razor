@@ -5,24 +5,91 @@
 
 <PageTitle>Katalog części</PageTitle>
 
-<h1>Katalog części</h1>
+<div class="container py-4">
 
-@if (ads == null)
-{
-    <p>Wczytywanie...</p>
-}
-else
-{
-    <p>Znaleziono ogłoszeń: <strong>@ads.Count</strong></p>
+    <h1 class="mb-2">Katalog części</h1>
 
-    @foreach (var ad in ads)
+    @if (ads == null)
     {
-        <div>
-            <strong>@ad.Title</strong>
-            — @ad.Price zł
+        <p>Wczytywanie...</p>
+    }
+    else
+    {
+        <p class="text-muted mb-4">
+            Znaleziono ogłoszeń:
+            <strong>@ads.Count</strong>
+        </p>
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+
+            @foreach (var ad in ads)
+            {
+                <div class="col">
+
+                    <div class="card h-100 shadow-sm">
+
+                        @if (ad.Photos != null && ad.Photos.Any())
+                        {
+                            <img src="@ad.Photos.First()"
+                                 class="card-img-top"
+                                 alt="@ad.Title"
+                                 style="height: 220px; object-fit: contain; padding: 10px;" />
+                        }
+                        else
+                        {
+                            <div class="d-flex align-items-center justify-content-center bg-light"
+                                 style="height: 220px;">
+                                <span class="text-muted">Brak zdjęcia</span>
+                            </div>
+                        }
+
+                        <div class="card-body">
+
+                            <h5 class="card-title">
+                                @ad.Title
+                            </h5>
+
+                            <p class="card-text text-muted">
+                                @string.Join(" / ", ad.Categories ?? [])
+                            </p>
+
+                            <h4 class="mb-2">
+                                @ad.Price zł
+                            </h4>
+
+                            @if (ad.Location != null)
+                            {
+                                <small class="text-muted">
+                                    📍 @ad.Location.Name
+                                </small>
+                            }
+
+                        </div>
+
+                        <div class="card-footer bg-white">
+
+                            <small class="text-muted">
+                                ID: @ad.Id
+                            </small>
+
+                            @if (ad.Photos != null && ad.Photos.Count > 1)
+                            {
+                                <small class="text-muted float-end">
+                                    📷 @ad.Photos.Count zdjęcia
+                                </small>
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
         </div>
     }
-}
+
+</div>
 
 @code {
     private List<Ad>? ads;
