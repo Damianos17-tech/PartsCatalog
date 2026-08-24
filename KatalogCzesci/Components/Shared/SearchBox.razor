@@ -1,0 +1,88 @@
+﻿```razor
+@using KatalogCzesci.Models
+@using KatalogCzesci.Services
+
+@inject AdSearchService SearchService
+
+<div class="mb-4">
+
+    <div class="input-group input-group-lg">
+
+        <span class="input-group-text bg-white">
+            🔎
+        </span>
+
+        <input class="form-control"
+               placeholder="Szukaj części, marki, modelu..."
+               value="@SearchQuery"
+               @oninput="OnSearchChanged" />
+
+        @if (!string.IsNullOrWhiteSpace(SearchQuery))
+        {
+            <button type="button"
+                    class="btn btn-outline-secondary"
+                    @onclick="ClearSearch">
+                ✕
+            </button>
+        }
+
+    </div>
+
+</div>
+
+
+@code {
+
+    [Parameter]
+    public IEnumerable<Ad> Ads { get; set; } = [];
+
+
+    [Parameter]
+    public EventCallback<List<Ad>> ResultsChanged { get; set; }
+
+
+    private string SearchQuery = "";
+
+
+    private async Task OnSearchChanged(
+        ChangeEventArgs e)
+    {
+        SearchQuery =
+            e.Value?.ToString() ?? "";
+
+
+        var results =
+            SearchService.Search(
+                Ads,
+                SearchQuery);
+
+
+        await ResultsChanged.InvokeAsync(
+            results);
+    }
+
+
+    private async Task ClearSearch()
+    {
+        SearchQuery = "";
+
+
+        await ResultsChanged.InvokeAsync(
+            Ads.ToList());
+    }
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var results =
+            SearchService.Search(
+                Ads,
+                SearchQuery);
+
+
+        await ResultsChanged.InvokeAsync(
+            results);
+    }
+
+}
+```

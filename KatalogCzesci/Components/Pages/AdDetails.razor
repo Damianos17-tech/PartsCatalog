@@ -4,9 +4,11 @@
 
 @using KatalogCzesci.Models
 @using KatalogCzesci.Services
+@using Microsoft.JSInterop
 
 @inject CatalogService CatalogService
 @inject NavigationManager Navigation
+@inject IJSRuntime JS
 
 <PageTitle>
     @(ad?.Title ?? "Ogłoszenie")
@@ -116,9 +118,7 @@
                         <div class="position-absolute bottom-0 start-50 translate-middle-x mb-3">
 
                             <span class="badge bg-dark">
-
                                 @(currentIndex + 1) / @photoCount
-
                             </span>
 
                         </div>
@@ -132,9 +132,7 @@
                      style="height: 300px;">
 
                     <span class="text-muted">
-
                         Brak zdjęć
-
                     </span>
 
                 </div>
@@ -154,9 +152,7 @@
                 <!-- TYTUŁ -->
 
                 <h1 class="mb-3">
-
                     @ad.Title
-
                 </h1>
 
 
@@ -179,13 +175,9 @@
                 @if (ad.Categories?.Any() == true)
                 {
                     <p class="text-muted mb-3">
-
-                        @string.Join(
-                        " / ",
-                                ad.Categories)
-
-            </p>
-                        }
+                        @string.Join(" / ", ad.Categories)
+                    </p>
+                }
 
 
                 <!-- OPIS -->
@@ -194,22 +186,16 @@
                     Opis
                 </h4>
 
-
-                @if (string.IsNullOrWhiteSpace(
-                            ad.Description))
+                @if (string.IsNullOrWhiteSpace(ad.Description))
                 {
                     <p class="text-muted">
-
                         Brak opisu.
-
                     </p>
                 }
                 else
                 {
                     <div style="white-space: pre-line;">
-
                         @ad.Description
-
                     </div>
                 }
 
@@ -219,9 +205,7 @@
                 <div class="mt-4">
 
                     <h2>
-
                         @ad.Price.ToString("0.00") zł
-
                     </h2>
 
                 </div>
@@ -231,13 +215,7 @@
                 @if (ad.ActivatedAt.HasValue)
                 {
                     <p class="text-muted mt-3">
-
-                        📅 Wystawiono:
-
-                        @ad.ActivatedAt.Value
-                        .ToLocalTime()
-                        .ToString("dd.MM.yyyy")
-
+                        📅 Wystawiono: @ad.ActivatedAt.Value.ToLocalTime().ToString("dd.MM.yyyy")
                     </p>
                 }
 
@@ -247,7 +225,6 @@
                 <small class="text-muted">
 
                     ID:
-
                     @(ad.OlxId?.ToString() ?? ad.Id.ToString("N")[..8])
 
                 </small>
@@ -296,6 +273,19 @@
                         </button>
                     }
 
+
+                    <!-- USUWANIE - TYLKO LOKALNE -->
+                    @if (!ad.OlxId.HasValue)
+                    {
+                        <button type="button"
+                                class="btn btn-outline-danger"
+                                @onclick="DeleteAd">
+
+                            🗑 Usuń ogłoszenie
+
+                        </button>
+                    }
+
                 </div>
 
             </div>
@@ -337,8 +327,7 @@
                 x => x.Id == Id);
 
 
-        // Jeżeli nie znaleziono,
-        // sprawdzamy ogłoszenia lokalne.
+        // Jeśli nie znaleziono, szukamy lokalnych.
 
         if (ad == null)
         {
@@ -351,7 +340,7 @@
         }
 
 
-        // Nie znaleziono.
+        // Nie znaleziono ogłoszenia.
 
         if (ad == null)
         {
@@ -361,7 +350,7 @@
 
 
     // =================================================
-    // ZDJĘCIE
+    // ŚCIEŻKA ZDJĘCIA
     // =================================================
 
     private string GetImagePath(
@@ -372,7 +361,6 @@
             ad.OlxId?.ToString()
             ??
             ad.Id.ToString();
-
 
         return
             $"/images/{folderId}/{photoIndex + 1:00}.jpg";
@@ -390,9 +378,7 @@
             return;
         }
 
-
         currentIndex++;
-
 
         if (currentIndex >= photoCount)
         {
@@ -412,9 +398,7 @@
             return;
         }
 
-
         currentIndex--;
-
 
         if (currentIndex < 0)
         {
@@ -446,14 +430,10 @@
             return;
         }
 
-
         bool success;
-
 
         if (ad.OlxId.HasValue)
         {
-            // OLX
-
             success =
                 await CatalogService.SetOlxAdStatusAsync(
                     ad.Id,
@@ -461,14 +441,11 @@
         }
         else
         {
-            // LOCAL
-
             success =
                 await CatalogService.SetLocalAdStatusAsync(
                     ad.Id,
                     AdStatus.Sold);
         }
-
 
         if (success)
         {
@@ -489,14 +466,10 @@
             return;
         }
 
-
         bool success;
-
 
         if (ad.OlxId.HasValue)
         {
-            // OLX
-
             success =
                 await CatalogService.SetOlxAdStatusAsync(
                     ad.Id,
@@ -504,19 +477,62 @@
         }
         else
         {
-            // LOCAL
-
             success =
                 await CatalogService.SetLocalAdStatusAsync(
                     ad.Id,
                     AdStatus.Active);
         }
 
-
         if (success)
         {
             ad.Status =
                 AdStatus.Active;
+        }
+    }
+
+
+    // =================================================
+    // USUWANIE LOKALNEGO OGŁOSZENIA
+    // =================================================
+
+    private async Task DeleteAd()
+    {
+        if (ad == null)
+        {
+            return;
+        }
+
+
+        // Dodatkowe zabezpieczenie:
+        // ogłoszeń OLX nie usuwamy z tego miejsca.
+
+        if (ad.OlxId.HasValue)
+        {
+            return;
+        }
+
+
+        var confirmed =
+            await JS.InvokeAsync<bool>(
+                "confirm",
+                "Czy na pewno chcesz usunąć to lokalne ogłoszenie wraz ze zdjęciami?");
+
+
+        if (!confirmed)
+        {
+            return;
+        }
+
+
+        var success =
+            await CatalogService.DeleteLocalAdAsync(
+                ad.Id);
+
+
+        if (success)
+        {
+            Navigation.NavigateTo(
+                "/lokalne");
         }
     }
 

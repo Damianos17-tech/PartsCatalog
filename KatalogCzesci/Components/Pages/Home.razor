@@ -6,6 +6,7 @@
 @using KatalogCzesci.Services
 
 @inject CatalogService CatalogService
+@inject AdSearchService SearchService
 @inject NavigationManager Navigation
 
 <PageTitle>Katalog części</PageTitle>
@@ -16,32 +17,101 @@
         Katalog części
     </h1>
 
+
     @if (ads == null)
     {
         <p>Wczytywanie...</p>
     }
     else
     {
-        <p class="text-muted mb-4">
-            Ogłoszenia z OLX:
-            <strong>@ads.Count</strong>
+        <!-- ================================================= -->
+        <!-- INFORMACJE -->
+        <!-- ================================================= -->
+
+        <p class="text-muted mb-3">
+
+            @if (string.IsNullOrWhiteSpace(searchQuery))
+            {
+                <span>
+                    Ogłoszenia z OLX:
+                    <strong>@ads.Count</strong>
+                </span>
+            }
+            else
+            {
+                <span>
+                    Znaleziono:
+                    <strong>@filteredAds.Count</strong>
+                    z @ads.Count
+                </span>
+            }
+
         </p>
+
+
+        <!-- ================================================= -->
+        <!-- WYSZUKIWARKA -->
+        <!-- ================================================= -->
+
+        <div class="mb-4">
+
+            <div class="input-group input-group-lg">
+
+                <span class="input-group-text bg-white">
+                    🔎
+                </span>
+
+
+                <input class="form-control"
+                       placeholder="Szukaj części, marki, modelu..."
+                       value="@searchQuery"
+                       @oninput="OnSearchChanged" />
+
+
+                @if (!string.IsNullOrWhiteSpace(searchQuery))
+                {
+                    <button type="button"
+                            class="btn btn-outline-secondary"
+                            @onclick="ClearSearch">
+
+                        ✕
+
+                    </button>
+                }
+
+            </div>
+
+        </div>
 
 
         <!-- ================================================= -->
         <!-- OGŁOSZENIA Z OLX -->
         <!-- ================================================= -->
-        @if (ads.Count == 0)
+        @if (filteredAds.Count == 0)
         {
             <div class="alert alert-light border">
-                Brak ogłoszeń z OLX.
+
+                @if (string.IsNullOrWhiteSpace(searchQuery))
+                {
+                    <span>
+                        Brak ogłoszeń z OLX.
+                    </span>
+                }
+                else
+                {
+                    <span>
+                        Nie znaleziono ogłoszeń dla:
+                        <strong>@searchQuery</strong>
+                    </span>
+                }
+
             </div>
         }
         else
         {
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
 
-                @foreach (var ad in ads)
+                @foreach (var ad in filteredAds)
                 {
                     var photoCount =
                     ad.Photos?.Count ?? 0;
@@ -50,6 +120,7 @@
                     currentPhotoIndex.GetValueOrDefault(
                     ad.Id,
                     0);
+
 
                     <div class="col">
 
@@ -181,11 +252,9 @@
                                 @if (ad.Categories?.Any() == true)
                                 {
                                     <p class="card-text text-muted mb-2">
-                                        @string.Join(
-                                        " / ",
-                                                ad.Categories)
-                    </p>
-                                        }
+                                        @string.Join(" / ", ad.Categories)
+                                    </p>
+                                }
 
 
                                 <!-- CENA -->
@@ -199,8 +268,7 @@
                                 @if (ad.ActivatedAt.HasValue)
                                 {
                                     <small class="text-md">
-                                        📅 Dodano:
-                                        @ad.ActivatedAt.Value.ToLocalTime().ToString("dd.MM.yyyy")
+                                        📅 Dodano: @ad.ActivatedAt.Value.ToLocalTime().ToString("dd.MM.yyyy")
                                     </small>
                                 }
 
@@ -242,6 +310,10 @@
 
     private List<Ad>? ads;
 
+    private List<Ad> filteredAds = [];
+
+    private string searchQuery = "";
+
     private readonly Dictionary<Guid, int>
         currentPhotoIndex = new();
 
@@ -254,6 +326,53 @@
     {
         ads =
             await CatalogService.GetOlxAdsAsync();
+
+        filteredAds =
+            ads.ToList();
+    }
+
+
+    // =================================================
+    // WYSZUKIWANIE
+    // =================================================
+
+    private Task OnSearchChanged(
+        ChangeEventArgs e)
+    {
+        searchQuery =
+            e.Value?.ToString() ?? "";
+
+        ApplySearch();
+
+        return InvokeAsync(
+            StateHasChanged);
+    }
+
+
+    private Task ClearSearch()
+    {
+        searchQuery = "";
+
+        ApplySearch();
+
+        return InvokeAsync(
+            StateHasChanged);
+    }
+
+
+    private void ApplySearch()
+    {
+        if (ads == null)
+        {
+            filteredAds = [];
+
+            return;
+        }
+
+        filteredAds =
+            SearchService.Search(
+                ads,
+                searchQuery);
     }
 
 
@@ -261,7 +380,8 @@
     // OTWÓRZ OGŁOSZENIE
     // =================================================
 
-    private void OpenAd(Guid adId)
+    private void OpenAd(
+        Guid adId)
     {
         Navigation.NavigateTo(
             $"/ogloszenie/{adId}");
@@ -330,7 +450,8 @@
 
         if (currentIndex < 0)
         {
-            currentIndex = photoCount - 1;
+            currentIndex =
+                photoCount - 1;
         }
 
         currentPhotoIndex[adId] =
@@ -340,4 +461,3 @@
     }
 
 }
-

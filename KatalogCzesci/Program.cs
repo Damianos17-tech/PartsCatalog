@@ -1,9 +1,11 @@
 using KatalogCzesci.Components;
 using KatalogCzesci.Services;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<CatalogService>();
+builder.Services.AddScoped<AdSearchService>();
 
 
 // Add services to the container.
