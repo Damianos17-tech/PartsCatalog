@@ -4,6 +4,7 @@
 
 @using KatalogCzesci.Models
 @using KatalogCzesci.Services
+
 @inject CatalogService CatalogService
 @inject NavigationManager Navigation
 
@@ -19,18 +20,37 @@
     }
     else
     {
+        <!-- ================================================= -->
+        <!-- POWRÓT -->
+        <!-- ================================================= -->
+
         <button type="button"
                 class="btn btn-outline-secondary mb-4"
                 @onclick="GoBack">
-            ← Wróć do katalogu
+
+            ← Wróć
+
         </button>
 
+
+        <!-- ================================================= -->
+        <!-- STATUS -->
+        <!-- ================================================= -->
         @if (ad.Status == AdStatus.Sold)
         {
             <div class="alert alert-danger mb-4">
-                <strong>SPRZEDANE</strong>
+
+                <strong>
+                    SPRZEDANE
+                </strong>
+
             </div>
         }
+
+
+        <!-- ================================================= -->
+        <!-- ZDJĘCIA -->
+        <!-- ================================================= -->
 
         <div class="card shadow-sm mb-4">
 
@@ -44,8 +64,11 @@
                          class="w-100 h-100"
                          style="object-fit: contain; padding: 20px;" />
 
+
                     @if (photoCount > 1)
                     {
+                        <!-- LEWA STRZAŁKA -->
+
                         <button type="button"
                                 class="position-absolute top-50 start-0 translate-middle-y"
                                 style="margin-left: 15px;
@@ -60,8 +83,13 @@
                                                    cursor: pointer;
                                                    box-shadow: 0 2px 6px rgba(0,0,0,0.25);"
                                 @onclick="PreviousPhoto">
+
                             ‹
+
                         </button>
+
+
+                        <!-- PRAWA STRZAŁKA -->
 
                         <button type="button"
                                 class="position-absolute top-50 end-0 translate-middle-y"
@@ -77,94 +105,184 @@
                                                    cursor: pointer;
                                                    box-shadow: 0 2px 6px rgba(0,0,0,0.25);"
                                 @onclick="NextPhoto">
+
                             ›
+
                         </button>
 
+
+                        <!-- LICZNIK -->
+
                         <div class="position-absolute bottom-0 start-50 translate-middle-x mb-3">
+
                             <span class="badge bg-dark">
+
                                 @(currentIndex + 1) / @photoCount
+
                             </span>
+
                         </div>
                     }
+
                 </div>
             }
             else
             {
                 <div class="d-flex align-items-center justify-content-center bg-light"
                      style="height: 300px;">
+
                     <span class="text-muted">
+
                         Brak zdjęć
+
                     </span>
+
                 </div>
             }
+
         </div>
+
+
+        <!-- ================================================= -->
+        <!-- INFORMACJE -->
+        <!-- ================================================= -->
 
         <div class="card shadow-sm">
 
             <div class="card-body">
 
+                <!-- TYTUŁ -->
+
                 <h1 class="mb-3">
+
                     @ad.Title
+
                 </h1>
 
+
+                <!-- ŹRÓDŁO -->
+                @if (ad.OlxId.HasValue)
+                {
+                    <span class="badge bg-primary mb-3">
+                        OLX
+                    </span>
+                }
+                else
+                {
+                    <span class="badge bg-secondary mb-3">
+                        LOKALNE / ADMIN
+                    </span>
+                }
+
+
+                <!-- KATEGORIE -->
                 @if (ad.Categories?.Any() == true)
                 {
                     <p class="text-muted mb-3">
-                        @string.Join(" / ", ad.Categories)
-                    </p>
-                }
 
-                <h4>Opis</h4>
+                        @string.Join(
+                        " / ",
+                                ad.Categories)
 
-                @if (string.IsNullOrWhiteSpace(ad.Description))
+            </p>
+                        }
+
+
+                <!-- OPIS -->
+
+                <h4>
+                    Opis
+                </h4>
+
+
+                @if (string.IsNullOrWhiteSpace(
+                            ad.Description))
                 {
                     <p class="text-muted">
+
                         Brak opisu.
+
                     </p>
                 }
                 else
                 {
                     <div style="white-space: pre-line;">
+
                         @ad.Description
+
                     </div>
                 }
 
+
+                <!-- CENA -->
+
                 <div class="mt-4">
+
                     <h2>
+
                         @ad.Price.ToString("0.00") zł
+
                     </h2>
+
                 </div>
 
+
+                <!-- DATA -->
                 @if (ad.ActivatedAt.HasValue)
                 {
                     <p class="text-muted mt-3">
+
                         📅 Wystawiono:
-                        @ad.ActivatedAt.Value.ToLocalTime().ToString("dd.MM.yyyy")
+
+                        @ad.ActivatedAt.Value
+                        .ToLocalTime()
+                        .ToString("dd.MM.yyyy")
+
                     </p>
                 }
 
+
+                <!-- ID -->
+
                 <small class="text-muted">
-                    ID: @(ad.OlxId?.ToString() ?? "lokalne")
+
+                    ID:
+
+                    @(ad.OlxId?.ToString() ?? ad.Id.ToString("N")[..8])
+
                 </small>
 
             </div>
+
+
+            <!-- ================================================= -->
+            <!-- AKCJE -->
+            <!-- ================================================= -->
 
             <div class="card-footer bg-white">
 
                 <div class="d-flex gap-2 flex-wrap">
 
+                    <!-- EDYCJA -->
+
                     <button type="button"
                             class="btn btn-primary"
                             @onclick="EditAd">
+
                         ✏️ Edytuj
+
                     </button>
 
+
+                    <!-- STATUS -->
                     @if (ad.Status == AdStatus.Sold)
                     {
                         <button type="button"
                                 class="btn btn-success"
                                 @onclick="MarkAsActive">
+
                             ↩ Przywróć jako aktywne
+
                         </button>
                     }
                     else
@@ -172,7 +290,9 @@
                         <button type="button"
                                 class="btn btn-danger"
                                 @onclick="MarkAsSold">
+
                             ✓ Oznacz jako sprzedane
+
                         </button>
                     }
 
@@ -185,36 +305,83 @@
 
 </div>
 
+
 @code {
 
     [Parameter]
     public Guid Id { get; set; }
 
+
     private Ad? ad;
 
     private int currentIndex = 0;
+
 
     private int photoCount =>
         ad?.Photos?.Count ?? 0;
 
 
+    // =================================================
+    // ODCZYT
+    // =================================================
+
     protected override async Task OnInitializedAsync()
     {
-        var ads = await CatalogService.GetAdsAsync();
+        // Najpierw szukamy w ogłoszeniach OLX.
 
-        ad = ads.FirstOrDefault(x => x.Id == Id);
+        var olxAds =
+            await CatalogService.GetOlxAdsAsync();
+
+        ad =
+            olxAds.FirstOrDefault(
+                x => x.Id == Id);
+
+
+        // Jeżeli nie znaleziono,
+        // sprawdzamy ogłoszenia lokalne.
+
+        if (ad == null)
+        {
+            var localAds =
+                await CatalogService.GetLocalAdsAsync();
+
+            ad =
+                localAds.FirstOrDefault(
+                    x => x.Id == Id);
+        }
+
+
+        // Nie znaleziono.
+
+        if (ad == null)
+        {
+            Navigation.NavigateTo("/");
+        }
     }
 
 
-    private string GetImagePath(Ad ad, int photoIndex)
+    // =================================================
+    // ZDJĘCIE
+    // =================================================
+
+    private string GetImagePath(
+        Ad ad,
+        int photoIndex)
     {
         var folderId =
-            ad.OlxId?.ToString() ??
+            ad.OlxId?.ToString()
+            ??
             ad.Id.ToString();
 
-        return $"/images/{folderId}/{photoIndex + 1:00}.jpg";
+
+        return
+            $"/images/{folderId}/{photoIndex + 1:00}.jpg";
     }
 
+
+    // =================================================
+    // NEXT
+    // =================================================
 
     private void NextPhoto()
     {
@@ -223,7 +390,9 @@
             return;
         }
 
+
         currentIndex++;
+
 
         if (currentIndex >= photoCount)
         {
@@ -232,6 +401,10 @@
     }
 
 
+    // =================================================
+    // PREVIOUS
+    // =================================================
+
     private void PreviousPhoto()
     {
         if (photoCount <= 1)
@@ -239,20 +412,32 @@
             return;
         }
 
+
         currentIndex--;
+
 
         if (currentIndex < 0)
         {
-            currentIndex = photoCount - 1;
+            currentIndex =
+                photoCount - 1;
         }
     }
 
 
+    // =================================================
+    // EDYCJA
+    // =================================================
+
     private void EditAd()
     {
-        Navigation.NavigateTo($"/ogloszenie/{Id}/edytuj");
+        Navigation.NavigateTo(
+            $"/ogloszenie/{Id}/edytuj");
     }
 
+
+    // =================================================
+    // SPRZEDANE
+    // =================================================
 
     private async Task MarkAsSold()
     {
@@ -261,13 +446,41 @@
             return;
         }
 
-        await CatalogService.SetStatusAsync(
-            ad.Id,
-            AdStatus.Sold);
 
-        ad.Status = AdStatus.Sold;
+        bool success;
+
+
+        if (ad.OlxId.HasValue)
+        {
+            // OLX
+
+            success =
+                await CatalogService.SetOlxAdStatusAsync(
+                    ad.Id,
+                    AdStatus.Sold);
+        }
+        else
+        {
+            // LOCAL
+
+            success =
+                await CatalogService.SetLocalAdStatusAsync(
+                    ad.Id,
+                    AdStatus.Sold);
+        }
+
+
+        if (success)
+        {
+            ad.Status =
+                AdStatus.Sold;
+        }
     }
 
+
+    // =================================================
+    // AKTYWNE
+    // =================================================
 
     private async Task MarkAsActive()
     {
@@ -276,17 +489,52 @@
             return;
         }
 
-        await CatalogService.SetStatusAsync(
-            ad.Id,
-            AdStatus.Active);
 
-        ad.Status = AdStatus.Active;
+        bool success;
+
+
+        if (ad.OlxId.HasValue)
+        {
+            // OLX
+
+            success =
+                await CatalogService.SetOlxAdStatusAsync(
+                    ad.Id,
+                    AdStatus.Active);
+        }
+        else
+        {
+            // LOCAL
+
+            success =
+                await CatalogService.SetLocalAdStatusAsync(
+                    ad.Id,
+                    AdStatus.Active);
+        }
+
+
+        if (success)
+        {
+            ad.Status =
+                AdStatus.Active;
+        }
     }
 
 
+    // =================================================
+    // POWRÓT
+    // =================================================
+
     private void GoBack()
     {
-        Navigation.NavigateTo("/");
+        if (ad?.OlxId.HasValue == true)
+        {
+            Navigation.NavigateTo("/");
+        }
+        else
+        {
+            Navigation.NavigateTo("/lokalne");
+        }
     }
 
 }

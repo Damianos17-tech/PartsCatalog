@@ -1,0 +1,75 @@
+[
+  {
+    "Id": "7dcba24f-a5b3-413c-874b-19cb38ec3cea",
+    "OlxId": null,
+    "Title": "",
+    "Description": "",
+    "Price": 0,
+    "Photos": [
+      "01.jpg",
+      "02.jpg",
+      "03.jpg",
+      "04.jpg"
+    ],
+    "Categories": [],
+    "ActivatedAt": "2026-08-24T04:18:53.3322181+02:00",
+    "Status": 1
+  },
+  {
+    "Id": "5da2ded5-131b-4860-8c09-3e09c7b62d50",
+    "OlxId": null,
+    "Title": "OS\u0141ONA PRZEGUBU ZEWN\u0118TRZNEGO PRZ\u00D3D do PEUGEOT 206\u002B 207 208 3008 301 307 308",
+    "Description": "dsvdsvs",
+    "Price": 21,
+    "Photos": [
+      "01.jpg",
+      "02.jpg",
+      "03.jpg"
+    ],
+    "Categories": [],
+    "ActivatedAt": "2026-08-24T04:18:53.3530106+02:00",
+    "Status": 0
+  },
+  {
+    "Id": "ea8f67db-40fe-4470-b6a2-79b91f7f3d50",
+    "OlxId": null,
+    "Title": "",
+    "Description": "",
+    "Price": 10,
+    "Photos": [
+      "01.jpg",
+      "02.jpg",
+      "03.jpg"
+    ],
+    "Categories": [],
+    "ActivatedAt": "2026-08-24T04:19:04.5506061+02:00",
+    "Status": 0
+  },
+  {
+    "Id": "21bea6b1-a2bc-42a8-8940-99f5da8f5a34",
+    "OlxId": null,
+    "Title": "4x \u015Awiece Zap\u0142onowe Irydowe NGK IKR9J8 ALFA ROMEO GIULIETTA 1.4 T",
+    "Description": "\u015Bwiece",
+    "Price": 234,
+    "Photos": [
+      "01.jpg",
+      "02.jpg"
+    ],
+    "Categories": [],
+    "ActivatedAt": "2026-08-24T04:19:04.5618281+02:00",
+    "Status": 0
+  },
+  {
+    "Id": "99354fd1-2417-4c43-856b-f58602235402",
+    "OlxId": null,
+    "Title": "test3",
+    "Description": "qwerdfghyujiop[ok,jhmgbfdvszaZxcvbnmkjhngfbtgyhjmngbf",
+    "Price": 58,
+    "Photos": [
+      "01.jpg"
+    ],
+    "Categories": [],
+    "ActivatedAt": "2026-08-24T04:21:42.4708308+02:00",
+    "Status": 0
+  }
+]

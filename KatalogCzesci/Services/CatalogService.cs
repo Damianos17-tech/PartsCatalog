@@ -1,5 +1,6 @@
 ﻿
 using System.Text.Json;
+using Microsoft.AspNetCore.Components.Forms;
 using KatalogCzesci.Models;
 
 namespace KatalogCzesci.Services;
@@ -14,15 +15,16 @@ public class CatalogService
         WriteIndented = true
     };
 
+
     public CatalogService(IWebHostEnvironment environment)
     {
         _environment = environment;
     }
 
 
-    // --------------------------------------------------
+    // ==================================================
     // ŚCIEŻKI
-    // --------------------------------------------------
+    // ==================================================
 
     private string SourceCatalogPath =>
         Path.Combine(
@@ -30,68 +32,82 @@ public class CatalogService
             "Data",
             "katalog.json");
 
+    private string OlxCatalogPath =>
+        Path.Combine(
+            _environment.ContentRootPath,
+            "Data",
+            "ads-from-olx.json");
+
     private string LocalCatalogPath =>
         Path.Combine(
             _environment.ContentRootPath,
             "Data",
-            "catalog.local.json");
+            "ads-local.json");
 
 
-    // --------------------------------------------------
-    // PUBLICZNE API
-    // --------------------------------------------------
+    // ==================================================
+    // OGŁOSZENIA OLX
+    // ==================================================
 
-    public async Task<List<Ad>> GetAdsAsync()
+    public async Task<List<Ad>> GetOlxAdsAsync()
     {
-        // 1. Dodajemy tylko nowe ogłoszenia z katalog.json.
-        await ImportNewAdsAsync();
+        await ImportNewOlxAdsAsync();
+        await FillMissingOlxDataAsync();
 
-        // 2. Uzupełniamy tylko brakujące dane.
-        await FillMissingDataAsync();
-
-        // 3. Zwracamy nasz lokalny katalog.
-        return await LoadLocalCatalogAsync();
+        return await LoadOlxAdsAsync();
     }
 
 
-    // --------------------------------------------------
-    // IMPORT NOWYCH OGŁOSZEŃ
-    // --------------------------------------------------
+    // ==================================================
+    // OGŁOSZENIA LOKALNE / ADMIN
+    // ==================================================
 
-    public async Task<int> ImportNewAdsAsync()
+    public async Task<List<Ad>> GetLocalAdsAsync()
     {
-        var sourceAds = await LoadSourceAdsAsync();
-        var localAds = await LoadLocalCatalogAsync();
+        return await LoadLocalAdsAsync();
+    }
 
-        // Zbiór ID OLX, które już mamy lokalnie.
-        var existingOlxIds = localAds
+
+    // ==================================================
+    // IMPORT NOWYCH OGŁOSZEŃ OLX
+    // ==================================================
+
+    public async Task<int> ImportNewOlxAdsAsync()
+    {
+        var sourceAds =
+            await LoadSourceAdsAsync();
+
+        var olxAds =
+            await LoadOlxAdsAsync();
+
+
+        var existingOlxIds = olxAds
             .Where(ad => ad.OlxId.HasValue)
             .Select(ad => ad.OlxId!.Value)
             .ToHashSet();
 
+
         var addedCount = 0;
+
 
         foreach (var sourceAd in sourceAds)
         {
-            // Jeżeli ogłoszenie już istnieje lokalnie,
-            // niczego nie nadpisujemy.
+            // Ogłoszenie już jest w naszym
+            // lokalnym katalogu OLX.
             if (existingOlxIds.Contains(sourceAd.Id))
             {
                 continue;
             }
 
-            // Nowe ogłoszenie z katalog.json.
+
             var localAd = new Ad
             {
-                // Nasze własne ID.
                 Id = Guid.NewGuid(),
 
-                // Oryginalne ID OLX.
                 OlxId = sourceAd.Id,
 
                 Title = sourceAd.Title ?? "",
 
-                // Na razie opis pozostaje pusty.
                 Description = "",
 
                 Price = ParsePrice(sourceAd.Price),
@@ -105,47 +121,54 @@ public class CatalogService
                 Status = AdStatus.Active
             };
 
-            localAds.Add(localAd);
+
+            olxAds.Add(localAd);
 
             existingOlxIds.Add(sourceAd.Id);
 
             addedCount++;
         }
 
+
         if (addedCount > 0)
         {
-            await SaveLocalCatalogAsync(localAds);
+            await SaveOlxAdsAsync(olxAds);
         }
+
 
         return addedCount;
     }
 
 
-    // --------------------------------------------------
-    // UZUPEŁNIANIE BRAKUJĄCYCH DANYCH
-    // --------------------------------------------------
+    // ==================================================
+    // UZUPEŁNIANIE BRAKUJĄCYCH DANYCH OLX
+    // ==================================================
 
-    public async Task<int> FillMissingDataAsync()
+    public async Task<int> FillMissingOlxDataAsync()
     {
-        var sourceAds = await LoadSourceAdsAsync();
-        var localAds = await LoadLocalCatalogAsync();
+        var sourceAds =
+            await LoadSourceAdsAsync();
 
-        // Tworzymy szybki słownik:
-        // OLX ID -> dane z katalog.json
-        var sourceByOlxId = sourceAds
-            .ToDictionary(ad => ad.Id);
+        var olxAds =
+            await LoadOlxAdsAsync();
+
+
+        var sourceByOlxId =
+            sourceAds.ToDictionary(
+                ad => ad.Id);
+
 
         var updatedCount = 0;
 
-        foreach (var localAd in localAds)
+
+        foreach (var localAd in olxAds)
         {
-            // Ręczne ogłoszenie nie ma OlxId.
             if (!localAd.OlxId.HasValue)
             {
                 continue;
             }
 
-            // Szukamy odpowiadającego ogłoszenia w katalog.json.
+
             if (!sourceByOlxId.TryGetValue(
                     localAd.OlxId.Value,
                     out var sourceAd))
@@ -153,38 +176,227 @@ public class CatalogService
                 continue;
             }
 
-            // Uzupełniamy kategorię TYLKO jeśli
-            // lokalny rekord jej jeszcze nie posiada.
+
+            // Na razie uzupełniamy tylko brakujące kategorie.
             if (localAd.Categories.Count == 0 &&
                 sourceAd.Categories?.Count > 0)
             {
-                localAd.Categories = sourceAd.Categories;
+                localAd.Categories =
+                    sourceAd.Categories;
 
                 updatedCount++;
             }
         }
 
+
         if (updatedCount > 0)
         {
-            await SaveLocalCatalogAsync(localAds);
+            await SaveOlxAdsAsync(olxAds);
         }
+
 
         return updatedCount;
     }
 
 
-    // --------------------------------------------------
-    // ZMIANA STATUSU OGŁOSZENIA
-    // --------------------------------------------------
+    // ==================================================
+    // LOKALNE / ADMIN - CREATE
+    // ==================================================
 
-    public async Task<bool> SetStatusAsync(
+    public async Task<Ad> CreateLocalAdAsync(Ad ad)
+    {
+        var localAds =
+            await LoadLocalAdsAsync();
+
+
+        ad.Id = Guid.NewGuid();
+
+        ad.OlxId = null;
+
+        ad.Status = AdStatus.Active;
+
+        ad.ActivatedAt ??= DateTime.Now;
+
+        ad.Photos ??= [];
+
+        ad.Categories ??= [];
+
+
+        localAds.Add(ad);
+
+
+        await SaveLocalAdsAsync(
+            localAds);
+
+
+        Directory.CreateDirectory(
+            GetAdImageDirectory(ad));
+
+
+        return ad;
+    }
+
+
+    // ==================================================
+    // LOKALNE / ADMIN - UPDATE
+    // ==================================================
+
+    public async Task<bool> UpdateLocalAdAsync(
+        Ad updatedAd)
+    {
+        var localAds =
+            await LoadLocalAdsAsync();
+
+
+        var existingAd =
+            localAds.FirstOrDefault(
+                x => x.Id == updatedAd.Id);
+
+
+        if (existingAd == null)
+        {
+            return false;
+        }
+
+
+        existingAd.Title =
+            updatedAd.Title;
+
+        existingAd.Description =
+            updatedAd.Description;
+
+        existingAd.Price =
+            updatedAd.Price;
+
+        existingAd.Categories =
+            updatedAd.Categories ?? [];
+
+        existingAd.Photos =
+            updatedAd.Photos ?? [];
+
+
+        await SaveLocalAdsAsync(
+            localAds);
+
+
+        return true;
+    }
+
+
+    public async Task<bool> DeleteLocalAdAsync(Guid adId)
+    {
+        var localAds =
+            await LoadLocalAdsAsync();
+
+        var ad =
+            localAds.FirstOrDefault(
+                x => x.Id == adId);
+
+        if (ad == null)
+        {
+            return false;
+        }
+
+        var imageDirectory =
+            GetAdImageDirectory(ad);
+
+        if (Directory.Exists(imageDirectory))
+        {
+            Directory.Delete(
+                imageDirectory,
+                recursive: true);
+        }
+
+        localAds.Remove(ad);
+
+        await SaveLocalAdsAsync(
+            localAds);
+
+        return true;
+    }
+
+
+
+
+    public async Task<bool> UpdateOlxAdAsync(Ad updatedAd)
+    {
+        var olxAds =
+            await LoadOlxAdsAsync();
+
+        var existingAd =
+            olxAds.FirstOrDefault(
+                x => x.Id == updatedAd.Id);
+
+        if (existingAd == null)
+        {
+            return false;
+        }
+
+        existingAd.Title =
+            updatedAd.Title;
+
+        existingAd.Description =
+            updatedAd.Description;
+
+        existingAd.Price =
+            updatedAd.Price;
+
+        existingAd.Categories =
+            updatedAd.Categories ?? [];
+
+        existingAd.Photos =
+            updatedAd.Photos ?? [];
+
+        await SaveOlxAdsAsync(olxAds);
+
+        return true;
+    }
+
+
+    // ==================================================
+    // STATUS - LOKALNE
+    // ==================================================
+
+    public async Task<bool> SetLocalAdStatusAsync(
         Guid adId,
         AdStatus status)
     {
-        var localAds = await LoadLocalCatalogAsync();
+        var localAds =
+            await LoadLocalAdsAsync();
 
-        var ad = localAds.FirstOrDefault(
-            x => x.Id == adId);
+
+        var ad =
+            localAds.FirstOrDefault(
+                x => x.Id == adId);
+
+
+        if (ad == null)
+        {
+            return false;
+        }
+
+
+        ad.Status = status;
+
+
+        await SaveLocalAdsAsync(
+            localAds);
+
+
+        return true;
+    }
+
+
+    public async Task<bool> SetOlxAdStatusAsync(
+    Guid adId,
+    AdStatus status)
+    {
+        var olxAds =
+            await LoadOlxAdsAsync();
+
+        var ad =
+            olxAds.FirstOrDefault(
+                x => x.Id == adId);
 
         if (ad == null)
         {
@@ -193,105 +405,463 @@ public class CatalogService
 
         ad.Status = status;
 
-        await SaveLocalCatalogAsync(localAds);
+        await SaveOlxAdsAsync(olxAds);
 
         return true;
     }
 
 
+    // ==================================================
+    // ZDJĘCIA
+    // ==================================================
 
-
-    public async Task<bool> UpdateAdAsync(Ad updatedAd)
+    public async Task<List<string>> NormalizePhotosAsync(
+        Ad ad)
     {
-        var localAds = await LoadLocalCatalogAsync();
+        var directory =
+            GetAdImageDirectory(ad);
 
-        var existingAd = localAds.FirstOrDefault(
-            x => x.Id == updatedAd.Id);
 
-        if (existingAd == null)
+        Directory.CreateDirectory(
+            directory);
+
+
+        var imageFiles =
+            Directory
+                .GetFiles(directory)
+                .Where(IsSupportedImage)
+                .OrderBy(GetNumericFileOrder)
+                .ThenBy(Path.GetFileName)
+                .ToList();
+
+
+        var normalizedFiles =
+            new List<string>();
+
+
+        for (var i = 0;
+             i < imageFiles.Count;
+             i++)
+        {
+            var sourceFile =
+                imageFiles[i];
+
+
+            var targetName =
+                $"{i + 1:00}.jpg";
+
+
+            var targetFile =
+                Path.Combine(
+                    directory,
+                    targetName);
+
+
+            if (!string.Equals(
+                    sourceFile,
+                    targetFile,
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                if (File.Exists(targetFile))
+                {
+                    File.Delete(targetFile);
+                }
+
+
+                File.Move(
+                    sourceFile,
+                    targetFile);
+            }
+
+
+            normalizedFiles.Add(
+                targetName);
+        }
+
+
+        ad.Photos =
+            normalizedFiles.ToList();
+
+
+        // Zapisujemy do odpowiedniego pliku.
+        if (ad.OlxId.HasValue)
+        {
+            var olxAds =
+                await LoadOlxAdsAsync();
+
+            var storedAd =
+                olxAds.FirstOrDefault(
+                    x => x.Id == ad.Id);
+
+            if (storedAd != null)
+            {
+                storedAd.Photos =
+                    normalizedFiles.ToList();
+
+                await SaveOlxAdsAsync(
+                    olxAds);
+            }
+        }
+        else
+        {
+            var localAds =
+                await LoadLocalAdsAsync();
+
+            var storedAd =
+                localAds.FirstOrDefault(
+                    x => x.Id == ad.Id);
+
+            if (storedAd != null)
+            {
+                storedAd.Photos =
+                    normalizedFiles.ToList();
+
+                await SaveLocalAdsAsync(
+                    localAds);
+            }
+        }
+
+
+        return normalizedFiles;
+    }
+
+
+    // ==================================================
+    // DODAJ ZDJĘCIE
+    // ==================================================
+
+    public async Task AddPhotoAsync(
+        Guid adId,
+        IBrowserFile file)
+    {
+        var olxAds =
+            await LoadOlxAdsAsync();
+
+        var localAds =
+            await LoadLocalAdsAsync();
+
+
+        var ad =
+            olxAds.FirstOrDefault(
+                x => x.Id == adId)
+            ??
+            localAds.FirstOrDefault(
+                x => x.Id == adId);
+
+
+        if (ad == null)
+        {
+            throw new InvalidOperationException(
+                "Nie znaleziono ogłoszenia.");
+        }
+
+
+        var directory =
+            GetAdImageDirectory(ad);
+
+
+        Directory.CreateDirectory(
+            directory);
+
+
+        var existingFiles =
+            Directory
+                .GetFiles(directory)
+                .Where(IsSupportedImage)
+                .ToList();
+
+
+        var nextNumber =
+            existingFiles.Count + 1;
+
+
+        var fileName =
+            $"{nextNumber:00}.jpg";
+
+
+        var filePath =
+            Path.Combine(
+                directory,
+                fileName);
+
+
+        await using var source =
+            file.OpenReadStream(
+                maxAllowedSize:
+                50 * 1024 * 1024);
+
+
+        await using var target =
+            File.Create(
+                filePath);
+
+
+        await source.CopyToAsync(
+            target);
+
+
+        ad.Photos =
+            existingFiles
+                .Select(Path.GetFileName)
+                .Where(x => x != null)
+                .Append(fileName)
+                .Cast<string>()
+                .ToList();
+
+
+        if (ad.OlxId.HasValue)
+        {
+            await SaveOlxAdsAsync(
+                olxAds);
+        }
+        else
+        {
+            await SaveLocalAdsAsync(
+                localAds);
+        }
+    }
+
+
+    // ==================================================
+    // USUŃ ZDJĘCIE
+    // ==================================================
+
+    public async Task<bool> DeletePhotoAsync(
+        Guid adId,
+        string fileName)
+    {
+        var olxAds =
+            await LoadOlxAdsAsync();
+
+        var localAds =
+            await LoadLocalAdsAsync();
+
+
+        var ad =
+            olxAds.FirstOrDefault(
+                x => x.Id == adId)
+            ??
+            localAds.FirstOrDefault(
+                x => x.Id == adId);
+
+
+        if (ad == null)
         {
             return false;
         }
 
-        // Aktualizujemy tylko pola, które użytkownik może edytować.
-        existingAd.Title = updatedAd.Title;
-        existingAd.Description = updatedAd.Description;
-        existingAd.Price = updatedAd.Price;
-        existingAd.Categories = updatedAd.Categories ?? [];
 
-        await SaveLocalCatalogAsync(localAds);
+        var directory =
+            GetAdImageDirectory(ad);
+
+
+        var safeFileName =
+            Path.GetFileName(fileName);
+
+
+        var filePath =
+            Path.Combine(
+                directory,
+                safeFileName);
+
+
+        if (File.Exists(filePath))
+        {
+            File.Delete(filePath);
+        }
+
+
+        ad.Photos.RemoveAll(
+            x => string.Equals(
+                x,
+                safeFileName,
+                StringComparison.OrdinalIgnoreCase));
+
+
+        if (ad.OlxId.HasValue)
+        {
+            await SaveOlxAdsAsync(
+                olxAds);
+        }
+        else
+        {
+            await SaveLocalAdsAsync(
+                localAds);
+        }
+
+
+        await NormalizePhotosAsync(
+            ad);
+
 
         return true;
     }
 
 
+    // ==================================================
+    // FOLDER ZDJĘĆ
+    // ==================================================
 
-
-
-
-    // --------------------------------------------------
-    // ODCZYT ŹRÓDŁOWEGO katalog.json
-    // --------------------------------------------------
-
-    private async Task<List<SourceAd>> LoadSourceAdsAsync()
+    private string GetAdImageDirectory(
+        Ad ad)
     {
-        if (!File.Exists(SourceCatalogPath))
+        var folderId =
+            ad.OlxId?.ToString()
+            ??
+            ad.Id.ToString();
+
+
+        return Path.Combine(
+            _environment.WebRootPath,
+            "images",
+            folderId);
+    }
+
+
+    // ==================================================
+    // ODCZYT katalog.json
+    // ==================================================
+
+    private async Task<List<SourceAd>>
+        LoadSourceAdsAsync()
+    {
+        if (!File.Exists(
+                SourceCatalogPath))
         {
             return [];
         }
 
-        var json = await File.ReadAllTextAsync(
-            SourceCatalogPath);
 
-        if (string.IsNullOrWhiteSpace(json))
+        var json =
+            await File.ReadAllTextAsync(
+                SourceCatalogPath);
+
+
+        if (string.IsNullOrWhiteSpace(
+                json))
         {
             return [];
         }
+
 
         var response =
-            JsonSerializer.Deserialize<SourceCatalogResponse>(
+            JsonSerializer.Deserialize<
+                SourceCatalogResponse>(
                 json,
                 _jsonOptions);
 
-        return response?.Data?.MyAds?.Ads?.Items ?? [];
+
+        return response?
+            .Data?
+            .MyAds?
+            .Ads?
+            .Items
+            ??
+            [];
     }
 
 
-    // --------------------------------------------------
-    // ODCZYT NASZEGO catalog.local.json
-    // --------------------------------------------------
+    // ==================================================
+    // ODCZYT ads-from-olx.json
+    // ==================================================
 
-    private async Task<List<Ad>> LoadLocalCatalogAsync()
+    private async Task<List<Ad>>
+        LoadOlxAdsAsync()
     {
-        if (!File.Exists(LocalCatalogPath))
+        if (!File.Exists(
+                OlxCatalogPath))
         {
             return [];
         }
 
-        var json = await File.ReadAllTextAsync(
-            LocalCatalogPath);
 
-        if (string.IsNullOrWhiteSpace(json))
+        var json =
+            await File.ReadAllTextAsync(
+                OlxCatalogPath);
+
+
+        if (string.IsNullOrWhiteSpace(
+                json))
         {
             return [];
         }
 
-        return JsonSerializer.Deserialize<List<Ad>>(
-            json,
-            _jsonOptions) ?? [];
+
+        return JsonSerializer.Deserialize<
+            List<Ad>>(
+                json,
+                _jsonOptions)
+            ??
+            [];
     }
 
 
-    // --------------------------------------------------
-    // ZAPIS catalog.local.json
-    // --------------------------------------------------
+    // ==================================================
+    // ODCZYT ads-local.json
+    // ==================================================
 
-    private async Task SaveLocalCatalogAsync(
+    private async Task<List<Ad>>
+        LoadLocalAdsAsync()
+    {
+        if (!File.Exists(
+                LocalCatalogPath))
+        {
+            return [];
+        }
+
+
+        var json =
+            await File.ReadAllTextAsync(
+                LocalCatalogPath);
+
+
+        if (string.IsNullOrWhiteSpace(
+                json))
+        {
+            return [];
+        }
+
+
+        return JsonSerializer.Deserialize<
+            List<Ad>>(
+                json,
+                _jsonOptions)
+            ??
+            [];
+    }
+
+
+    // ==================================================
+    // ZAPIS ads-from-olx.json
+    // ==================================================
+
+    private async Task SaveOlxAdsAsync(
         List<Ad> ads)
     {
-        var json = JsonSerializer.Serialize(
-            ads,
-            _jsonOptions);
+        var json =
+            JsonSerializer.Serialize(
+                ads,
+                _jsonOptions);
+
+
+        await File.WriteAllTextAsync(
+            OlxCatalogPath,
+            json);
+    }
+
+
+    // ==================================================
+    // ZAPIS ads-local.json
+    // ==================================================
+
+    private async Task SaveLocalAdsAsync(
+        List<Ad> ads)
+    {
+        var json =
+            JsonSerializer.Serialize(
+                ads,
+                _jsonOptions);
+
 
         await File.WriteAllTextAsync(
             LocalCatalogPath,
@@ -299,16 +869,19 @@ public class CatalogService
     }
 
 
-    // --------------------------------------------------
+    // ==================================================
     // CENA
-    // --------------------------------------------------
+    // ==================================================
 
-    private static decimal ParsePrice(string? price)
+    private static decimal ParsePrice(
+        string? price)
     {
-        if (string.IsNullOrWhiteSpace(price))
+        if (string.IsNullOrWhiteSpace(
+                price))
         {
             return 0;
         }
+
 
         return decimal.TryParse(
             price,
@@ -320,9 +893,42 @@ public class CatalogService
     }
 
 
-    // --------------------------------------------------
+    // ==================================================
+    // POMOCNICZE - ZDJĘCIA
+    // ==================================================
+
+    private static bool IsSupportedImage(
+        string path)
+    {
+        var extension =
+            Path.GetExtension(path)
+                .ToLowerInvariant();
+
+        return extension == ".jpg"
+               ||
+               extension == ".jpeg";
+    }
+
+
+    private static int GetNumericFileOrder(
+        string path)
+    {
+        var name =
+            Path.GetFileNameWithoutExtension(
+                path);
+
+
+        return int.TryParse(
+            name,
+            out var number)
+            ? number
+            : int.MaxValue;
+    }
+
+
+    // ==================================================
     // MODELE ŹRÓDŁOWEGO JSON
-    // --------------------------------------------------
+    // ==================================================
 
     private class SourceCatalogResponse
     {

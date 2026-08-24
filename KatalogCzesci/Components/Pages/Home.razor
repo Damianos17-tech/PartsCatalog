@@ -4,6 +4,7 @@
 
 @using KatalogCzesci.Models
 @using KatalogCzesci.Services
+
 @inject CatalogService CatalogService
 @inject NavigationManager Navigation
 
@@ -11,7 +12,9 @@
 
 <div class="container py-4">
 
-    <h1 class="mb-2">Katalog części</h1>
+    <h1 class="mb-2">
+        Katalog części
+    </h1>
 
     @if (ads == null)
     {
@@ -20,171 +23,216 @@
     else
     {
         <p class="text-muted mb-4">
-            Znaleziono ogłoszeń:
+            Ogłoszenia z OLX:
             <strong>@ads.Count</strong>
         </p>
 
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
 
-            @foreach (var ad in ads)
-            {
-                var photoCount = ad.Photos?.Count ?? 0;
-                var currentIndex = currentPhotoIndex.GetValueOrDefault(ad.Id, 0);
+        <!-- ================================================= -->
+        <!-- OGŁOSZENIA Z OLX -->
+        <!-- ================================================= -->
+        @if (ads.Count == 0)
+        {
+            <div class="alert alert-light border">
+                Brak ogłoszeń z OLX.
+            </div>
+        }
+        else
+        {
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
 
-                <div class="col">
+                @foreach (var ad in ads)
+                {
+                    var photoCount =
+                    ad.Photos?.Count ?? 0;
 
-                    <div class="card h-100 shadow-sm"
-                         style="cursor: pointer;"
-                         @onclick="() => OpenAd(ad.Id)">
+                    var currentIndex =
+                    currentPhotoIndex.GetValueOrDefault(
+                    ad.Id,
+                    0);
 
-                        <!-- ========================= -->
-                        <!-- ZDJĘCIA -->
-                        <!-- ========================= -->
-                        @if (photoCount > 0)
-                        {
-                            <div class="position-relative bg-white"
-                                 style="height: 220px;">
+                    <div class="col">
 
-
-                                @if (ad.Status == AdStatus.Sold)
-                                {
-                                    <span class="badge bg-danger position-absolute top-0 end-0 m-2 shadow-sm"
-                                          style="font-size: 0.9rem;">
-                                        SPRZEDANE
-                                    </span>
-                                }
-
-                                <img src="@GetImagePath(ad, currentIndex)"
-                                     alt="@ad.Title"
-                                     class="w-100 h-100"
-                                     style="object-fit: contain; padding: 10px;" />
-
-                                @if (photoCount > 1)
-                                {
-                                    <!-- LEWA STRZAŁKA -->
-
-                                    <button type="button"
-                                            class="position-absolute top-50 start-0 translate-middle-y"
-                                            style="margin-left: 10px;
-                                                                   width: 42px;
-                                                                   height: 42px;
-                                                                   border: none;
-                                                                   border-radius: 6px;
-                                                                   background-color: #0d6efd;
-                                                                   color: white;
-                                                                   font-size: 30px;
-                                                                   line-height: 35px;
-                                                                   cursor: pointer;
-                                                                   box-shadow: 0 2px 6px rgba(0,0,0,0.25);"
-                                            @onclick:stopPropagation="true"
-                                            @onclick="() => PreviousPhoto(ad.Id, photoCount)">
-                                        ‹
-                                    </button>
-
-                                    <!-- PRAWA STRZAŁKA -->
-
-                                    <button type="button"
-                                            class="position-absolute top-50 end-0 translate-middle-y"
-                                            style="margin-right: 10px;
-                                                                   width: 42px;
-                                                                   height: 42px;
-                                                                   border: none;
-                                                                   border-radius: 6px;
-                                                                   background-color: #0d6efd;
-                                                                   color: white;
-                                                                   font-size: 30px;
-                                                                   line-height: 35px;
-                                                                   cursor: pointer;
-                                                                   box-shadow: 0 2px 6px rgba(0,0,0,0.25);"
-                                            @onclick:stopPropagation="true"
-                                            @onclick="() => NextPhoto(ad.Id, photoCount)">
-                                        ›
-                                    </button>
-
-                                    <!-- LICZNIK -->
-
-                                    <div class="position-absolute bottom-0 start-50 translate-middle-x mb-2"
-                                         @onclick:stopPropagation="true">
-
-                                        <span class="badge bg-dark">
-                                            @(currentIndex + 1) / @photoCount
-                                        </span>
-
-                                    </div>
-                                }
-
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="d-flex align-items-center justify-content-center bg-light"
-                                 style="height: 220px;">
-
-                                <span class="text-muted">
-                                    Brak zdjęcia
-                                </span>
-
-                            </div>
-                        }
+                        <div class="card h-100 shadow-sm"
+                             style="cursor: pointer;"
+                             @onclick="() => OpenAd(ad.Id)">
 
 
-                        <!-- ========================= -->
-                        <!-- INFORMACJE -->
-                        <!-- ========================= -->
-
-                        <div class="card-body">
-
-                            <h5 class="card-title">
-                                @ad.Title
-                            </h5>
-
-                            @if (ad.Categories?.Any() == true)
-                            {
-                                <p class="card-text text-muted">
-                                    @string.Join(" / ", ad.Categories)
-                                </p>
-                            }
-
-                            <h4 class="mb-2">
-                                @ad.Price zł
-                            </h4>
-
-                            @if (ad.ActivatedAt.HasValue)
-                            {
-                                <small class="text-md">
-                                    📅 Dodano:
-                                    @ad.ActivatedAt.Value.ToLocalTime().ToString("dd.MM.yyyy")
-                                </small>
-                            }
-
-                        </div>
-
-
-                        <!-- ========================= -->
-                        <!-- STOPKA -->
-                        <!-- ========================= -->
-
-                        <div class="card-footer bg-white">
-
-                            <small class="text-muted">
-                                ID: @(ad.OlxId?.ToString() ?? "lokalne")
-                            </small>
-
+                            <!-- ======================================== -->
+                            <!-- ZDJĘCIE -->
+                            <!-- ======================================== -->
                             @if (photoCount > 0)
                             {
-                                <small class="text-muted float-end">
-                                    📷 @photoCount
-                                </small>
+                                <div class="position-relative bg-white"
+                                     style="height: 220px;">
+
+                                    <!-- SPRZEDANE -->
+                                    @if (ad.Status == AdStatus.Sold)
+                                    {
+                                        <span class="badge bg-danger position-absolute top-0 end-0 m-2 shadow-sm"
+                                              style="font-size: 0.9rem; z-index: 2;">
+                                            SPRZEDANE
+                                        </span>
+                                    }
+
+
+                                    <!-- OBRAZ -->
+
+                                    <img src="@GetImagePath(ad, currentIndex)"
+                                         alt="@ad.Title"
+                                         class="w-100 h-100"
+                                         style="object-fit: contain; padding: 10px;" />
+
+
+                                    <!-- SLIDER -->
+                                    @if (photoCount > 1)
+                                    {
+                                        <!-- LEWA STRZAŁKA -->
+
+                                        <button type="button"
+                                                class="position-absolute top-50 start-0 translate-middle-y"
+                                                style="margin-left: 10px;
+                                                                           width: 42px;
+                                                                           height: 42px;
+                                                                           border: none;
+                                                                           border-radius: 6px;
+                                                                           background-color: #0d6efd;
+                                                                           color: white;
+                                                                           font-size: 30px;
+                                                                           line-height: 35px;
+                                                                           cursor: pointer;
+                                                                           box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+                                                                           z-index: 3;"
+                                                @onclick:stopPropagation="true"
+                                                @onclick="() => PreviousPhoto(ad.Id, photoCount)">
+                                            ‹
+                                        </button>
+
+
+                                        <!-- PRAWA STRZAŁKA -->
+
+                                        <button type="button"
+                                                class="position-absolute top-50 end-0 translate-middle-y"
+                                                style="margin-right: 10px;
+                                                                           width: 42px;
+                                                                           height: 42px;
+                                                                           border: none;
+                                                                           border-radius: 6px;
+                                                                           background-color: #0d6efd;
+                                                                           color: white;
+                                                                           font-size: 30px;
+                                                                           line-height: 35px;
+                                                                           cursor: pointer;
+                                                                           box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+                                                                           z-index: 3;"
+                                                @onclick:stopPropagation="true"
+                                                @onclick="() => NextPhoto(ad.Id, photoCount)">
+                                            ›
+                                        </button>
+
+
+                                        <!-- LICZNIK -->
+
+                                        <div class="position-absolute bottom-0 start-50 translate-middle-x mb-2"
+                                             @onclick:stopPropagation="true"
+                                             style="z-index: 3;">
+
+                                            <span class="badge bg-dark">
+                                                @(currentIndex + 1) / @photoCount
+                                            </span>
+
+                                        </div>
+                                    }
+
+                                </div>
                             }
+                            else
+                            {
+                                <div class="position-relative d-flex align-items-center justify-content-center bg-light"
+                                     style="height: 220px;">
+
+                                    @if (ad.Status == AdStatus.Sold)
+                                    {
+                                        <span class="badge bg-danger position-absolute top-0 end-0 m-2 shadow-sm">
+                                            SPRZEDANE
+                                        </span>
+                                    }
+
+                                    <span class="text-muted">
+                                        Brak zdjęcia
+                                    </span>
+
+                                </div>
+                            }
+
+
+                            <!-- ======================================== -->
+                            <!-- INFORMACJE -->
+                            <!-- ======================================== -->
+
+                            <div class="card-body">
+
+                                <h5 class="card-title">
+                                    @ad.Title
+                                </h5>
+
+
+                                <!-- KATEGORIE -->
+                                @if (ad.Categories?.Any() == true)
+                                {
+                                    <p class="card-text text-muted mb-2">
+                                        @string.Join(
+                                        " / ",
+                                                ad.Categories)
+                    </p>
+                                        }
+
+
+                                <!-- CENA -->
+
+                                <h4 class="mb-2">
+                                    @ad.Price zł
+                                </h4>
+
+
+                                <!-- DATA -->
+                                @if (ad.ActivatedAt.HasValue)
+                                {
+                                    <small class="text-md">
+                                        📅 Dodano:
+                                        @ad.ActivatedAt.Value.ToLocalTime().ToString("dd.MM.yyyy")
+                                    </small>
+                                }
+
+                            </div>
+
+
+                            <!-- ======================================== -->
+                            <!-- STOPKA -->
+                            <!-- ======================================== -->
+
+                            <div class="card-footer bg-white">
+
+                                <small class="text-muted">
+                                    ID: @ad.OlxId
+                                </small>
+
+                                @if (photoCount > 0)
+                                {
+                                    <small class="text-muted float-end">
+                                        📷 @photoCount
+                                    </small>
+                                }
+
+                            </div>
 
                         </div>
 
                     </div>
+                }
 
-                </div>
-            }
-
-        </div>
+            </div>
+        }
     }
 
 </div>
@@ -194,37 +242,62 @@
 
     private List<Ad>? ads;
 
-    private readonly Dictionary<Guid, int> currentPhotoIndex = new();
+    private readonly Dictionary<Guid, int>
+        currentPhotoIndex = new();
 
+
+    // =================================================
+    // ODCZYT OGŁOSZEŃ OLX
+    // =================================================
 
     protected override async Task OnInitializedAsync()
     {
-        ads = await CatalogService.GetAdsAsync();
+        ads =
+            await CatalogService.GetOlxAdsAsync();
     }
 
+
+    // =================================================
+    // OTWÓRZ OGŁOSZENIE
+    // =================================================
 
     private void OpenAd(Guid adId)
     {
-        Navigation.NavigateTo($"/ogloszenie/{adId}");
+        Navigation.NavigateTo(
+            $"/ogloszenie/{adId}");
     }
 
 
-    private string GetImagePath(Ad ad, int photoIndex)
+    // =================================================
+    // ŚCIEŻKA ZDJĘCIA
+    // =================================================
+
+    private string GetImagePath(
+        Ad ad,
+        int photoIndex)
     {
-        // Dla ogłoszeń z OLX używamy OlxId.
-        // Dla ręcznie dodanych użyjemy naszego Guid.
         var folderId =
-            ad.OlxId?.ToString() ??
+            ad.OlxId?.ToString()
+            ??
             ad.Id.ToString();
 
-        return $"/images/{folderId}/{photoIndex + 1:00}.jpg";
+        return
+            $"/images/{folderId}/{photoIndex + 1:00}.jpg";
     }
 
 
-    private void NextPhoto(Guid adId, int photoCount)
+    // =================================================
+    // NEXT
+    // =================================================
+
+    private void NextPhoto(
+        Guid adId,
+        int photoCount)
     {
         var currentIndex =
-            currentPhotoIndex.GetValueOrDefault(adId, 0);
+            currentPhotoIndex.GetValueOrDefault(
+                adId,
+                0);
 
         currentIndex++;
 
@@ -233,16 +306,25 @@
             currentIndex = 0;
         }
 
-        currentPhotoIndex[adId] = currentIndex;
+        currentPhotoIndex[adId] =
+            currentIndex;
 
         StateHasChanged();
     }
 
 
-    private void PreviousPhoto(Guid adId, int photoCount)
+    // =================================================
+    // PREVIOUS
+    // =================================================
+
+    private void PreviousPhoto(
+        Guid adId,
+        int photoCount)
     {
         var currentIndex =
-            currentPhotoIndex.GetValueOrDefault(adId, 0);
+            currentPhotoIndex.GetValueOrDefault(
+                adId,
+                0);
 
         currentIndex--;
 
@@ -251,7 +333,8 @@
             currentIndex = photoCount - 1;
         }
 
-        currentPhotoIndex[adId] = currentIndex;
+        currentPhotoIndex[adId] =
+            currentIndex;
 
         StateHasChanged();
     }
