@@ -2,33 +2,27 @@
 
 public class Ad
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
+
+    public long? OlxId { get; set; }
 
     public string Title { get; set; } = "";
 
-    public string Price { get; set; } = "";
+    public string Description { get; set; } = "";
 
-    public DateTime? ActivatedAt { get; set; }
+    public decimal Price { get; set; }
 
     public List<string> Photos { get; set; } = [];
 
     public List<string> Categories { get; set; } = [];
 
-    public Location? Location { get; set; }
+    public DateTime? ActivatedAt { get; set; }
 
-    public Stats? Stats { get; set; }
+    public AdStatus Status { get; set; } = AdStatus.Active;
 }
 
-public class Location
+public enum AdStatus
 {
-    public string Name { get; set; } = "";
-}
-
-public class Stats
-{
-    public int Views { get; set; }
-
-    public int Observed { get; set; }
-
-    public int Phones { get; set; }
+    Active,
+    Sold
 }

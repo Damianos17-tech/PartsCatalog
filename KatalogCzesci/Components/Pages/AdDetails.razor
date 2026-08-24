@@ -1,0 +1,293 @@
+﻿
+@page "/ogloszenie/{Id:guid}"
+@rendermode InteractiveServer
+
+@using KatalogCzesci.Models
+@using KatalogCzesci.Services
+@inject CatalogService CatalogService
+@inject NavigationManager Navigation
+
+<PageTitle>
+    @(ad?.Title ?? "Ogłoszenie")
+</PageTitle>
+
+<div class="container py-4">
+
+    @if (ad == null)
+    {
+        <p>Wczytywanie...</p>
+    }
+    else
+    {
+        <button type="button"
+                class="btn btn-outline-secondary mb-4"
+                @onclick="GoBack">
+            ← Wróć do katalogu
+        </button>
+
+        @if (ad.Status == AdStatus.Sold)
+        {
+            <div class="alert alert-danger mb-4">
+                <strong>SPRZEDANE</strong>
+            </div>
+        }
+
+        <div class="card shadow-sm mb-4">
+
+            @if (photoCount > 0)
+            {
+                <div class="position-relative bg-white"
+                     style="height: 500px;">
+
+                    <img src="@GetImagePath(ad, currentIndex)"
+                         alt="@ad.Title"
+                         class="w-100 h-100"
+                         style="object-fit: contain; padding: 20px;" />
+
+                    @if (photoCount > 1)
+                    {
+                        <button type="button"
+                                class="position-absolute top-50 start-0 translate-middle-y"
+                                style="margin-left: 15px;
+                                                   width: 48px;
+                                                   height: 48px;
+                                                   border: none;
+                                                   border-radius: 6px;
+                                                   background-color: #0d6efd;
+                                                   color: white;
+                                                   font-size: 32px;
+                                                   line-height: 40px;
+                                                   cursor: pointer;
+                                                   box-shadow: 0 2px 6px rgba(0,0,0,0.25);"
+                                @onclick="PreviousPhoto">
+                            ‹
+                        </button>
+
+                        <button type="button"
+                                class="position-absolute top-50 end-0 translate-middle-y"
+                                style="margin-right: 15px;
+                                                   width: 48px;
+                                                   height: 48px;
+                                                   border: none;
+                                                   border-radius: 6px;
+                                                   background-color: #0d6efd;
+                                                   color: white;
+                                                   font-size: 32px;
+                                                   line-height: 40px;
+                                                   cursor: pointer;
+                                                   box-shadow: 0 2px 6px rgba(0,0,0,0.25);"
+                                @onclick="NextPhoto">
+                            ›
+                        </button>
+
+                        <div class="position-absolute bottom-0 start-50 translate-middle-x mb-3">
+                            <span class="badge bg-dark">
+                                @(currentIndex + 1) / @photoCount
+                            </span>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="d-flex align-items-center justify-content-center bg-light"
+                     style="height: 300px;">
+                    <span class="text-muted">
+                        Brak zdjęć
+                    </span>
+                </div>
+            }
+        </div>
+
+        <div class="card shadow-sm">
+
+            <div class="card-body">
+
+                <h1 class="mb-3">
+                    @ad.Title
+                </h1>
+
+                @if (ad.Categories?.Any() == true)
+                {
+                    <p class="text-muted mb-3">
+                        @string.Join(" / ", ad.Categories)
+                    </p>
+                }
+
+                <h4>Opis</h4>
+
+                @if (string.IsNullOrWhiteSpace(ad.Description))
+                {
+                    <p class="text-muted">
+                        Brak opisu.
+                    </p>
+                }
+                else
+                {
+                    <div style="white-space: pre-line;">
+                        @ad.Description
+                    </div>
+                }
+
+                <div class="mt-4">
+                    <h2>
+                        @ad.Price.ToString("0.00") zł
+                    </h2>
+                </div>
+
+                @if (ad.ActivatedAt.HasValue)
+                {
+                    <p class="text-muted mt-3">
+                        📅 Wystawiono:
+                        @ad.ActivatedAt.Value.ToLocalTime().ToString("dd.MM.yyyy")
+                    </p>
+                }
+
+                <small class="text-muted">
+                    ID: @(ad.OlxId?.ToString() ?? "lokalne")
+                </small>
+
+            </div>
+
+            <div class="card-footer bg-white">
+
+                <div class="d-flex gap-2 flex-wrap">
+
+                    <button type="button"
+                            class="btn btn-primary"
+                            @onclick="EditAd">
+                        ✏️ Edytuj
+                    </button>
+
+                    @if (ad.Status == AdStatus.Sold)
+                    {
+                        <button type="button"
+                                class="btn btn-success"
+                                @onclick="MarkAsActive">
+                            ↩ Przywróć jako aktywne
+                        </button>
+                    }
+                    else
+                    {
+                        <button type="button"
+                                class="btn btn-danger"
+                                @onclick="MarkAsSold">
+                            ✓ Oznacz jako sprzedane
+                        </button>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+    }
+
+</div>
+
+@code {
+
+    [Parameter]
+    public Guid Id { get; set; }
+
+    private Ad? ad;
+
+    private int currentIndex = 0;
+
+    private int photoCount =>
+        ad?.Photos?.Count ?? 0;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var ads = await CatalogService.GetAdsAsync();
+
+        ad = ads.FirstOrDefault(x => x.Id == Id);
+    }
+
+
+    private string GetImagePath(Ad ad, int photoIndex)
+    {
+        var folderId =
+            ad.OlxId?.ToString() ??
+            ad.Id.ToString();
+
+        return $"/images/{folderId}/{photoIndex + 1:00}.jpg";
+    }
+
+
+    private void NextPhoto()
+    {
+        if (photoCount <= 1)
+        {
+            return;
+        }
+
+        currentIndex++;
+
+        if (currentIndex >= photoCount)
+        {
+            currentIndex = 0;
+        }
+    }
+
+
+    private void PreviousPhoto()
+    {
+        if (photoCount <= 1)
+        {
+            return;
+        }
+
+        currentIndex--;
+
+        if (currentIndex < 0)
+        {
+            currentIndex = photoCount - 1;
+        }
+    }
+
+
+    private void EditAd()
+    {
+        Navigation.NavigateTo($"/ogloszenie/{Id}/edytuj");
+    }
+
+
+    private async Task MarkAsSold()
+    {
+        if (ad == null)
+        {
+            return;
+        }
+
+        await CatalogService.SetStatusAsync(
+            ad.Id,
+            AdStatus.Sold);
+
+        ad.Status = AdStatus.Sold;
+    }
+
+
+    private async Task MarkAsActive()
+    {
+        if (ad == null)
+        {
+            return;
+        }
+
+        await CatalogService.SetStatusAsync(
+            ad.Id,
+            AdStatus.Active);
+
+        ad.Status = AdStatus.Active;
+    }
+
+
+    private void GoBack()
+    {
+        Navigation.NavigateTo("/");
+    }
+
+}
+

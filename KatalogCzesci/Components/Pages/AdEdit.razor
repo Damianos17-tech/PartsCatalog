@@ -1,0 +1,203 @@
+﻿@page "/ogloszenie/{Id:guid}/edytuj"
+@rendermode InteractiveServer
+
+@using KatalogCzesci.Models
+@using KatalogCzesci.Services
+@inject CatalogService CatalogService
+@inject NavigationManager Navigation
+
+<PageTitle>
+    @(ad == null ? "Edycja ogłoszenia" : $"Edytuj: {ad.Title}")
+</PageTitle>
+
+<div class="container py-4">
+
+    @if (ad == null)
+    {
+        <p>Wczytywanie...</p>
+    }
+    else
+    {
+        <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <div>
+                <h1>Edytuj ogłoszenie</h1>
+
+                <p class="text-muted mb-0">
+                    ID:
+                    @(ad.OlxId?.ToString() ?? "lokalne")
+                </p>
+            </div>
+
+            @if (ad.Status == AdStatus.Sold)
+            {
+                <span class="badge bg-danger fs-6">
+                    SPRZEDANE
+                </span>
+            }
+
+        </div>
+
+
+        <div class="card shadow-sm">
+
+            <div class="card-body">
+
+                <!-- TYTUŁ -->
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">
+                        Tytuł
+                    </label>
+
+                    <input class="form-control"
+                           @bind="ad.Title" />
+                </div>
+
+
+                <!-- OPIS -->
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">
+                        Opis
+                    </label>
+
+                    <textarea class="form-control"
+                              rows="12"
+                              @bind="ad.Description">
+                        </textarea>
+                </div>
+
+
+                <!-- CENA -->
+
+                <div class="mb-4">
+
+                    <label class="form-label fw-semibold">
+                        Cena
+                    </label>
+
+                    <div class="input-group">
+
+                        <input type="number"
+                               step="0.01"
+                               class="form-control"
+                               @bind="ad.Price" />
+
+                        <span class="input-group-text">
+                            zł
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- KATEGORIE -->
+
+                <div class="mb-4">
+
+                    <label class="form-label fw-semibold">
+                        Kategorie
+                    </label>
+
+                    <input class="form-control"
+                           value="@string.Join(" / ", ad.Categories)"
+                           disabled />
+
+                    <div class="form-text">
+                        Na razie kategorie pochodzą z katalogu OLX.
+                    </div>
+
+                </div>
+
+
+                <!-- PRZYCISKI -->
+
+                <div class="d-flex gap-2">
+
+                    <button type="button"
+                            class="btn btn-primary"
+                            @onclick="Save">
+                        💾 Zapisz
+                    </button>
+
+                    <button type="button"
+                            class="btn btn-outline-secondary"
+                            @onclick="Cancel">
+                        Anuluj
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+    }
+
+</div>
+
+
+@code {
+
+    [Parameter]
+    public Guid Id { get; set; }
+
+    private Ad? ad;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var ads = await CatalogService.GetAdsAsync();
+
+        var existingAd = ads.FirstOrDefault(
+            x => x.Id == Id);
+
+        if (existingAd == null)
+        {
+            Navigation.NavigateTo("/");
+            return;
+        }
+
+        // Tworzymy kopię, żeby zmiany w formularzu
+        // nie modyfikowały obiektu do momentu kliknięcia "Zapisz".
+        ad = new Ad
+        {
+            Id = existingAd.Id,
+            OlxId = existingAd.OlxId,
+            Title = existingAd.Title,
+            Description = existingAd.Description,
+            Price = existingAd.Price,
+            Photos = existingAd.Photos.ToList(),
+            Categories = existingAd.Categories.ToList(),
+            ActivatedAt = existingAd.ActivatedAt,
+            Status = existingAd.Status
+        };
+    }
+
+
+    private async Task Save()
+    {
+        if (ad == null)
+        {
+            return;
+        }
+
+        var success =
+            await CatalogService.UpdateAdAsync(ad);
+
+        if (success)
+        {
+            Navigation.NavigateTo(
+                $"/ogloszenie/{ad.Id}");
+        }
+    }
+
+
+    private void Cancel()
+    {
+        Navigation.NavigateTo(
+            $"/ogloszenie/{Id}");
+    }
+
+}

@@ -5,6 +5,7 @@
 @using KatalogCzesci.Models
 @using KatalogCzesci.Services
 @inject CatalogService CatalogService
+@inject NavigationManager Navigation
 
 <PageTitle>Katalog części</PageTitle>
 
@@ -32,7 +33,9 @@
 
                 <div class="col">
 
-                    <div class="card h-100 shadow-sm">
+                    <div class="card h-100 shadow-sm"
+                         style="cursor: pointer;"
+                         @onclick="() => OpenAd(ad.Id)">
 
                         <!-- ========================= -->
                         <!-- ZDJĘCIA -->
@@ -42,7 +45,16 @@
                             <div class="position-relative bg-white"
                                  style="height: 220px;">
 
-                                <img src="@GetImagePath(ad.Id, currentIndex)"
+
+                                @if (ad.Status == AdStatus.Sold)
+                                {
+                                    <span class="badge bg-danger position-absolute top-0 end-0 m-2 shadow-sm"
+                                          style="font-size: 0.9rem;">
+                                        SPRZEDANE
+                                    </span>
+                                }
+
+                                <img src="@GetImagePath(ad, currentIndex)"
                                      alt="@ad.Title"
                                      class="w-100 h-100"
                                      style="object-fit: contain; padding: 10px;" />
@@ -64,6 +76,7 @@
                                                                    line-height: 35px;
                                                                    cursor: pointer;
                                                                    box-shadow: 0 2px 6px rgba(0,0,0,0.25);"
+                                            @onclick:stopPropagation="true"
                                             @onclick="() => PreviousPhoto(ad.Id, photoCount)">
                                         ‹
                                     </button>
@@ -83,13 +96,15 @@
                                                                    line-height: 35px;
                                                                    cursor: pointer;
                                                                    box-shadow: 0 2px 6px rgba(0,0,0,0.25);"
+                                            @onclick:stopPropagation="true"
                                             @onclick="() => NextPhoto(ad.Id, photoCount)">
                                         ›
                                     </button>
 
-                                    <!-- LICZNIK ZDJĘĆ -->
+                                    <!-- LICZNIK -->
 
-                                    <div class="position-absolute bottom-0 start-50 translate-middle-x mb-2">
+                                    <div class="position-absolute bottom-0 start-50 translate-middle-x mb-2"
+                                         @onclick:stopPropagation="true">
 
                                         <span class="badge bg-dark">
                                             @(currentIndex + 1) / @photoCount
@@ -137,7 +152,7 @@
                             @if (ad.ActivatedAt.HasValue)
                             {
                                 <small class="text-md">
-                                    📅 Wystawiono:
+                                    📅 Dodano:
                                     @ad.ActivatedAt.Value.ToLocalTime().ToString("dd.MM.yyyy")
                                 </small>
                             }
@@ -152,7 +167,7 @@
                         <div class="card-footer bg-white">
 
                             <small class="text-muted">
-                                ID: @ad.Id
+                                ID: @(ad.OlxId?.ToString() ?? "lokalne")
                             </small>
 
                             @if (photoCount > 0)
@@ -179,7 +194,7 @@
 
     private List<Ad>? ads;
 
-    private readonly Dictionary<long, int> currentPhotoIndex = new();
+    private readonly Dictionary<Guid, int> currentPhotoIndex = new();
 
 
     protected override async Task OnInitializedAsync()
@@ -188,15 +203,28 @@
     }
 
 
-    private string GetImagePath(long adId, int photoIndex)
+    private void OpenAd(Guid adId)
     {
-        return $"/images/{adId}/{photoIndex + 1:00}.jpg";
+        Navigation.NavigateTo($"/ogloszenie/{adId}");
     }
 
 
-    private void NextPhoto(long adId, int photoCount)
+    private string GetImagePath(Ad ad, int photoIndex)
     {
-        var currentIndex = currentPhotoIndex.GetValueOrDefault(adId, 0);
+        // Dla ogłoszeń z OLX używamy OlxId.
+        // Dla ręcznie dodanych użyjemy naszego Guid.
+        var folderId =
+            ad.OlxId?.ToString() ??
+            ad.Id.ToString();
+
+        return $"/images/{folderId}/{photoIndex + 1:00}.jpg";
+    }
+
+
+    private void NextPhoto(Guid adId, int photoCount)
+    {
+        var currentIndex =
+            currentPhotoIndex.GetValueOrDefault(adId, 0);
 
         currentIndex++;
 
@@ -211,9 +239,10 @@
     }
 
 
-    private void PreviousPhoto(long adId, int photoCount)
+    private void PreviousPhoto(Guid adId, int photoCount)
     {
-        var currentIndex = currentPhotoIndex.GetValueOrDefault(adId, 0);
+        var currentIndex =
+            currentPhotoIndex.GetValueOrDefault(adId, 0);
 
         currentIndex--;
 
@@ -228,3 +257,4 @@
     }
 
 }
+
