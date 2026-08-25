@@ -1,6 +1,8 @@
-﻿
-@page "/dodaj"
+﻿@page "/dodaj"
+@attribute [Authorize(Roles = "Admin")]
 @rendermode InteractiveServer
+
+@using Microsoft.AspNetCore.Authorization
 
 @using Microsoft.AspNetCore.Components.Forms
 @using KatalogCzesci.Models

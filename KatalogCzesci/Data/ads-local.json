@@ -78,5 +78,18 @@
     "Categories": [],
     "ActivatedAt": "2026-08-24T04:21:42.4708308+02:00",
     "Status": 0
+  },
+  {
+    "Id": "49ba10e2-e4bd-4126-98da-ae111716bbe2",
+    "OlxId": null,
+    "Title": "\u015Amie\u0107",
+    "Description": "sdnvsdipoaipocmsoiaocioaiocewuioanfuh dzfhnnvcn cjn xvjkxzn v",
+    "Price": 500,
+    "Photos": [
+      "01.jpg"
+    ],
+    "Categories": [],
+    "ActivatedAt": "2026-08-25T23:56:08.7723154+02:00",
+    "Status": 1
   }
 ]

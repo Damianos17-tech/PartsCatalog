@@ -1,38 +1,64 @@
 ﻿@inherits LayoutComponentBase
+@using Microsoft.AspNetCore.Components.Authorization
 
 <div class="page">
+
     <div class="sidebar">
         <NavMenu />
     </div>
 
     <main>
+
         <div class="top-row px-4">
 
-            @if (zalogowany)
-            {
-                <span>Zalogowano: Andrzej</span>
-            }
-            else
-            {
-                <a href="/login">Zaloguj</a>
-            }
+            <AuthorizeView>
+
+                <Authorized>
+
+                    <span>
+                        Zalogowano:
+                        <strong>@context.User.Identity?.Name</strong>
+                    </span>
+
+                    <a class="btn btn-sm btn-outline-secondary ms-3"
+                       href="/api/logout">
+                        Wyloguj
+                    </a>
+
+                </Authorized>
+
+                <NotAuthorized>
+
+                    <a href="/login">
+                        Zaloguj
+                    </a>
+
+                </NotAuthorized>
+
+            </AuthorizeView>
 
         </div>
+
 
         <article class="content px-4">
             @Body
         </article>
+
     </main>
+
 </div>
+
 
 <div id="blazor-error-ui">
+
     An unhandled error has occurred.
-    <a href="" class="reload">Reload</a>
-    <a class="dismiss">🗙</a>
+
+    <a href="" class="reload">
+        Reload
+    </a>
+
+    <a class="dismiss">
+        🗙
+    </a>
+
 </div>
-
-@code {
-
-    private bool zalogowany = false;
-
-}

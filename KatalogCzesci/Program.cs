@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // =================================================
 // SERVICES
 // =================================================
@@ -18,9 +19,12 @@ builder.Services.AddScoped<AdSearchService>();
 // =================================================
 
 builder.Services
-    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddAuthentication(
+        CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
+        options.Cookie.Name = "KatalogCzesci.Auth";
+
         options.LoginPath = "/login";
         options.AccessDeniedPath = "/access-denied";
     });
@@ -35,6 +39,8 @@ builder.Services.AddAuthorization();
 builder.Services
     .AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddCascadingAuthenticationState();
 
 
 var app = builder.Build();
@@ -74,10 +80,8 @@ app.UseAntiforgery();
 
 
 // =================================================
-// BLAZOR
+// LOGIN
 // =================================================
-
-
 
 app.MapPost("/api/login", async (HttpContext context) =>
 {
@@ -86,8 +90,10 @@ app.MapPost("/api/login", async (HttpContext context) =>
             .DeserializeAsync<LoginRequest>(
                 context.Request.Body);
 
+
     Console.WriteLine(
-    $"LOGIN TEST: [{data?.Username}] / [{data?.Password}]");
+        $"LOGIN TEST: [{data?.Username}] / [{data?.Password}]");
+
 
     if (data?.Username == "Andrzej" &&
         data.Password == "test123")
@@ -96,30 +102,68 @@ app.MapPost("/api/login", async (HttpContext context) =>
         {
             new System.Security.Claims.Claim(
                 System.Security.Claims.ClaimTypes.Name,
-                "Andrzej")
+                "Andrzej"),
+
+            new System.Security.Claims.Claim(
+                System.Security.Claims.ClaimTypes.Role,
+                "Admin")
         };
+
 
         var identity =
             new System.Security.Claims.ClaimsIdentity(
                 claims,
                 CookieAuthenticationDefaults.AuthenticationScheme);
 
+
         var principal =
-            new System.Security.Claims.ClaimsPrincipal(identity);
+            new System.Security.Claims.ClaimsPrincipal(
+                identity);
+
 
         await context.SignInAsync(
             CookieAuthenticationDefaults.AuthenticationScheme,
             principal);
 
+
         return Results.Ok();
     }
+
 
     return Results.Unauthorized();
 })
 .DisableAntiforgery();
 
 
+app.MapGet("/api/test", () =>
+{
+    Console.WriteLine("=== API TEST DZIA£A ===");
 
+    return "API DZIA£A";
+});
+
+
+// =================================================
+// LOGOUT
+// =================================================
+
+app.MapGet("/api/logout", async (HttpContext context) =>
+{
+    Console.WriteLine("=== LOGOUT ===");
+
+    await context.SignOutAsync(
+        CookieAuthenticationDefaults.AuthenticationScheme);
+
+    context.Response.Cookies.Delete(
+        "KatalogCzesci.Auth");
+
+    return Results.Redirect("/");
+});
+
+
+// =================================================
+// BLAZOR
+// =================================================
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();

@@ -5,7 +5,9 @@
 @using KatalogCzesci.Models
 @using KatalogCzesci.Services
 @using Microsoft.JSInterop
+@using Microsoft.AspNetCore.Components.Authorization
 
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @inject CatalogService CatalogService
 @inject NavigationManager Navigation
 @inject IJSRuntime JS
@@ -215,19 +217,21 @@
                 @if (ad.ActivatedAt.HasValue)
                 {
                     <p class="text-muted mt-3">
-                        📅 Wystawiono: @ad.ActivatedAt.Value.ToLocalTime().ToString("dd.MM.yyyy")
+                        📅 Dodano:
+                        @ad.ActivatedAt.Value.ToLocalTime().ToString("dd.MM.yyyy")
                     </p>
                 }
 
 
-                <!-- ID -->
+            <!-- ID -->
 
-                <small class="text-muted">
+            <small class="text-muted">
 
-                    ID:
-                    @(ad.OlxId?.ToString() ?? ad.Id.ToString("N")[..8])
+                ID:
+                @(ad.OlxId?.ToString()
+                                ?? ad.Id.ToString("N")[..8])
 
-                </small>
+            </small>
 
             </div>
 
@@ -252,7 +256,7 @@
 
 
                     <!-- STATUS -->
-                    @if (ad.Status == AdStatus.Sold)
+                @if (ad.Status == AdStatus.Sold)
                     {
                         <button type="button"
                                 class="btn btn-success"
@@ -312,6 +316,39 @@
 
 
     // =================================================
+    // SPRAWDZENIE ADMINA
+    // =================================================
+
+    private async Task<bool> RequireAdmin()
+    {
+        var authState =
+            await AuthenticationStateProvider
+                .GetAuthenticationStateAsync();
+
+
+        var user =
+            authState.User;
+
+
+        if (!user.Identity?.IsAuthenticated == true)
+        {
+            Navigation.NavigateTo("/login");
+            return false;
+        }
+
+
+        if (!user.IsInRole("Admin"))
+        {
+            Navigation.NavigateTo("/login");
+            return false;
+        }
+
+
+        return true;
+    }
+
+
+    // =================================================
     // ODCZYT
     // =================================================
 
@@ -362,6 +399,7 @@
             ??
             ad.Id.ToString();
 
+
         return
             $"/images/{folderId}/{photoIndex + 1:00}.jpg";
     }
@@ -378,7 +416,9 @@
             return;
         }
 
+
         currentIndex++;
+
 
         if (currentIndex >= photoCount)
         {
@@ -398,7 +438,9 @@
             return;
         }
 
+
         currentIndex--;
+
 
         if (currentIndex < 0)
         {
@@ -412,8 +454,14 @@
     // EDYCJA
     // =================================================
 
-    private void EditAd()
+    private async Task EditAd()
     {
+        if (!await RequireAdmin())
+        {
+            return;
+        }
+
+
         Navigation.NavigateTo(
             $"/ogloszenie/{Id}/edytuj");
     }
@@ -425,12 +473,20 @@
 
     private async Task MarkAsSold()
     {
+        if (!await RequireAdmin())
+        {
+            return;
+        }
+
+
         if (ad == null)
         {
             return;
         }
 
+
         bool success;
+
 
         if (ad.OlxId.HasValue)
         {
@@ -446,6 +502,7 @@
                     ad.Id,
                     AdStatus.Sold);
         }
+
 
         if (success)
         {
@@ -461,12 +518,20 @@
 
     private async Task MarkAsActive()
     {
+        if (!await RequireAdmin())
+        {
+            return;
+        }
+
+
         if (ad == null)
         {
             return;
         }
 
+
         bool success;
+
 
         if (ad.OlxId.HasValue)
         {
@@ -483,6 +548,7 @@
                     AdStatus.Active);
         }
 
+
         if (success)
         {
             ad.Status =
@@ -497,6 +563,12 @@
 
     private async Task DeleteAd()
     {
+        if (!await RequireAdmin())
+        {
+            return;
+        }
+
+
         if (ad == null)
         {
             return;
