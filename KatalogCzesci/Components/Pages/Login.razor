@@ -1,0 +1,80 @@
+﻿
+@page "/login"
+@rendermode InteractiveServer
+
+@inject IJSRuntime JS
+@inject NavigationManager Navigation
+
+<PageTitle>Logowanie</PageTitle>
+
+<div class="container py-5" style="max-width: 450px;">
+
+    <h2 class="mb-4">Logowanie</h2>
+
+    @if (loginError)
+    {
+        <div class="text-danger small mb-3">
+            Niepoprawny użytkownik lub hasło.
+        </div>
+    }
+
+    <div class="mb-3">
+
+        <label class="form-label">
+            Użytkownik
+        </label>
+
+        <input @bind="username"
+               class="form-control @(loginError ? "is-invalid" : "")"
+               autocomplete="username" />
+
+    </div>
+
+    <div class="mb-3">
+
+        <label class="form-label">
+            Hasło
+        </label>
+
+        <input type="password"
+               @bind="password"
+               class="form-control @(loginError ? "is-invalid" : "")"
+               autocomplete="current-password" />
+
+    </div>
+
+    <button class="btn btn-primary"
+            @onclick="PerformLogin">
+        Zaloguj
+    </button>
+
+</div>
+
+@code {
+
+    private string username = "";
+    private string password = "";
+
+    private bool loginError = false;
+
+    private async Task PerformLogin()
+    {
+        loginError = false;
+
+        var result = await JS.InvokeAsync<bool>(
+            "loginUser",
+            username,
+            password);
+
+        if (result)
+        {
+            Navigation.NavigateTo("/", forceLoad: true);
+        }
+        else
+        {
+            loginError = true;
+        }
+    }
+
+}
+
