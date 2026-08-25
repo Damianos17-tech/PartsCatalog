@@ -1,5 +1,6 @@
 using KatalogCzesci.Components;
 using KatalogCzesci.Services;
+using System.Diagnostics;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,5 +29,14 @@ app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+
+app.Lifetime.ApplicationStarted.Register(() =>
+{
+    Process.Start(new ProcessStartInfo
+    {
+        FileName = "http://localhost:5000",
+        UseShellExecute = true
+    });
+});
 
 app.Run();
