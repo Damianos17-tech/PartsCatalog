@@ -15,3 +15,5 @@ Local web-based catalog for managing and browsing automotive parts listings. Bui
 
 <img width="1560" height="941" alt="CarParts-2" src="https://github.com/user-attachments/assets/f3864e98-3ccf-4638-9c35-9dccc1c6fe8e" />
 
+
+<img width="1795" height="1034" alt="CarParts-3" src="https://github.com/user-attachments/assets/b5f8cb4c-97a2-43e9-aff3-0779913af43d" />
