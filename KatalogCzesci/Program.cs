@@ -107,12 +107,12 @@ app.MapPost("/api/login", async (HttpContext context) =>
                 context.Request.Body);
 
 
-    Console.WriteLine(
-        $"LOGIN TEST: [{data?.Username}] / [{data?.Password}]");
+    //Console.WriteLine(
+    //    $"LOGIN TEST: [{data?.Username}] / [{data?.Password}]");
 
 
     if (data?.Username == "Andrzej" &&
-        data.Password == "test123")
+        data.Password == "Andrzej")
     {
         var claims = new[]
         {
