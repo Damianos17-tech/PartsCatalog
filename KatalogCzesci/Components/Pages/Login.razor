@@ -1,5 +1,4 @@
-﻿
-@page "/login"
+﻿@page "/login"
 @rendermode InteractiveServer
 
 @inject IJSRuntime JS
@@ -45,30 +44,84 @@
 
     <button class="btn btn-primary"
             @onclick="PerformLogin">
+
         Zaloguj
+
     </button>
 
 </div>
 
+
 @code {
 
     private string username = "";
+
     private string password = "";
 
     private bool loginError = false;
+
+    private string returnUrl = "/";
+
+
+    // =================================================
+    // ODCZYT returnUrl
+    // =================================================
+
+    protected override void OnInitialized()
+    {
+        Console.WriteLine(
+    $"LOGIN PAGE URI = [{Navigation.Uri}]");
+
+        var uri =
+            Navigation.ToAbsoluteUri(
+                Navigation.Uri);
+
+        var query =
+            Microsoft.AspNetCore.WebUtilities
+                .QueryHelpers
+                .ParseQuery(uri.Query);
+
+
+        if (query.TryGetValue("returnUrl", out var value) &&
+            !string.IsNullOrWhiteSpace(value))
+        {
+            returnUrl = value!;
+
+            if (!returnUrl.StartsWith("/"))
+            {
+                returnUrl = "/" + returnUrl;
+            }
+        }
+    }
+
+
+    // =================================================
+    // LOGOWANIE
+    // =================================================
 
     private async Task PerformLogin()
     {
         loginError = false;
 
-        var result = await JS.InvokeAsync<bool>(
-            "loginUser",
-            username,
-            password);
+
+        var result =
+            await JS.InvokeAsync<bool>(
+                "loginUser",
+                username,
+                password);
+
 
         if (result)
         {
-            Navigation.NavigateTo("/", forceLoad: true);
+            // -----------------------------------------
+            // ZALOGOWANO
+            // -----------------------------------------
+
+            Console.WriteLine($"LOGIN OK - RETURN URL = [{returnUrl}]");
+
+            Navigation.NavigateTo(
+                returnUrl,
+                forceLoad: true);
         }
         else
         {
@@ -77,4 +130,3 @@
     }
 
 }
-

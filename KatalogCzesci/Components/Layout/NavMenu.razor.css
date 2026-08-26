@@ -103,3 +103,7 @@
         overflow-y: auto;
     }
 }
+
+.bi-bar-chart-fill-nav-menu {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-bar-chart-fill' viewBox='0 0 16 16'%3E%3Cpath d='M1 13.5a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5V10a.5.5 0 0 0-.5-.5H12a.5.5 0 0 0-.5.5v3H10V6a.5.5 0 0 0-.5-.5h-2A.5.5 0 0 0 7 6v7H5V9a.5.5 0 0 0-.5-.5h-2A.5.5 0 0 0 2 9v4H1.5a.5.5 0 0 0-.5.5Z'/%3E%3C/svg%3E");
+}

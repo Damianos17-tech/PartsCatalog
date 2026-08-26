@@ -1,0 +1,210 @@
+﻿
+@page "/stats"
+
+@using KatalogCzesci.Models
+@using KatalogCzesci.Services
+
+@inject CatalogService CatalogService
+
+<PageTitle>Statystyki</PageTitle>
+
+<div class="container-fluid p-4">
+
+    <h1 class="mb-4">Statystyki</h1>
+
+    @if (isLoading)
+    {
+        <p>Pobieram dane...</p>
+    }
+    else
+    {
+        <div class="row g-4">
+
+            <!-- ======================================== -->
+            <!-- WSZYSTKIE OGŁOSZENIA -->
+            <!-- ======================================== -->
+
+            <div class="col-md-4">
+
+                <div class="card shadow-sm">
+
+                    <div class="card-body">
+
+                        <h6 class="text-muted">
+                            Wszystkie ogłoszenia
+                        </h6>
+
+                        <h2>
+                            @ads.Count
+                        </h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ======================================== -->
+            <!-- WARTOŚĆ WSZYSTKICH -->
+            <!-- ======================================== -->
+
+            <div class="col-md-4">
+
+                <div class="card shadow-sm">
+
+                    <div class="card-body">
+
+                        <h6 class="text-muted">
+                            Wartość wszystkich ogłoszeń
+                        </h6>
+
+                        <h2>
+                            @totalValue.ToString("N2") zł
+                        </h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ======================================== -->
+            <!-- ŚREDNIA -->
+            <!-- ======================================== -->
+
+            <div class="col-md-4">
+
+                <div class="card shadow-sm">
+
+                    <div class="card-body">
+
+                        <h6 class="text-muted">
+                            Średnia wartość ogłoszenia
+                        </h6>
+
+                        <h2>
+                            @averageValue.ToString("N2") zł
+                        </h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ======================================== -->
+            <!-- SPRZEDANE -->
+            <!-- ======================================== -->
+
+            <div class="col-md-6">
+
+                <div class="card shadow-sm">
+
+                    <div class="card-body">
+
+                        <h6 class="text-muted">
+                            Sprzedane ogłoszenia
+                        </h6>
+
+                        <h2>
+                            @soldCount
+                        </h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ======================================== -->
+            <!-- WARTOŚĆ SPRZEDANYCH -->
+            <!-- ======================================== -->
+
+            <div class="col-md-6">
+
+                <div class="card shadow-sm">
+
+                    <div class="card-body">
+
+                        <h6 class="text-muted">
+                            Wartość sprzedanych
+                        </h6>
+
+                        <h2>
+                            @soldValue.ToString("N2") zł
+                        </h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    }
+
+</div>
+
+
+@code {
+
+    private List<Ad> ads = [];
+
+    private decimal totalValue;
+
+    private decimal averageValue;
+
+    private int soldCount;
+
+    private decimal soldValue;
+
+    private bool isLoading = true;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        ads =
+            await CatalogService.GetOlxAdsAsync();
+
+
+        // ========================================
+        // WSZYSTKIE
+        // ========================================
+
+        totalValue =
+            ads.Sum(ad => ad.Price);
+
+
+        averageValue =
+            ads.Count > 0
+                ? totalValue / ads.Count
+                : 0;
+
+
+        // ========================================
+        // SPRZEDANE
+        // ========================================
+
+        var soldAds =
+            ads.Where(
+                ad => ad.Status == AdStatus.Sold);
+
+
+        soldCount =
+            soldAds.Count();
+
+
+        soldValue =
+            soldAds.Sum(
+                ad => ad.Price);
+
+
+        isLoading = false;
+    }
+
+}
+

@@ -1,5 +1,4 @@
-﻿
-using System.Text.Json;
+﻿using System.Text.Json;
 using Microsoft.AspNetCore.Components.Forms;
 using KatalogCzesci.Models;
 
@@ -16,7 +15,34 @@ public class CatalogService
     };
 
 
-    public CatalogService(IWebHostEnvironment environment)
+    // ==================================================
+    // CZASY BLOKAD
+    // ==================================================
+
+    private static readonly TimeSpan BackupCooldown =
+        TimeSpan.FromMinutes(1);
+
+    private static readonly TimeSpan CreateAdCooldown =
+        TimeSpan.FromMinutes(1);
+
+
+    // ==================================================
+    // STAN BLOKAD
+    // ==================================================
+
+    private DateTime? _lastBackupTime;
+
+    private DateTime? _lastCreateAdTime;
+
+    private bool _cooldownStateLoaded;
+
+
+    // ==================================================
+    // KONSTRUKTOR
+    // ==================================================
+
+    public CatalogService(
+        IWebHostEnvironment environment)
     {
         _environment = environment;
     }
@@ -32,17 +58,27 @@ public class CatalogService
             "Data",
             "katalog.json");
 
+
     private string OlxCatalogPath =>
         Path.Combine(
             _environment.ContentRootPath,
             "Data",
             "ads-from-olx.json");
 
+
     private string LocalCatalogPath =>
         Path.Combine(
             _environment.ContentRootPath,
             "Data",
             "ads-local.json");
+
+
+    private string CooldownStatePath =>
+        Path.Combine(
+            _environment.ContentRootPath,
+            "Data",
+            "backup",
+            ".cooldown-state.json");
 
 
     // ==================================================
@@ -52,6 +88,7 @@ public class CatalogService
     public async Task<List<Ad>> GetOlxAdsAsync()
     {
         await ImportNewOlxAdsAsync();
+
         await FillMissingOlxDataAsync();
 
         return await LoadOlxAdsAsync();
@@ -81,10 +118,11 @@ public class CatalogService
             await LoadOlxAdsAsync();
 
 
-        var existingOlxIds = olxAds
-            .Where(ad => ad.OlxId.HasValue)
-            .Select(ad => ad.OlxId!.Value)
-            .ToHashSet();
+        var existingOlxIds =
+            olxAds
+                .Where(ad => ad.OlxId.HasValue)
+                .Select(ad => ad.OlxId!.Value)
+                .ToHashSet();
 
 
         var addedCount = 0;
@@ -92,9 +130,8 @@ public class CatalogService
 
         foreach (var sourceAd in sourceAds)
         {
-            // Ogłoszenie już jest w naszym
-            // lokalnym katalogu OLX.
-            if (existingOlxIds.Contains(sourceAd.Id))
+            if (existingOlxIds.Contains(
+                    sourceAd.Id))
             {
                 continue;
             }
@@ -106,25 +143,33 @@ public class CatalogService
 
                 OlxId = sourceAd.Id,
 
-                Title = sourceAd.Title ?? "",
+                Title =
+                    sourceAd.Title ?? "",
 
                 Description = "",
 
-                Price = ParsePrice(sourceAd.Price),
+                Price =
+                    ParsePrice(
+                        sourceAd.Price),
 
-                Photos = sourceAd.Photos ?? [],
+                Photos =
+                    sourceAd.Photos ?? [],
 
-                Categories = sourceAd.Categories ?? [],
+                Categories =
+                    sourceAd.Categories ?? [],
 
-                ActivatedAt = sourceAd.ActivatedAt,
+                ActivatedAt =
+                    sourceAd.ActivatedAt,
 
-                Status = AdStatus.Active
+                Status =
+                    AdStatus.Active
             };
 
 
             olxAds.Add(localAd);
 
-            existingOlxIds.Add(sourceAd.Id);
+            existingOlxIds.Add(
+                sourceAd.Id);
 
             addedCount++;
         }
@@ -132,7 +177,8 @@ public class CatalogService
 
         if (addedCount > 0)
         {
-            await SaveOlxAdsAsync(olxAds);
+            await SaveOlxAdsAsync(
+                olxAds);
         }
 
 
@@ -177,7 +223,6 @@ public class CatalogService
             }
 
 
-            // Na razie uzupełniamy tylko brakujące kategorie.
             if (localAd.Categories.Count == 0 &&
                 sourceAd.Categories?.Count > 0)
             {
@@ -191,7 +236,8 @@ public class CatalogService
 
         if (updatedCount > 0)
         {
-            await SaveOlxAdsAsync(olxAds);
+            await SaveOlxAdsAsync(
+                olxAds);
         }
 
 
@@ -203,23 +249,40 @@ public class CatalogService
     // LOKALNE / ADMIN - CREATE
     // ==================================================
 
-    public async Task<Ad> CreateLocalAdAsync(Ad ad)
+    public async Task<Ad> CreateLocalAdAsync(
+        Ad ad)
     {
+        await EnsureCooldownStateLoadedAsync();
+
+
+        if (GetCreateAdCooldownSeconds() > 0)
+        {
+            throw new InvalidOperationException(
+                "Dodawanie ogłoszeń jest chwilowo zablokowane.");
+        }
+
+
         var localAds =
             await LoadLocalAdsAsync();
 
 
-        ad.Id = Guid.NewGuid();
+        ad.Id =
+            Guid.NewGuid();
 
-        ad.OlxId = null;
+        ad.OlxId =
+            null;
 
-        ad.Status = AdStatus.Active;
+        ad.Status =
+            AdStatus.Active;
 
-        ad.ActivatedAt ??= DateTime.Now;
+        ad.ActivatedAt ??=
+            DateTime.Now;
 
-        ad.Photos ??= [];
+        ad.Photos ??=
+            [];
 
-        ad.Categories ??= [];
+        ad.Categories ??=
+            [];
 
 
         localAds.Add(ad);
@@ -231,6 +294,17 @@ public class CatalogService
 
         Directory.CreateDirectory(
             GetAdImageDirectory(ad));
+
+
+        // --------------------------------------------------
+        // ZAPIS CZASU UTWORZENIA OGŁOSZENIA
+        // --------------------------------------------------
+
+        _lastCreateAdTime =
+            DateTime.Now;
+
+
+        await SaveCooldownStateAsync();
 
 
         return ad;
@@ -283,54 +357,73 @@ public class CatalogService
     }
 
 
-    public async Task<bool> DeleteLocalAdAsync(Guid adId)
+    // ==================================================
+    // LOKALNE / ADMIN - DELETE
+    // ==================================================
+
+    public async Task<bool> DeleteLocalAdAsync(
+        Guid adId)
     {
         var localAds =
             await LoadLocalAdsAsync();
 
+
         var ad =
             localAds.FirstOrDefault(
                 x => x.Id == adId);
+
 
         if (ad == null)
         {
             return false;
         }
 
+
         var imageDirectory =
             GetAdImageDirectory(ad);
 
-        if (Directory.Exists(imageDirectory))
+
+        if (Directory.Exists(
+                imageDirectory))
         {
             Directory.Delete(
                 imageDirectory,
                 recursive: true);
         }
 
+
         localAds.Remove(ad);
+
 
         await SaveLocalAdsAsync(
             localAds);
+
 
         return true;
     }
 
 
+    // ==================================================
+    // OLX - UPDATE
+    // ==================================================
 
-
-    public async Task<bool> UpdateOlxAdAsync(Ad updatedAd)
+    public async Task<bool> UpdateOlxAdAsync(
+        Ad updatedAd)
     {
         var olxAds =
             await LoadOlxAdsAsync();
+
 
         var existingAd =
             olxAds.FirstOrDefault(
                 x => x.Id == updatedAd.Id);
 
+
         if (existingAd == null)
         {
             return false;
         }
+
 
         existingAd.Title =
             updatedAd.Title;
@@ -347,7 +440,10 @@ public class CatalogService
         existingAd.Photos =
             updatedAd.Photos ?? [];
 
-        await SaveOlxAdsAsync(olxAds);
+
+        await SaveOlxAdsAsync(
+            olxAds);
+
 
         return true;
     }
@@ -376,7 +472,8 @@ public class CatalogService
         }
 
 
-        ad.Status = status;
+        ad.Status =
+            status;
 
 
         await SaveLocalAdsAsync(
@@ -387,25 +484,36 @@ public class CatalogService
     }
 
 
+    // ==================================================
+    // STATUS - OLX
+    // ==================================================
+
     public async Task<bool> SetOlxAdStatusAsync(
-    Guid adId,
-    AdStatus status)
+        Guid adId,
+        AdStatus status)
     {
         var olxAds =
             await LoadOlxAdsAsync();
 
+
         var ad =
             olxAds.FirstOrDefault(
                 x => x.Id == adId);
+
 
         if (ad == null)
         {
             return false;
         }
 
-        ad.Status = status;
 
-        await SaveOlxAdsAsync(olxAds);
+        ad.Status =
+            status;
+
+
+        await SaveOlxAdsAsync(
+            olxAds);
+
 
         return true;
     }
@@ -462,9 +570,11 @@ public class CatalogService
                     targetFile,
                     StringComparison.OrdinalIgnoreCase))
             {
-                if (File.Exists(targetFile))
+                if (File.Exists(
+                        targetFile))
                 {
-                    File.Delete(targetFile);
+                    File.Delete(
+                        targetFile);
                 }
 
 
@@ -483,20 +593,22 @@ public class CatalogService
             normalizedFiles.ToList();
 
 
-        // Zapisujemy do odpowiedniego pliku.
         if (ad.OlxId.HasValue)
         {
             var olxAds =
                 await LoadOlxAdsAsync();
 
+
             var storedAd =
                 olxAds.FirstOrDefault(
                     x => x.Id == ad.Id);
+
 
             if (storedAd != null)
             {
                 storedAd.Photos =
                     normalizedFiles.ToList();
+
 
                 await SaveOlxAdsAsync(
                     olxAds);
@@ -507,14 +619,17 @@ public class CatalogService
             var localAds =
                 await LoadLocalAdsAsync();
 
+
             var storedAd =
                 localAds.FirstOrDefault(
                     x => x.Id == ad.Id);
+
 
             if (storedAd != null)
             {
                 storedAd.Photos =
                     normalizedFiles.ToList();
+
 
                 await SaveLocalAdsAsync(
                     localAds);
@@ -665,7 +780,8 @@ public class CatalogService
                 safeFileName);
 
 
-        if (File.Exists(filePath))
+        if (File.Exists(
+                filePath))
         {
             File.Delete(filePath);
         }
@@ -904,6 +1020,7 @@ public class CatalogService
             Path.GetExtension(path)
                 .ToLowerInvariant();
 
+
         return extension == ".jpg"
                ||
                extension == ".jpeg";
@@ -968,5 +1085,363 @@ public class CatalogService
 
         public DateTime? ActivatedAt { get; set; }
     }
-}
 
+
+    // ==================================================
+    // BACKUP - SPRAWDZENIE CZASU
+    // ==================================================
+
+    public int GetBackupCooldownSeconds()
+    {
+        EnsureCooldownStateLoaded();
+
+
+        if (!_lastBackupTime.HasValue)
+        {
+            return 0;
+        }
+
+
+        var elapsed =
+            DateTime.Now -
+            _lastBackupTime.Value;
+
+
+        var remaining =
+            BackupCooldown -
+            elapsed;
+
+
+        if (remaining <= TimeSpan.Zero)
+        {
+            return 0;
+        }
+
+
+        return (int)Math.Ceiling(
+            remaining.TotalSeconds);
+    }
+
+
+    // ==================================================
+    // DODAWANIE - SPRAWDZENIE CZASU
+    // ==================================================
+
+    public int GetCreateAdCooldownSeconds()
+    {
+        EnsureCooldownStateLoaded();
+
+
+        if (!_lastCreateAdTime.HasValue)
+        {
+            return 0;
+        }
+
+
+        var elapsed =
+            DateTime.Now -
+            _lastCreateAdTime.Value;
+
+
+        var remaining =
+            CreateAdCooldown -
+            elapsed;
+
+
+        if (remaining <= TimeSpan.Zero)
+        {
+            return 0;
+        }
+
+
+        return (int)Math.Ceiling(
+            remaining.TotalSeconds);
+    }
+
+
+    // ==================================================
+    // BACKUP BAZY
+    // ==================================================
+
+    public async Task<bool> BackupDatabaseAsync()
+    {
+        await EnsureCooldownStateLoadedAsync();
+
+
+        // --------------------------------------------------
+        // SPRAWDZENIE BLOKADY
+        // --------------------------------------------------
+
+        if (GetBackupCooldownSeconds() > 0)
+        {
+            return false;
+        }
+
+
+        // --------------------------------------------------
+        // FOLDER BACKUP
+        // --------------------------------------------------
+
+        var backupDirectory =
+            Path.Combine(
+                _environment.ContentRootPath,
+                "Data",
+                "backup");
+
+
+        Directory.CreateDirectory(
+            backupDirectory);
+
+
+        // --------------------------------------------------
+        // TIMESTAMP
+        // --------------------------------------------------
+
+        var timestamp =
+            DateTime.Now.ToString(
+                "yyyyMMddHHmmss");
+
+
+        // --------------------------------------------------
+        // BACKUP OLX
+        // --------------------------------------------------
+
+        await BackupFileAsync(
+            OlxCatalogPath,
+            backupDirectory,
+            timestamp);
+
+
+        // --------------------------------------------------
+        // BACKUP LOCAL
+        // --------------------------------------------------
+
+        await BackupFileAsync(
+            LocalCatalogPath,
+            backupDirectory,
+            timestamp);
+
+
+        // --------------------------------------------------
+        // ZAPIS CZASU BACKUPU
+        // --------------------------------------------------
+
+        _lastBackupTime =
+            DateTime.Now;
+
+
+        await SaveCooldownStateAsync();
+
+
+        return true;
+    }
+
+
+    // ==================================================
+    // BACKUP POJEDYNCZEGO PLIKU
+    // ==================================================
+
+    private static async Task BackupFileAsync(
+        string sourcePath,
+        string backupDirectory,
+        string timestamp)
+    {
+        if (!File.Exists(
+                sourcePath))
+        {
+            return;
+        }
+
+
+        var fileName =
+            Path.GetFileName(
+                sourcePath);
+
+
+        var backupFileName =
+            $"{fileName}_backup{timestamp}";
+
+
+        var backupPath =
+            Path.Combine(
+                backupDirectory,
+                backupFileName);
+
+
+        await using var source =
+            File.OpenRead(
+                sourcePath);
+
+
+        await using var destination =
+            File.Create(
+                backupPath);
+
+
+        await source.CopyToAsync(
+            destination);
+    }
+
+
+    // ==================================================
+    // WCZYTANIE STANU BLOKAD
+    // ==================================================
+
+    private void EnsureCooldownStateLoaded()
+    {
+        if (_cooldownStateLoaded)
+        {
+            return;
+        }
+
+
+        _cooldownStateLoaded = true;
+
+
+        if (!File.Exists(
+                CooldownStatePath))
+        {
+            return;
+        }
+
+
+        try
+        {
+            var json =
+                File.ReadAllText(
+                    CooldownStatePath);
+
+
+            if (string.IsNullOrWhiteSpace(
+                    json))
+            {
+                return;
+            }
+
+
+            var state =
+                JsonSerializer.Deserialize<
+                    CooldownState>(
+                    json,
+                    _jsonOptions);
+
+
+            _lastBackupTime =
+                state?.LastBackupTime;
+
+            _lastCreateAdTime =
+                state?.LastCreateAdTime;
+        }
+        catch
+        {
+            // Jeżeli plik stanu jest uszkodzony,
+            // aplikacja może działać dalej.
+        }
+    }
+
+
+    private async Task EnsureCooldownStateLoadedAsync()
+    {
+        if (_cooldownStateLoaded)
+        {
+            return;
+        }
+
+
+        _cooldownStateLoaded = true;
+
+
+        if (!File.Exists(
+                CooldownStatePath))
+        {
+            return;
+        }
+
+
+        try
+        {
+            var json =
+                await File.ReadAllTextAsync(
+                    CooldownStatePath);
+
+
+            if (string.IsNullOrWhiteSpace(
+                    json))
+            {
+                return;
+            }
+
+
+            var state =
+                JsonSerializer.Deserialize<
+                    CooldownState>(
+                    json,
+                    _jsonOptions);
+
+
+            _lastBackupTime =
+                state?.LastBackupTime;
+
+            _lastCreateAdTime =
+                state?.LastCreateAdTime;
+        }
+        catch
+        {
+            // Ignorujemy uszkodzony plik stanu.
+        }
+    }
+
+
+    // ==================================================
+    // ZAPIS STANU BLOKAD
+    // ==================================================
+
+    private async Task SaveCooldownStateAsync()
+    {
+        var directory =
+            Path.GetDirectoryName(
+                CooldownStatePath);
+
+
+        if (!string.IsNullOrWhiteSpace(
+                directory))
+        {
+            Directory.CreateDirectory(
+                directory);
+        }
+
+
+        var state =
+            new CooldownState
+            {
+                LastBackupTime =
+                    _lastBackupTime,
+
+                LastCreateAdTime =
+                    _lastCreateAdTime
+            };
+
+
+        var json =
+            JsonSerializer.Serialize(
+                state,
+                _jsonOptions);
+
+
+        await File.WriteAllTextAsync(
+            CooldownStatePath,
+            json);
+    }
+
+
+    // ==================================================
+    // MODEL STANU BLOKAD
+    // ==================================================
+
+    private class CooldownState
+    {
+        public DateTime? LastBackupTime { get; set; }
+
+        public DateTime? LastCreateAdTime { get; set; }
+    }
+}

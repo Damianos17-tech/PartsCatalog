@@ -84,12 +84,45 @@
     "OlxId": null,
     "Title": "\u015Amie\u0107",
     "Description": "sdnvsdipoaipocmsoiaocioaiocewuioanfuh dzfhnnvcn cjn xvjkxzn v",
-    "Price": 500,
+    "Price": 700,
     "Photos": [
       "01.jpg"
     ],
     "Categories": [],
     "ActivatedAt": "2026-08-25T23:56:08.7723154+02:00",
     "Status": 1
+  },
+  {
+    "Id": "126af85a-f640-4f7b-a875-1bd7e49eba4c",
+    "OlxId": null,
+    "Title": "sdsdvdsvsd",
+    "Description": "sdvdsvsd",
+    "Price": 213,
+    "Photos": [],
+    "Categories": [],
+    "ActivatedAt": "2026-08-26T02:51:04.3699595+02:00",
+    "Status": 0
+  },
+  {
+    "Id": "79f5515d-3345-4158-bf02-19542028559c",
+    "OlxId": null,
+    "Title": "3456745",
+    "Description": "sdfb fb",
+    "Price": 234,
+    "Photos": [],
+    "Categories": [],
+    "ActivatedAt": "2026-08-26T02:53:38.8482841+02:00",
+    "Status": 0
+  },
+  {
+    "Id": "2e82a08d-9070-49fa-9b2f-e3c8b6836df5",
+    "OlxId": null,
+    "Title": "sdvsdv",
+    "Description": "sdvds",
+    "Price": 0,
+    "Photos": [],
+    "Categories": [],
+    "ActivatedAt": "2026-08-26T02:58:48.8983625+02:00",
+    "Status": 0
   }
 ]

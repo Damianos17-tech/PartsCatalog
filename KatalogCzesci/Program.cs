@@ -21,13 +21,29 @@ builder.Services.AddScoped<AdSearchService>();
 builder.Services
     .AddAuthentication(
         CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.Cookie.Name = "KatalogCzesci.Auth";
+.AddCookie(options =>
+{
+    options.Cookie.Name = "KatalogCzesci.Auth";
 
-        options.LoginPath = "/login";
-        options.AccessDeniedPath = "/access-denied";
-    });
+    options.LoginPath = "/login";
+    options.AccessDeniedPath = "/access-denied";
+
+    options.Events.OnRedirectToLogin = context =>
+    {
+        var returnUrl =
+            context.Request.PathBase +
+            context.Request.Path +
+            context.Request.QueryString;
+
+        var loginUrl =
+            "/login?returnUrl=" +
+            Uri.EscapeDataString(returnUrl);
+
+        context.Response.Redirect(loginUrl);
+
+        return Task.CompletedTask;
+    };
+});
 
 builder.Services.AddAuthorization();
 

@@ -28,25 +28,64 @@
         <!-- INFORMACJE -->
         <!-- ================================================= -->
 
-        <p class="text-muted mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-4">
 
-            @if (string.IsNullOrWhiteSpace(searchQuery))
-            {
-                <span>
-                    Ogłoszenia z OLX:
-                    <strong>@ads.Count</strong>
-                </span>
-            }
-            else
-            {
-                <span>
-                    Znaleziono:
-                    <strong>@filteredAds.Count</strong>
-                    z @ads.Count
-                </span>
-            }
+            <p class="text-muted mb-0">
 
-        </p>
+                @if (string.IsNullOrWhiteSpace(searchQuery))
+                {
+                    <span>
+                        Ogłoszenia z OLX:
+                        <strong>@filteredAds.Count</strong>
+                    </span>
+                }
+                else
+                {
+                    <span>
+                        Znaleziono:
+                        <strong>@filteredAds.Count</strong>
+                        z @ads.Count
+                    </span>
+                }
+
+            </p>
+
+
+            <!-- ================================================= -->
+            <!-- SORTOWANIE -->
+            <!-- ================================================= -->
+
+            <div style="min-width: 260px;">
+
+                <select class="form-select"
+                        value="@sortOption"
+                        @onchange="OnSortChanged">
+
+                    <option value="default">
+                        Domyślna kolejność
+                    </option>
+
+                    <option value="priceAsc">
+                        Cena: od najniższej
+                    </option>
+
+                    <option value="priceDesc">
+                        Cena: od najwyższej
+                    </option>
+
+                    <option value="dateDesc">
+                        Data: od najnowszych
+                    </option>
+
+                    <option value="dateAsc">
+                        Data: od najstarszych
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
 
 
         <!-- ================================================= -->
@@ -137,7 +176,6 @@
                                 <div class="position-relative bg-white"
                                      style="height: 220px;">
 
-                                    <!-- SPRZEDANE -->
                                     @if (ad.Status == AdStatus.Sold)
                                     {
                                         <span class="badge bg-danger position-absolute top-0 end-0 m-2 shadow-sm"
@@ -147,15 +185,12 @@
                                     }
 
 
-                                    <!-- OBRAZ -->
-
                                     <img src="@GetImagePath(ad, currentIndex)"
                                          alt="@ad.Title"
                                          class="w-100 h-100"
                                          style="object-fit: contain; padding: 10px;" />
 
 
-                                    <!-- SLIDER -->
                                     @if (photoCount > 1)
                                     {
                                         <!-- LEWA STRZAŁKA -->
@@ -176,7 +211,9 @@
                                                                            z-index: 3;"
                                                 @onclick:stopPropagation="true"
                                                 @onclick="() => PreviousPhoto(ad.Id, photoCount)">
+
                                             ‹
+
                                         </button>
 
 
@@ -198,7 +235,9 @@
                                                                            z-index: 3;"
                                                 @onclick:stopPropagation="true"
                                                 @onclick="() => NextPhoto(ad.Id, photoCount)">
+
                                             ›
+
                                         </button>
 
 
@@ -268,7 +307,8 @@
                                 @if (ad.ActivatedAt.HasValue)
                                 {
                                     <small class="text-md">
-                                        📅 Dodano: @ad.ActivatedAt.Value.ToLocalTime().ToString("dd.MM.yyyy")
+                                        📅 Dodano:
+                                        @ad.ActivatedAt.Value.ToLocalTime().ToString("dd.MM.yyyy HH:mm")
                                     </small>
                                 }
 
@@ -314,6 +354,9 @@
 
     private string searchQuery = "";
 
+    private string sortOption = "default";
+
+
     private readonly Dictionary<Guid, int>
         currentPhotoIndex = new();
 
@@ -327,8 +370,7 @@
         ads =
             await CatalogService.GetOlxAdsAsync();
 
-        filteredAds =
-            ads.ToList();
+        ApplySearch();
     }
 
 
@@ -360,6 +402,23 @@
     }
 
 
+    // =================================================
+    // SORTOWANIE
+    // =================================================
+
+    private Task OnSortChanged(
+        ChangeEventArgs e)
+    {
+        sortOption =
+            e.Value?.ToString() ?? "default";
+
+        ApplySearch();
+
+        return InvokeAsync(
+            StateHasChanged);
+    }
+
+
     private void ApplySearch()
     {
         if (ads == null)
@@ -369,10 +428,43 @@
             return;
         }
 
+
+        // Najpierw wyszukujemy.
         filteredAds =
             SearchService.Search(
                 ads,
                 searchQuery);
+
+
+        // Następnie sortujemy wynik wyszukiwania.
+        filteredAds =
+            sortOption switch
+            {
+                "priceAsc" =>
+                    filteredAds
+                        .OrderBy(x => x.Price)
+                        .ToList(),
+
+                "priceDesc" =>
+                    filteredAds
+                        .OrderByDescending(x => x.Price)
+                        .ToList(),
+
+                "dateDesc" =>
+                    filteredAds
+                        .OrderByDescending(
+                            x => x.ActivatedAt ?? DateTime.MinValue)
+                        .ToList(),
+
+                "dateAsc" =>
+                    filteredAds
+                        .OrderBy(
+                            x => x.ActivatedAt ?? DateTime.MaxValue)
+                        .ToList(),
+
+                _ =>
+                    filteredAds
+            };
     }
 
 
@@ -461,3 +553,4 @@
     }
 
 }
+

@@ -325,24 +325,32 @@
             await AuthenticationStateProvider
                 .GetAuthenticationStateAsync();
 
-
         var user =
             authState.User;
 
-
-        if (!user.Identity?.IsAuthenticated == true)
+        if (user.Identity?.IsAuthenticated != true)
         {
-            Navigation.NavigateTo("/login");
+            var currentUrl =
+                Navigation.ToBaseRelativePath(
+                    Navigation.Uri);
+
+            Navigation.NavigateTo(
+                $"/login?returnUrl={Uri.EscapeDataString(currentUrl)}");
+
             return false;
         }
-
 
         if (!user.IsInRole("Admin"))
         {
-            Navigation.NavigateTo("/login");
+            var currentUrl =
+                Navigation.ToBaseRelativePath(
+                    Navigation.Uri);
+
+            Navigation.NavigateTo(
+                $"/login?returnUrl={Uri.EscapeDataString(currentUrl)}");
+
             return false;
         }
-
 
         return true;
     }
@@ -456,11 +464,25 @@
 
     private async Task EditAd()
     {
-        if (!await RequireAdmin())
+        var authState =
+            await AuthenticationStateProvider
+                .GetAuthenticationStateAsync();
+
+        var user =
+            authState.User;
+
+        if (user.Identity?.IsAuthenticated != true ||
+            !user.IsInRole("Admin"))
         {
+            var returnUrl =
+                Navigation.ToBaseRelativePath(
+                    Navigation.Uri);
+
+            Navigation.NavigateTo(
+                $"/login?returnUrl={Uri.EscapeDataString(returnUrl)}");
+
             return;
         }
-
 
         Navigation.NavigateTo(
             $"/ogloszenie/{Id}/edytuj");
@@ -613,16 +635,9 @@
     // POWRÓT
     // =================================================
 
-    private void GoBack()
+    private async Task GoBack()
     {
-        if (ad?.OlxId.HasValue == true)
-        {
-            Navigation.NavigateTo("/");
-        }
-        else
-        {
-            Navigation.NavigateTo("/lokalne");
-        }
+        await JS.InvokeVoidAsync("history.back");
     }
 
 }
