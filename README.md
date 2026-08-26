@@ -2,6 +2,7 @@
 
 Nowoczesny system webowy do zarządzania katalogiem części samochodowych oraz przygotowywania ogłoszeń sprzedażowych.
 
+Szukamy dostępnych pasków:
 <img width="1911" height="1037" alt="CarParts-4" src="https://github.com/user-attachments/assets/a077ac1d-2713-4a93-8cd0-4c8f7ffcdb03" />
 
 
