@@ -465,6 +465,35 @@ app.MapGet(
 
 
 // =================================================
+// PUBLICZNE ZDJÊCIA OG£OSZEÑ
+// =================================================
+
+app.MapGet(
+    "/ogloszenie/{adId:guid}/{fileName}",
+    (
+        Guid adId,
+        string fileName,
+        IWebHostEnvironment environment) =>
+    {
+        var filePath =
+            Path.Combine(
+                environment.WebRootPath,
+                "images",
+                adId.ToString(),
+                fileName);
+
+        if (!File.Exists(filePath))
+        {
+            return Results.NotFound();
+        }
+
+        return Results.File(
+            filePath,
+            "image/jpeg");
+    });
+
+
+// =================================================
 // BLAZOR
 // =================================================
 

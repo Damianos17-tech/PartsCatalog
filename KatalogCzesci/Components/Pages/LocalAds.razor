@@ -818,7 +818,7 @@ private List<Ad>? ads;
         int photoIndex)
     {
         return
-            $"/images/{ad.Id}/{photoIndex + 1:00}.jpg";
+            $"{Navigation.BaseUri}ogloszenie/{ad.Id}/{photoIndex + 1:00}.jpg";
     }
 
 
