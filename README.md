@@ -41,6 +41,9 @@ Dodawanie kolejnych ogłoszeń jest również ograniczone czasowo. Mechanizm dzi
 
 Dzięki temu aplikacja jest chroniona nie tylko przed przypadkowymi kliknięciami, ale również przed prostym omijaniem ograniczeń po stronie frontendu.
 
+<img width="1350" height="444" alt="CarParts-5" src="https://github.com/user-attachments/assets/bee5abf0-e48a-4c14-bfbd-6903d7b81497" />
+
+
 ## 🔐 Administracja
 
 Dostęp do funkcji administracyjnych zabezpieczony jest przez uwierzytelnianie oparte na cookie oraz role użytkowników.
@@ -121,8 +124,6 @@ System został przygotowany jako dedykowane narzędzie do zarządzania katalogie
 ---
 
 ## Screenshots
-
-<img width="1806" height="1040" alt="CarParts-1" src="https://github.com/user-attachments/assets/edc0c2ca-d559-4061-88e9-05d777b813af" />
 
 
 <img width="1560" height="941" alt="CarParts-2" src="https://github.com/user-attachments/assets/f3864e98-3ccf-4638-9c35-9dccc1c6fe8e" />
