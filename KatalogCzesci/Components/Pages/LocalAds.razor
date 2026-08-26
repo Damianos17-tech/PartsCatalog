@@ -3,12 +3,14 @@
 
 @using KatalogCzesci.Models
 @using KatalogCzesci.Services
+@using Microsoft.AspNetCore.Components.Authorization
 
 @implements IAsyncDisposable
 
 @inject CatalogService CatalogService
 @inject AdSearchService SearchService
 @inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <PageTitle>Lokalne / Admin</PageTitle>
 
@@ -681,15 +683,43 @@ private List<Ad>? ads;
 
     private async Task BackupDatabase()
     {
+        // =================================================
+        // SPRAWDZENIE LOGOWANIA
+        // =================================================
+
+        var authState =
+            await AuthenticationStateProvider
+                .GetAuthenticationStateAsync();
+
+        var user =
+            authState.User;
+
+
+        if (!(user.Identity?.IsAuthenticated ?? false))
+        {
+            var returnUrl =
+                Navigation.Uri
+                    .Replace(
+                        Navigation.BaseUri.TrimEnd('/'),
+                        "");
+
+            Navigation.NavigateTo(
+                $"/login?returnUrl={Uri.EscapeDataString(returnUrl)}",
+                forceLoad: true);
+
+            return;
+        }
+
+
+        // =================================================
+        // BACKUP
+        // =================================================
+
         backupMessage = "";
 
         await InvokeAsync(
             StateHasChanged);
 
-
-        // =================================================
-        // SPRAWDZENIE BLOKADY W SERWISIE
-        // =================================================
 
         var cooldown =
             CatalogService.GetBackupCooldownSeconds();
