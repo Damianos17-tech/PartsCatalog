@@ -1,9 +1,8 @@
-﻿@page "/ogloszenie/{Id:guid}/edytuj"
+﻿@page "/ogloszenie/{Source}/{Id:guid}/edytuj"
 @attribute [Authorize(Roles = "Admin")]
 @rendermode InteractiveServer
 
 @using Microsoft.AspNetCore.Authorization
-
 @using Microsoft.AspNetCore.Components.Forms
 @using KatalogCzesci.Models
 @using KatalogCzesci.Services
@@ -129,6 +128,78 @@
                         </span>
 
                     </div>
+
+                </div>
+
+
+                <!-- GTIN / EAN -->
+
+                <div class="mb-4">
+
+                    <label class="form-label fw-semibold">
+                        GTIN / EAN
+                    </label>
+
+                    <input class="form-control"
+                           @bind="ad.GTIN"
+                           placeholder="Np. 5901234123457" />
+
+                    <div class="form-text">
+                        Kod GTIN / EAN produktu.
+                    </div>
+
+                </div>
+
+
+                @* <!-- EXTERNAL ID -->
+
+                <div class="mb-4">
+
+                    <label class="form-label fw-semibold">
+                        External ID
+                    </label>
+
+                    <input class="form-control"
+                           @bind="ad.ExternalId"
+                           placeholder="Np. CZ-000123" />
+
+                    <div class="form-text">
+                        Wewnętrzny identyfikator produktu używany przy eksporcie.
+                    </div>
+
+                </div> *@
+
+
+                <!-- MPN -->
+
+                <div class="mb-4">
+
+                    <label class="form-label fw-semibold">
+                        MPN / Numer części
+                    </label>
+
+                    <input class="form-control"
+                           @bind="ad.MPN"
+                           placeholder="Np. 71-38512-00" />
+
+                    <div class="form-text">
+                        Numer katalogowy części producenta.
+                    </div>
+
+                </div>
+
+
+                <!-- MARKA -->
+
+                <div class="mb-4">
+
+                    <label class="form-label fw-semibold">
+                        Marka
+                    </label>
+
+                    <input class="form-control"
+                           @bind="ad.Brand"
+                           placeholder="Np. Victor Reinz" />
 
                 </div>
 
@@ -278,13 +349,18 @@
             <button type="button"
                     class="btn btn-primary"
                     @onclick="Save">
+
                 💾 Zapisz
+
             </button>
+
 
             <button type="button"
                     class="btn btn-outline-secondary"
                     @onclick="Cancel">
+
                 Anuluj
+
             </button>
 
         </div>
@@ -296,7 +372,11 @@
 @code {
 
     [Parameter]
+    public string Source { get; set; } = "";
+
+    [Parameter]
     public Guid Id { get; set; }
+
 
     private Ad? ad;
 
@@ -313,17 +393,33 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // Najpierw ogłoszenia z OLX.
-        var olxAds =
-            await CatalogService.GetOlxAdsAsync();
-
-        var foundAd =
-            olxAds.FirstOrDefault(
-                x => x.Id == Id);
+        Ad? foundAd = null;
 
 
-        // Jeśli nie znaleziono, sprawdzamy lokalne.
-        if (foundAd == null)
+        // =================================================
+        // OLX
+        // =================================================
+
+        if (Source.Equals(
+                "olx",
+                StringComparison.OrdinalIgnoreCase))
+        {
+            var olxAds =
+                await CatalogService.GetOlxAdsAsync();
+
+            foundAd =
+                olxAds.FirstOrDefault(
+                    x => x.Id == Id);
+        }
+
+
+        // =================================================
+        // LOKALNE
+        // =================================================
+
+        else if (Source.Equals(
+                     "lokalne",
+                     StringComparison.OrdinalIgnoreCase))
         {
             var localAds =
                 await CatalogService.GetLocalAdsAsync();
@@ -334,7 +430,21 @@
         }
 
 
-        // Brak ogłoszenia.
+        // =================================================
+        // NIEZNANE ŹRÓDŁO
+        // =================================================
+
+        else
+        {
+            Navigation.NavigateTo("/");
+            return;
+        }
+
+
+        // =================================================
+        // BRAK OGŁOSZENIA
+        // =================================================
+
         if (foundAd == null)
         {
             Navigation.NavigateTo("/");
@@ -342,18 +452,38 @@
         }
 
 
-        // Tworzymy kopię do formularza.
+        // =================================================
+        // KOPIA DO FORMULARZA
+        // =================================================
+
         ad = new Ad
         {
-            Id = foundAd.Id,
+            Id =
+                foundAd.Id,
 
-            OlxId = foundAd.OlxId,
+            OlxId =
+                foundAd.OlxId,
 
-            Title = foundAd.Title,
+            Title =
+                foundAd.Title,
 
-            Description = foundAd.Description,
+            Description =
+                foundAd.Description,
 
-            Price = foundAd.Price,
+            Price =
+                foundAd.Price,
+
+            GTIN =
+                foundAd.GTIN,
+
+            ExternalId =
+                foundAd.ExternalId,
+
+            MPN =
+                foundAd.MPN,
+
+            Brand =
+                foundAd.Brand,
 
             Photos =
                 foundAd.Photos?.ToList() ?? [],
@@ -361,9 +491,11 @@
             Categories =
                 foundAd.Categories?.ToList() ?? [],
 
-            ActivatedAt = foundAd.ActivatedAt,
+            ActivatedAt =
+                foundAd.ActivatedAt,
 
-            Status = foundAd.Status
+            Status =
+                foundAd.Status
         };
 
 
@@ -373,7 +505,10 @@
                 ad.Categories);
 
 
-        // Porządkujemy zdjęcia.
+        // =================================================
+        // PORZĄDKOWANIE ZDJĘĆ
+        // =================================================
+
         photoFiles =
             await CatalogService.NormalizePhotosAsync(
                 ad);
@@ -396,13 +531,15 @@
         }
 
 
-        var folderId =
-            ad.OlxId?.ToString()
-            ??
-            ad.Id.ToString();
+        // Każde ogłoszenie ma własny GUID.
+        // Zdjęcia znajdują się w:
+        //
+        // wwwroot/images/{Ad.Id}/
+        //
+        // Nie używamy tutaj OlxId.
 
-
-        return $"/images/{folderId}/{fileName}";
+        return
+            $"/images/{ad.Id}/{fileName}";
     }
 
 
@@ -518,8 +655,10 @@
         }
 
 
-        // Kategorie można zmieniać tylko
-        // dla ogłoszeń lokalnych.
+        // =================================================
+        // KATEGORIE LOKALNE
+        // =================================================
+
         if (!ad.OlxId.HasValue)
         {
             ad.Categories =
@@ -534,9 +673,17 @@
         }
 
 
+        // =================================================
+        // ZDJĘCIA
+        // =================================================
+
         ad.Photos =
             photoFiles.ToList();
 
+
+        // =================================================
+        // ZAPIS DO ODPOWIEDNIEGO PLIKU
+        // =================================================
 
         bool success;
 
@@ -544,21 +691,29 @@
         if (ad.OlxId.HasValue)
         {
             // OLX → ads-from-olx.json
+
             success =
-                await CatalogService.UpdateOlxAdAsync(ad);
+                await CatalogService.UpdateOlxAdAsync(
+                    ad);
         }
         else
         {
             // LOCAL → ads-local.json
+
             success =
-                await CatalogService.UpdateLocalAdAsync(ad);
+                await CatalogService.UpdateLocalAdAsync(
+                    ad);
         }
 
+
+        // =================================================
+        // POWRÓT
+        // =================================================
 
         if (success)
         {
             Navigation.NavigateTo(
-                $"/ogloszenie/{ad.Id}");
+                $"/ogloszenie/{Source}/{ad.Id}");
         }
         else
         {
@@ -575,8 +730,7 @@
     private void Cancel()
     {
         Navigation.NavigateTo(
-            $"/ogloszenie/{Id}");
+            $"/ogloszenie/{Source}/{Id}");
     }
 
 }
-

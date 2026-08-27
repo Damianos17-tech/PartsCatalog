@@ -12,6 +12,18 @@ public class Ad
 
     public decimal Price { get; set; }
 
+    // ================================================
+    // DANE ALLEGRO
+    // ================================================
+
+    public string GTIN { get; set; } = "";
+
+    public string ExternalId { get; set; } = Guid.NewGuid().ToString();
+
+    public string MPN { get; set; } = "";
+
+    public string Brand { get; set; } = "";
+
     public List<string> Photos { get; set; } = [];
 
     public List<string> Categories { get; set; } = [];

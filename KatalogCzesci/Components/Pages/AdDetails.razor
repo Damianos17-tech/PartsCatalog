@@ -1,5 +1,4 @@
-﻿
-@page "/ogloszenie/{Id:guid}"
+﻿@page "/ogloszenie/{Source}/{Id:guid}"
 @rendermode InteractiveServer
 
 @using KatalogCzesci.Models
@@ -278,17 +277,14 @@
                     }
 
 
-                    <!-- USUWANIE - TYLKO LOKALNE -->
-                    @if (!ad.OlxId.HasValue)
-                    {
-                        <button type="button"
-                                class="btn btn-outline-danger"
-                                @onclick="DeleteAd">
+                    <!-- USUWANIE -->
+                    <button type="button"
+                            class="btn btn-outline-danger"
+                            @onclick="DeleteAd">
 
-                            🗑 Usuń ogłoszenie
+                        🗑 Usuń ogłoszenie
 
-                        </button>
-                    }
+                    </button>
 
                 </div>
 
@@ -301,6 +297,9 @@
 
 
 @code {
+
+    [Parameter]
+    public string Source { get; set; } = "";
 
     [Parameter]
     public Guid Id { get; set; }
@@ -318,7 +317,6 @@
     // =================================================
     // SPRAWDZENIE ADMINA
     // =================================================
-
     private async Task<bool> RequireAdmin()
     {
         var authState =
@@ -328,6 +326,7 @@
         var user =
             authState.User;
 
+        // NIEZALOGOWANY
         if (user.Identity?.IsAuthenticated != true)
         {
             var currentUrl =
@@ -340,15 +339,9 @@
             return false;
         }
 
+        // ZALOGOWANY, ALE NIE ADMIN
         if (!user.IsInRole("Admin"))
         {
-            var currentUrl =
-                Navigation.ToBaseRelativePath(
-                    Navigation.Uri);
-
-            Navigation.NavigateTo(
-                $"/login?returnUrl={Uri.EscapeDataString(currentUrl)}");
-
             return false;
         }
 
@@ -362,19 +355,20 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // Najpierw szukamy w ogłoszeniach OLX.
+        if (Source.Equals(
+                "olx",
+                StringComparison.OrdinalIgnoreCase))
+        {
+            var olxAds =
+                await CatalogService.GetOlxAdsAsync();
 
-        var olxAds =
-            await CatalogService.GetOlxAdsAsync();
-
-        ad =
-            olxAds.FirstOrDefault(
-                x => x.Id == Id);
-
-
-        // Jeśli nie znaleziono, szukamy lokalnych.
-
-        if (ad == null)
+            ad =
+                olxAds.FirstOrDefault(
+                    x => x.Id == Id);
+        }
+        else if (Source.Equals(
+                     "lokalne",
+                     StringComparison.OrdinalIgnoreCase))
         {
             var localAds =
                 await CatalogService.GetLocalAdsAsync();
@@ -384,8 +378,6 @@
                     x => x.Id == Id);
         }
 
-
-        // Nie znaleziono ogłoszenia.
 
         if (ad == null)
         {
@@ -402,14 +394,8 @@
         Ad ad,
         int photoIndex)
     {
-        var folderId =
-            ad.OlxId?.ToString()
-            ??
-            ad.Id.ToString();
-
-
         return
-            $"/images/{folderId}/{photoIndex + 1:00}.jpg";
+            $"/images/{ad.Id}/{photoIndex + 1:00}.jpg";
     }
 
 
@@ -485,7 +471,7 @@
         }
 
         Navigation.NavigateTo(
-            $"/ogloszenie/{Id}/edytuj");
+      $"/ogloszenie/{Source}/{Id}/edytuj");
     }
 
 
@@ -583,8 +569,16 @@
     // USUWANIE LOKALNEGO OGŁOSZENIA
     // =================================================
 
+    // =================================================
+    // USUWANIE OGŁOSZENIA
+    // =================================================
+
     private async Task DeleteAd()
     {
+        // -------------------------------------------------
+        // TYLKO ADMIN
+        // -------------------------------------------------
+
         if (!await RequireAdmin())
         {
             return;
@@ -597,19 +591,14 @@
         }
 
 
-        // Dodatkowe zabezpieczenie:
-        // ogłoszeń OLX nie usuwamy z tego miejsca.
-
-        if (ad.OlxId.HasValue)
-        {
-            return;
-        }
-
+        // -------------------------------------------------
+        // POTWIERDZENIE
+        // -------------------------------------------------
 
         var confirmed =
             await JS.InvokeAsync<bool>(
                 "confirm",
-                "Czy na pewno chcesz usunąć to lokalne ogłoszenie wraz ze zdjęciami?");
+                "Czy na pewno chcesz usunąć to ogłoszenie wraz ze zdjęciami?");
 
 
         if (!confirmed)
@@ -618,15 +607,41 @@
         }
 
 
-        var success =
-            await CatalogService.DeleteLocalAdAsync(
-                ad.Id);
+        // -------------------------------------------------
+        // USUNIĘCIE
+        // -------------------------------------------------
 
+        bool success;
+
+
+        if (ad.OlxId.HasValue)
+        {
+            success =
+                await CatalogService.DeleteOlxAdAsync(
+                    ad.Id);
+        }
+        else
+        {
+            success =
+                await CatalogService.DeleteLocalAdAsync(
+                    ad.Id);
+        }
+
+
+        // -------------------------------------------------
+        // POWRÓT
+        // -------------------------------------------------
 
         if (success)
         {
-            Navigation.NavigateTo(
-                "/lokalne");
+            if (ad.OlxId.HasValue)
+            {
+                Navigation.NavigateTo("/");
+            }
+            else
+            {
+                Navigation.NavigateTo("/lokalne");
+            }
         }
     }
 

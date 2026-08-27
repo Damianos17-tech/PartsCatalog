@@ -1,4 +1,5 @@
-﻿@page "/dodaj"
+﻿
+@page "/dodaj"
 @attribute [Authorize(Roles = "Admin")]
 @rendermode InteractiveServer
 
@@ -89,6 +90,78 @@
                     </span>
 
                 </div>
+
+            </div>
+
+
+            <!-- GTIN / EAN -->
+
+            <div class="mb-4">
+
+                <label class="form-label fw-semibold">
+                    GTIN / EAN
+                </label>
+
+                <input class="form-control"
+                       @bind="ad.GTIN"
+                       placeholder="Np. 5901234123457" />
+
+                <div class="form-text">
+                    Kod GTIN / EAN produktu.
+                </div>
+
+            </div>
+
+
+           @*  <!-- EXTERNAL ID -->
+
+            <div class="mb-4">
+
+                <label class="form-label fw-semibold">
+                    External ID
+                </label>
+
+                <input class="form-control"
+                       @bind="ad.ExternalId"
+                       placeholder="Np. CZ-000123" />
+
+                <div class="form-text">
+                    Wewnętrzny identyfikator produktu używany przy eksporcie.
+                </div>
+
+            </div> *@
+
+
+            <!-- MPN -->
+
+            <div class="mb-4">
+
+                <label class="form-label fw-semibold">
+                    MPN / Numer części
+                </label>
+
+                <input class="form-control"
+                       @bind="ad.MPN"
+                       placeholder="Np. 71-38512-00" />
+
+                <div class="form-text">
+                    Numer katalogowy części producenta.
+                </div>
+
+            </div>
+
+
+            <!-- MARKA -->
+
+            <div class="mb-4">
+
+                <label class="form-label fw-semibold">
+                    Marka
+                </label>
+
+                <input class="form-control"
+                       @bind="ad.Brand"
+                       placeholder="Np. Victor Reinz" />
 
             </div>
 
@@ -264,6 +337,12 @@
             Title = "",
             Description = "",
             Price = 0,
+
+            GTIN = "",
+            ExternalId = "",
+            MPN = "",
+            Brand = "",
+
             Photos = [],
             Categories = [],
             Status = AdStatus.Active,

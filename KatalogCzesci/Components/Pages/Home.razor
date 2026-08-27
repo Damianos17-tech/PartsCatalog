@@ -476,7 +476,7 @@
         Guid adId)
     {
         Navigation.NavigateTo(
-            $"/ogloszenie/{adId}");
+            $"/ogloszenie/olx/{adId}");
     }
 
 
@@ -488,13 +488,8 @@
         Ad ad,
         int photoIndex)
     {
-        var folderId =
-            ad.OlxId?.ToString()
-            ??
-            ad.Id.ToString();
-
         return
-            $"/images/{folderId}/{photoIndex + 1:00}.jpg";
+            $"/ogloszenie/{ad.Id}/{photoIndex + 1:00}.jpg";
     }
 
 

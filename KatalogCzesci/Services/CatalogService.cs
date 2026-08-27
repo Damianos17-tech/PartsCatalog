@@ -1,4 +1,6 @@
-﻿using System.Text.Json;
+﻿using System.Globalization;
+using System.Text;
+using System.Text.Json;
 using Microsoft.AspNetCore.Components.Forms;
 using KatalogCzesci.Models;
 
@@ -23,7 +25,7 @@ public class CatalogService
         TimeSpan.FromMinutes(1);
 
     private static readonly TimeSpan CreateAdCooldown =
-        TimeSpan.FromMinutes(1);
+        TimeSpan.FromSeconds(5);
 
 
     // ==================================================
@@ -71,6 +73,13 @@ public class CatalogService
             _environment.ContentRootPath,
             "Data",
             "ads-local.json");
+
+
+    private string AllegroExportPath =>
+        Path.Combine(
+            _environment.ContentRootPath,
+            "Data",
+            "allegro-export.csv");
 
 
     private string CooldownStatePath =>
@@ -139,18 +148,37 @@ public class CatalogService
 
             var localAd = new Ad
             {
-                Id = Guid.NewGuid(),
+                Id =
+                    Guid.NewGuid(),
 
-                OlxId = sourceAd.Id,
+                OlxId =
+                    sourceAd.Id,
 
                 Title =
                     sourceAd.Title ?? "",
 
-                Description = "",
+                Description =
+                    "",
 
                 Price =
                     ParsePrice(
                         sourceAd.Price),
+
+                // ==========================================
+                // DANE ALLEGRO
+                // ==========================================
+
+                GTIN =
+                    "",
+
+                MPN =
+                    "",
+
+                ExternalId =
+                    "",
+
+                Brand =
+                    "",
 
                 Photos =
                     sourceAd.Photos ?? [],
@@ -278,6 +306,18 @@ public class CatalogService
         ad.ActivatedAt ??=
             DateTime.Now;
 
+        ad.GTIN ??=
+            "";
+
+        ad.MPN ??=
+            "";
+
+        ad.ExternalId ??=
+            "";
+
+        ad.Brand ??=
+            "";
+
         ad.Photos ??=
             [];
 
@@ -342,6 +382,23 @@ public class CatalogService
         existingAd.Price =
             updatedAd.Price;
 
+
+        // ==========================================
+        // DANE ALLEGRO
+        // ==========================================
+
+        existingAd.GTIN =
+            updatedAd.GTIN ?? "";
+
+        existingAd.MPN =
+            updatedAd.MPN ?? "";
+
+        existingAd.ExternalId =
+            updatedAd.ExternalId ?? "";
+
+        existingAd.Brand =
+            updatedAd.Brand ?? "";
+
         existingAd.Categories =
             updatedAd.Categories ?? [];
 
@@ -404,6 +461,60 @@ public class CatalogService
 
 
     // ==================================================
+    // OLX - DELETE
+    // ==================================================
+
+    public async Task<bool> DeleteOlxAdAsync(
+        Guid adId)
+    {
+        var olxAds =
+            await LoadOlxAdsAsync();
+
+
+        var ad =
+            olxAds.FirstOrDefault(
+                x => x.Id == adId);
+
+
+        if (ad == null)
+        {
+            return false;
+        }
+
+
+        // --------------------------------------------------
+        // USUNIĘCIE ZDJĘĆ
+        // --------------------------------------------------
+
+        var imageDirectory =
+            GetAdImageDirectory(ad);
+
+
+        if (Directory.Exists(
+                imageDirectory))
+        {
+            Directory.Delete(
+                imageDirectory,
+                recursive: true);
+        }
+
+
+        // --------------------------------------------------
+        // USUNIĘCIE OGŁOSZENIA
+        // --------------------------------------------------
+
+        olxAds.Remove(ad);
+
+
+        await SaveOlxAdsAsync(
+            olxAds);
+
+
+        return true;
+    }
+
+
+    // ==================================================
     // OLX - UPDATE
     // ==================================================
 
@@ -433,6 +544,23 @@ public class CatalogService
 
         existingAd.Price =
             updatedAd.Price;
+
+
+        // ==========================================
+        // DANE ALLEGRO
+        // ==========================================
+
+        existingAd.GTIN =
+            updatedAd.GTIN ?? "";
+
+        existingAd.MPN =
+            updatedAd.MPN ?? "";
+
+        existingAd.ExternalId =
+            updatedAd.ExternalId ?? "";
+
+        existingAd.Brand =
+            updatedAd.Brand ?? "";
 
         existingAd.Categories =
             updatedAd.Categories ?? [];
@@ -815,22 +943,218 @@ public class CatalogService
 
 
     // ==================================================
+    // EKSPORT ALLEGRO CSV
+    // ==================================================
+
+    public async Task<string> ExportAllegroCsvAsync()
+    {
+        var ads =
+            await LoadLocalAdsAsync();
+
+
+        var csv =
+            new StringBuilder();
+
+
+        // --------------------------------------------------
+        // NAGŁÓWEK ALLEGRO
+        // --------------------------------------------------
+
+        csv.AppendLine(
+            "GTIN,EXTERNAL_ID,NAME,STOCK,PRICE,MPN,DESCRIPTION," +
+            "IMAGE1,IMAGE2,IMAGE3,IMAGE4,IMAGE5,IMAGE6,IMAGE7,IMAGE8," +
+            "IMAGE9,IMAGE10,IMAGE11,IMAGE12,IMAGE13,IMAGE14,IMAGE15,IMAGE16," +
+            "AI_COCREATED,CATEGORY,BRAND,COLOR,SIZE,MATERIAL");
+
+
+        // --------------------------------------------------
+        // OGŁOSZENIA
+        // --------------------------------------------------
+
+        foreach (var ad in ads)
+        {
+            var values =
+                new List<string>
+                {
+                    // GTIN
+                    CsvEscape(ad.GTIN),
+
+                    // EXTERNAL_ID
+                    CsvEscape(ad.ExternalId),
+
+                    // NAME
+                    CsvEscape(ad.Title),
+
+                    // STOCK
+                    "1",
+
+                    // PRICE
+                    CsvEscape(
+                        ad.Price.ToString(
+                            "0.##",
+                            CultureInfo.InvariantCulture)),
+
+                    // MPN
+                    CsvEscape(ad.MPN),
+
+                    // DESCRIPTION
+                    CsvEscape(ad.Description)
+                };
+
+
+            // --------------------------------------------------
+            // IMAGE1 - IMAGE16
+            // --------------------------------------------------
+
+            for (var i = 1; i <= 16; i++)
+            {
+                var imageUrl = "";
+
+
+                if (ad.Photos != null &&
+                    ad.Photos.Count >= i)
+                {
+                    imageUrl =
+                        $"https://parts.dcplatforms.pl/" +
+                        $"ogloszenie/{ad.Id}/{i:00}.jpg";
+                }
+
+
+                values.Add(
+                    CsvEscape(imageUrl));
+            }
+
+
+            // --------------------------------------------------
+            // AI_COCREATED
+            // --------------------------------------------------
+
+            values.Add("");
+
+
+            // --------------------------------------------------
+            // CATEGORY
+            // --------------------------------------------------
+
+            var category =
+                ad.Categories != null
+                    ? string.Join(
+                        " / ",
+                        ad.Categories)
+                    : "";
+
+
+            values.Add(
+                CsvEscape(category));
+
+
+            // --------------------------------------------------
+            // BRAND
+            // --------------------------------------------------
+
+            values.Add(
+                CsvEscape(ad.Brand));
+
+
+            // --------------------------------------------------
+            // COLOR
+            // --------------------------------------------------
+
+            values.Add("");
+
+
+            // --------------------------------------------------
+            // SIZE
+            // --------------------------------------------------
+
+            values.Add("");
+
+
+            // --------------------------------------------------
+            // MATERIAL
+            // --------------------------------------------------
+
+            values.Add("");
+
+
+            csv.AppendLine(
+                string.Join(
+                    ",",
+                    values));
+        }
+
+
+        // --------------------------------------------------
+        // ZAPIS PLIKU
+        // --------------------------------------------------
+
+        var directory =
+            Path.GetDirectoryName(
+                AllegroExportPath);
+
+
+        if (!string.IsNullOrWhiteSpace(
+                directory))
+        {
+            Directory.CreateDirectory(
+                directory);
+        }
+
+
+        await File.WriteAllTextAsync(
+            AllegroExportPath,
+            csv.ToString(),
+            new UTF8Encoding(
+                encoderShouldEmitUTF8Identifier: true));
+
+
+        return AllegroExportPath;
+    }
+
+
+    // ==================================================
+    // CSV - ESCAPOWANIE
+    // ==================================================
+
+    private static string CsvEscape(
+        string? value)
+    {
+        if (string.IsNullOrEmpty(
+                value))
+        {
+            return "";
+        }
+
+
+        if (value.Contains('"') ||
+            value.Contains(',') ||
+            value.Contains('\r') ||
+            value.Contains('\n'))
+        {
+            return
+                "\"" +
+                value.Replace(
+                    "\"",
+                    "\"\"") +
+                "\"";
+        }
+
+
+        return value;
+    }
+
+
+    // ==================================================
     // FOLDER ZDJĘĆ
     // ==================================================
 
     private string GetAdImageDirectory(
         Ad ad)
     {
-        var folderId =
-            ad.OlxId?.ToString()
-            ??
-            ad.Id.ToString();
-
-
         return Path.Combine(
             _environment.WebRootPath,
             "images",
-            folderId);
+            ad.Id.ToString());
     }
 
 
@@ -938,12 +1262,25 @@ public class CatalogService
         }
 
 
-        return JsonSerializer.Deserialize<
-            List<Ad>>(
-                json,
-                _jsonOptions)
+        var ads =
+            JsonSerializer.Deserialize<
+                List<Ad>>(
+                    json,
+                    _jsonOptions)
             ??
             [];
+
+
+        // Lokalne ogłoszenia są całkowicie
+        // niezależne od OLX.
+
+        foreach (var ad in ads)
+        {
+            ad.OlxId = null;
+        }
+
+
+        return ads;
     }
 
 
@@ -1001,8 +1338,8 @@ public class CatalogService
 
         return decimal.TryParse(
             price,
-            System.Globalization.NumberStyles.Any,
-            System.Globalization.CultureInfo.InvariantCulture,
+            NumberStyles.Any,
+            CultureInfo.InvariantCulture,
             out var value)
             ? value
             : 0;
@@ -1375,8 +1712,8 @@ public class CatalogService
             var state =
                 JsonSerializer.Deserialize<
                     CooldownState>(
-                    json,
-                    _jsonOptions);
+                json,
+                _jsonOptions);
 
 
             _lastBackupTime =
@@ -1444,4 +1781,159 @@ public class CatalogService
 
         public DateTime? LastCreateAdTime { get; set; }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // ==================================================
+    // JEDNORAZOWA MIGRACJA OLX -> LOCAL
+    // ==================================================
+
+    public async Task MigrateOlxAdsToLocalAsync()
+    {
+        var olxAds =
+            await LoadOlxAdsAsync();
+
+        var localAds =
+            new List<Ad>();
+
+
+        foreach (var olxAd in olxAds)
+        {
+            // ------------------------------------------
+            // STARE ID
+            // ------------------------------------------
+
+            var oldId =
+                olxAd.Id;
+
+
+            // ------------------------------------------
+            // NOWE ID LOCAL
+            // ------------------------------------------
+
+            var newId =
+                Guid.NewGuid();
+
+
+            // ------------------------------------------
+            // KOPIA OGŁOSZENIA
+            // ------------------------------------------
+
+            var localAd =
+                new Ad
+                {
+                    Id =
+                        newId,
+
+                    OlxId =
+                        null,
+
+                    Title =
+                        olxAd.Title,
+
+                    Description =
+                        olxAd.Description,
+
+                    Price =
+                        olxAd.Price,
+
+                    GTIN =
+                        olxAd.GTIN ?? "",
+
+                    MPN =
+                        olxAd.MPN ?? "",
+
+                    ExternalId =
+                        olxAd.ExternalId ?? "",
+
+                    Brand =
+                        olxAd.Brand ?? "",
+
+                    Photos =
+                        olxAd.Photos?.ToList() ?? [],
+
+                    Categories =
+                        olxAd.Categories?.ToList() ?? [],
+
+                    ActivatedAt =
+                        olxAd.ActivatedAt,
+
+                    Status =
+                        olxAd.Status
+                };
+
+
+            localAds.Add(localAd);
+
+
+            // ------------------------------------------
+            // STARY FOLDER ZDJĘĆ
+            // ------------------------------------------
+
+            var oldDirectory =
+                Path.Combine(
+                    _environment.WebRootPath,
+                    "images",
+                    oldId.ToString());
+
+
+            // ------------------------------------------
+            // NOWY FOLDER ZDJĘĆ
+            // ------------------------------------------
+
+            var newDirectory =
+                Path.Combine(
+                    _environment.WebRootPath,
+                    "images",
+                    newId.ToString());
+
+
+            // ------------------------------------------
+            // KOPIUJEMY ZDJĘCIA
+            // ------------------------------------------
+
+            if (Directory.Exists(oldDirectory))
+            {
+                Directory.CreateDirectory(
+                    newDirectory);
+
+
+                foreach (var file in Directory.GetFiles(
+                             oldDirectory))
+                {
+                    var fileName =
+                        Path.GetFileName(file);
+
+                    var destination =
+                        Path.Combine(
+                            newDirectory,
+                            fileName);
+
+                    File.Copy(
+                        file,
+                        destination);
+                }
+            }
+        }
+
+
+        // ------------------------------------------
+        // ZAPIS ads-local.json
+        // ------------------------------------------
+
+        await SaveLocalAdsAsync(
+            localAds);
+    }
+
+
 }

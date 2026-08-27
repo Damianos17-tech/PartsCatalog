@@ -37,6 +37,15 @@
 
 
         <div class="d-flex gap-2">
+            
+            <button type="button"
+                    class="btn btn-outline-success"
+                    @onclick="ExportAllegroCsv">
+
+                📦 Eksport CSV
+
+            </button>
+
 
             <!-- ================================================= -->
             <!-- BACKUP -->
@@ -536,6 +545,8 @@ private List<Ad>? ads;
 
     protected override async Task OnInitializedAsync()
     {
+        //await CatalogService.MigrateOlxAdsToLocalAsync();
+
         ads =
             await CatalogService.GetLocalAdsAsync();
 
@@ -767,6 +778,90 @@ private List<Ad>? ads;
     }
 
 
+    // =================================================
+    // EKSPORT ALLEGRO CSV
+    // =================================================
+
+    private async Task ExportAllegroCsv()
+    {
+        // =================================================
+        // SPRAWDZENIE LOGOWANIA
+        // =================================================
+
+        var authState =
+            await AuthenticationStateProvider
+                .GetAuthenticationStateAsync();
+
+        var user =
+            authState.User;
+
+
+        if (!(user.Identity?.IsAuthenticated ?? false))
+        {
+            var returnUrl =
+                Navigation.Uri
+                    .Replace(
+                        Navigation.BaseUri.TrimEnd('/'),
+                        "");
+
+            Navigation.NavigateTo(
+                $"/login?returnUrl={Uri.EscapeDataString(returnUrl)}",
+                forceLoad: true);
+
+            return;
+        }
+
+
+        // =================================================
+        // EKSPORT
+        // =================================================
+
+        backupMessage = "";
+
+        await InvokeAsync(
+            StateHasChanged);
+
+
+        try
+        {
+            var filePath =
+                await CatalogService.ExportAllegroCsvAsync();
+
+
+            if (!string.IsNullOrWhiteSpace(filePath))
+            {
+                backupMessage =
+                    "✅ Eksport CSV został wykonany pomyślnie.";
+
+                backupMessageCssClass =
+                    "alert-success";
+            }
+            else
+            {
+                backupMessage =
+                    "❌ Nie udało się wykonać eksportu CSV.";
+
+                backupMessageCssClass =
+                    "alert-danger";
+            }
+        }
+        catch (Exception ex)
+        {
+            backupMessage =
+                $"❌ Eksport CSV nie powiódł się: {ex.Message}";
+
+            backupMessageCssClass =
+                "alert-danger";
+        }
+
+
+        await InvokeAsync(
+            StateHasChanged);
+    }
+
+
+
+
     private Task ClearBackupMessage()
     {
         backupMessage = "";
@@ -801,11 +896,10 @@ private List<Ad>? ads;
     // OTWÓRZ OGŁOSZENIE
     // =================================================
 
-    private void OpenAd(
-        Guid adId)
+    private void OpenAd(Guid adId)
     {
         Navigation.NavigateTo(
-            $"/ogloszenie/{adId}");
+            $"/ogloszenie/lokalne/{adId}");
     }
 
 
@@ -813,14 +907,21 @@ private List<Ad>? ads;
     // ZDJĘCIA
     // =================================================
 
+    // private string GetImagePath(
+    //     Ad ad,
+    //     int photoIndex)
+    // {
+    //     return
+    //         $"{Navigation.BaseUri}ogloszenie/{ad.Id}/{photoIndex + 1:00}.jpg";
+    // }
+
     private string GetImagePath(
         Ad ad,
         int photoIndex)
     {
         return
-            $"{Navigation.BaseUri}ogloszenie/{ad.Id}/{photoIndex + 1:00}.jpg";
+            $"/ogloszenie/{ad.Id}/{photoIndex + 1:00}.jpg";
     }
-
 
     private void NextPhoto(
         Guid adId,
