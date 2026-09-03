@@ -9,6 +9,7 @@
 	<ItemGroup>
 		<Folder Include="Data\backup\" />
 		<Folder Include="Images\" />
+		<Folder Include="Tools\" />
 	</ItemGroup>
 
 	<ItemGroup>

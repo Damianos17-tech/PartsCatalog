@@ -4,6 +4,7 @@
 @using KatalogCzesci.Models
 @using KatalogCzesci.Services
 @using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.JSInterop
 
 @implements IAsyncDisposable
 
@@ -11,6 +12,7 @@
 @inject AdSearchService SearchService
 @inject NavigationManager Navigation
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IJSRuntime JS
 
 <PageTitle>Lokalne / Admin</PageTitle>
 
@@ -830,6 +832,21 @@ private List<Ad>? ads;
 
             if (!string.IsNullOrWhiteSpace(filePath))
             {
+                var fileBytes =
+                    await File.ReadAllBytesAsync(filePath);
+
+                var base64 =
+                    Convert.ToBase64String(fileBytes);
+
+                var fileName =
+                    Path.GetFileName(filePath);
+
+                await JS.InvokeVoidAsync(
+                    "downloadFile",
+                    fileName,
+                    "text/csv",
+                    base64);
+
                 backupMessage =
                     "✅ Eksport CSV został wykonany pomyślnie.";
 
