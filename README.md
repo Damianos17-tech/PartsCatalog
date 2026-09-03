@@ -3,10 +3,21 @@
 Nowoczesny system webowy do zarządzania katalogiem części samochodowych oraz przygotowywania ogłoszeń sprzedażowych.
 
 Szukamy dostępnych pasków:
+
 <img width="1911" height="1037" alt="CarParts-4" src="https://github.com/user-attachments/assets/a077ac1d-2713-4a93-8cd0-4c8f7ffcdb03" />
 
 
 Aplikacja została zaprojektowana z myślą o codziennej pracy warsztatu i magazynu części — szybkie wyszukiwanie, zdjęcia, statusy sprzedaży, backup danych oraz podstawowe statystyki w jednym miejscu.
+
+---
+🚀 Live Demo
+
+👉 Parts Catalog
+
+Try the interactive warehouse simulation directly in your browser.
+https://parts.dcplatforms.pl/
+
+---
 
 ## ✨ Features
 
